@@ -36,7 +36,7 @@ cd AzureStack-Tools
 Import-Module .\Connect\AzureStack.Connect.psm1
 
 # For Azure Stack development kit, this value is set to https://adminmanagement.local.azurestack.external. To get this value for Azure Stack integrated systems, contact your service provider.
-  $ArmEndpoint = "https://adminmanagement.local.azurestack.external"
+$ArmEndpoint = "https://adminmanagement.local.azurestack.external"
 
 # For Azure Stack development kit, this value is adminvault.local.azurestack.external 
 $KeyvaultDnsSuffix = “adminvault.local.azurestack.externa”

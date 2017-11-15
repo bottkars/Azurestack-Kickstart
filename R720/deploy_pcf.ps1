@@ -1,4 +1,7 @@
-﻿### Prepare PCF Quotas, Plans and Offers
+﻿
+#
+$ops_mgr_version = '1.10.3'
+### Prepare PCF Quotas, Plans and Offers
 $TenantName = "karstenbottemc.onmicrosoft.com"
 # run from your azurestack-tools dir, see msft getting started
 Install-Module -Name AzureRm.BootStrapper -Force
@@ -15,7 +18,7 @@ Import-Module AzureRM.AzureStackStorage
 $ArmEndpoint = "https://adminmanagement.local.azurestack.external"
 
 # For Azure Stack development kit, this value is adminvault.local.azurestack.external 
-$KeyvaultDnsSuffix = “adminvault.local.azurestack.externa”
+$KeyvaultDnsSuffix = “adminvault.local.azurestack.external”
 
 # Register an AzureRM environment that targets your Azure Stack instance
 Add-AzureRMEnvironment -Name "AzureStackAdmin" -ArmEndpoint $ArmEndpoint
@@ -30,17 +33,9 @@ $StorageQuota = New-AzsStorageQuota -Name best-storage -Location local -NumberOf
 $PCF_PLAN = New-AzsPlan -Name best-plan -DisplayName "best-plan for pcf" -ResourceGroupName "pcf-plan-rg" -QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
 $Offer = New-AzsOffer -Name best-offer -DisplayName "Offer for PCF" -State Public -BasePlanIds $PCF_PLAN.Id -ArmLocation local -ResourceGroupName "pfc-offer-rg"
 New-AzsTenantSubscription -DisplayName "Azure PCF Subscription" -Owner "Karsten Bott" -OfferId $Offer.Id 
-
-
-
-set-location  C:\azure-stack-poc\1.10.3
+Set-location  C:\azure-stack-poc\1.10.3
 . .\addPSFunctions.ps1
 bootstrapPowershell -arm $ArmEndpoint
 
-$opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-1.10.3.vhd"
+$opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-$($ops_mgr_version).vhd"
 Start-BitsTransfer -Source $opsmanager_uri -Destination C:\Temp
-
-
-
-
-
