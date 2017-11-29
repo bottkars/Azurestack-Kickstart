@@ -1,5 +1,5 @@
 ﻿$serviceAdmin = "Karsten.Bott@emc.com"
-$AdminCreds = Get-Credential -UserName $serviceAdmin -Message "specify service admin credentials"
+$ServiceAdminCreds = Get-Credential -UserName $serviceAdmin -Message "specify service admin credentials"
 
 
 $CloudAdminPass = ConvertTo-SecureString "Passw0rd" -AsPlainText -Force
@@ -29,4 +29,6 @@ $KeyvaultDnsSuffix = “adminvault.local.azurestack.external”
 # Sign in to your environment
   Login-AzureRmAccount `
     -EnvironmentName "AzureStackAdmin" `
-    -TenantId $TenantID -Credential $AdminCreds
+    -TenantId $TenantID
+
+Set-AzureRmEnvironment -Name AzureStackAdmin -GraphAudience https://graph.windows.net/
