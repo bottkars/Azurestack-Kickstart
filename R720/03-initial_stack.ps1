@@ -1,5 +1,7 @@
 ﻿install-script install-gitscm -Scope CurrentUser -Force -Confirm:$false
 Install-gitscm.ps1
+install-script create-azsportalsshortcuts
+create-azsportalsshortcuts.ps1
 # Specify Azure Active Directory tenant name.
 $TenantName = "karstenbottemc.onmicrosoft.com"
 
@@ -31,7 +33,7 @@ Install-Module `
   -Force 
 
 # Download Azure Stack tools from GitHub and import the connect module.
-cd \
+cd c:\
 git clone  https://github.com/Azure/AzureStack-Tools/
 #invoke-webrequest `
 #  https://github.com/Azure/AzureStack-Tools/archive/master.zip `
