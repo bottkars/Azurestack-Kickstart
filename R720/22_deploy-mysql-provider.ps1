@@ -21,16 +21,3 @@ $PfxPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
   -DefaultSSLCertificatePassword $PfxPass -DependencyFilesLocalPath .\cert `
   -AcceptLicense -Azcredential $AdminCreds
 
-
-
-
-New-AzureRmResourceGroup -Name MySQL-Host -Location local 
-
-New-AzureRmResourceGroupDeployment -Name Mysqlhost1 -ResourceGroupName MySQL-Host `
-    -vmName MySQLHost1 `
-    -TemplateUri https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/mysql-standalone-server-windows/azuredeploy.json `
-    -adminPassword $vmlocaladminpass -adminUsername "mysqlrpadmin" -windowsOSVersion "2016-Datacenter" -Mode Incremental -vmSize Standard_A4 -Verbose 
-
-
-
-

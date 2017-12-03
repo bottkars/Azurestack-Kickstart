@@ -1,7 +1,9 @@
-﻿install-script install-gitscm -Scope CurrentUser -Force -Confirm:$false
-Install-gitscm.ps1
-install-script create-azsportalsshortcuts
-create-azsportalsshortcuts.ps1
+﻿$Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
+foreach ($Util in $Utils)
+    {
+    Install-Script $Util -Scope CurrentUser -Force -Confirm:$false
+    ."$util.ps1"
+    }
 # Specify Azure Active Directory tenant name.
 $TenantName = "karstenbottemc.onmicrosoft.com"
 

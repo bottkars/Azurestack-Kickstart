@@ -1,9 +1,10 @@
-﻿$serviceAdmin = "Karsten.Bott@emc.com"
-$ServiceAdminCreds = Get-Credential -UserName $serviceAdmin -Message "specify service admin credentials"
+﻿$serviceAdmin = "masadmin@karstenbottemc.onmicrosoft.com"
+#$serviceAdminPass = ConvertTo-SecureString "Passw0rd" -AsPlainText -Force
+$ServiceAdminCreds = Get-Credential -UserName $serviceAdmin -Message "Enter Azure ServiceAdmin Password"
 
-
+$CloudAdmin = "AzureStack\Cloudadmin"
 $CloudAdminPass = ConvertTo-SecureString "Passw0rd" -AsPlainText -Force
-$CloudAdminCreds = New-Object System.Management.Automation.PSCredential ("Azurestack\cloudadmin", $CloudAdminPass)
+$CloudAdminCreds = New-Object System.Management.Automation.PSCredential($CloudAdmin, $CloudAdminPass)
 
 $TenantName = "karstenbottemc.onmicrosoft.com"
 
