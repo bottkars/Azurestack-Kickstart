@@ -5,7 +5,7 @@ Expand-Archive AppServiceHelperScripts.zip
 Invoke-WebRequest https://aka.ms/appsvconmasinstaller -OutFile AppService.exe
 
 # Set Deployment Variables
-$RGName = "App_Service_FS_RG"
+$RGName = "RG_App_Service_FS"
 $myLocation = "local"
 $Password = "Passw0rd"
 $Pass = ("$Password" | ConvertTo-SecureString -AsPlainText -Force)
@@ -27,9 +27,10 @@ New-AzureRmResourceGroupDeployment `
 $TenantArmEndpoint = "management.local.azurestack.external"
 $AdminArmEndpoint = "adminmanagement.local.azurestack.external"
 
+Set-Location C:\Temp\AppService\AppServiceHelperScripts\
 
-.\AppServiceHelperScripts\Create-AppServiceCerts.ps1 -PfxPassword $Pass -DomainName "local.azurestack.external"
-.\Get-AzureStackRootCert.ps1 -PrivilegedEndpoint "AzS-ERCS01" -CloudAdminCredential $cred
+.\Create-AppServiceCerts.ps1 -PfxPassword $Pass -DomainName "local.azurestack.external"
+.\Get-AzureStackRootCert.ps1 -PrivilegedEndpoint "AzS-ERCS01" -CloudAdminCredential $CloudAdminCreds
 
 # Requires Azure Login Credentials  
 .\Create-AADIdentityApp.ps1 -DirectoryTenantName $TenantName -AdminArmEndpoint $AdminArmEndpoint `
