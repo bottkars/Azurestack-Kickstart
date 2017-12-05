@@ -23,17 +23,17 @@ New-AzureRmResourceGroupDeployment `
     -Name "$($RGName)_Deployment" `
     -ResourceGroupName $RGName `
     -TemplateUri https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/appservice-fileserver-standalone/azuredeploy.json `
-    -TemplateParameterObject $parameters 
+    -TemplateParameterObject $parameters `    -Verbose
 $TenantArmEndpoint = "management.local.azurestack.external"
 $AdminArmEndpoint = "adminmanagement.local.azurestack.external"
 
 Set-Location C:\Temp\AppService\AppServiceHelperScripts\
 
 .\Create-AppServiceCerts.ps1 -PfxPassword $Pass -DomainName "local.azurestack.external"
-.\Get-AzureStackRootCert.ps1 -PrivilegedEndpoint "AzS-ERCS01" -CloudAdminCredential $CloudAdminCreds
+.\Get-AzureStackRootCert.ps1 -PrivilegedEndpoint "AzS-ERCS01" -CloudAdminCredential $Global:CloudAdminCreds
 
 # Requires Azure Login Credentials  
-.\Create-AADIdentityApp.ps1 -DirectoryTenantName $TenantName -AdminArmEndpoint $AdminArmEndpoint `
-    -TenantArmEndpoint $TenantArmEndpoint -CertificateFilePath (join-path (get-location).Path "sso.appservice.local.azurestack.external.pfx") -CertificatePassword $Pass
+.\Create-AADIdentityApp.ps1 -DirectoryTenantName $TenantName ` -AdminArmEndpoint $AdminArmEndpoint `
+ -TenantArmEndpoint $TenantArmEndpoint ` -CertificateFilePath (join-path (get-location).Path "sso.appservice.local.azurestack.external.pfx") ` -CertificatePassword $Pass
 Set-Location C:\Temp\AppService\
 Start-Process ".\AppService.exe" -ArgumentList "/logfile c:\temp\Appservice\appservice.log" -Wait

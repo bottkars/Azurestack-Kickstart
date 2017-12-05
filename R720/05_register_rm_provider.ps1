@@ -1,4 +1,4 @@
-﻿$subscription = 'ff6baa2c-f460-4950-9ede-d2b012ee10a4' 
-Login-AzureRmAccount -EnvironmentName "AzureCloud" -AccountId "Karsten.Bott@emc.com"
+﻿$subscription = '8c21cadc-9e41-459e-bf4b-919aa2fad975' 
+Login-AzureRmAccount -EnvironmentName "AzureCloud"
 Select-AzureRmSubscription -SubscriptionId $subscription
 Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack

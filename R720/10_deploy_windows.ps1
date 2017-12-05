@@ -6,6 +6,8 @@ $update_file = split-path -leaf $Latest_CU
 Import-Module .\Connect\AzureStack.Connect.psm1
 Import-Module .\ComputeAdmin\AzureStack.ComputeAdmin.psm1
 $GraphAudience = "https://graph.windows.net/"
+$TenantName = "karstenbottemc.onmicrosoft.com"
+$ArmEndpoint = "https://adminmanagement.local.azurestack.external"
 
 # Create the Azure Stack operator's Azure Resource Manager environment by using the following cmdlet:
 Add-AzureRMEnvironment `

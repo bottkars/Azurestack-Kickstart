@@ -14,10 +14,7 @@ $vmLocalAdminPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
 $vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ("mysqlrpadmin", $vmLocalAdminPass)
 $PfxPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
 
-.\DeployMySQLProvider.ps1 `
-  -VMLocalCredential $vmLocalAdminCreds `
-  -CloudAdminCredential $cloudAdminCreds `
-  -PrivilegedEndpoint 'AZS-ERCS01' `
-  -DefaultSSLCertificatePassword $PfxPass -DependencyFilesLocalPath .\cert `
-  -AcceptLicense -Azcredential $AdminCreds
+.\DeployMySQLProvider.ps1 `  -VMLocalCredential $vmLocalAdminCreds `
+  -CloudAdminCredential $cloudAdminCreds `  -PrivilegedEndpoint 'AZS-ERCS01' `
+  -DefaultSSLCertificatePassword $PfxPass -DependencyFilesLocalPath .\cert `  -AcceptLicense -Azcredential $ServiceAdminCreds 
 
