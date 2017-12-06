@@ -5,6 +5,8 @@ foreach ($Util in $Utils)
     ."$util.ps1"
     }
 # Specify Azure Active Directory tenant name.
+
+Start-Process "sc" -ArgumentList "config wuauserv start=disabled" -Wait -NoNewWindow
 $TenantName = "karstenbottemc.onmicrosoft.com"
 
 # Set the module repository and the execution policy.
