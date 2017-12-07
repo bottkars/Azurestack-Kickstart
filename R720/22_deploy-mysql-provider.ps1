@@ -15,6 +15,6 @@ $vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ("mysq
 $PfxPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
 
 .\DeployMySQLProvider.ps1 `  -VMLocalCredential $vmLocalAdminCreds `
-  -CloudAdminCredential $cloudAdminCreds `  -PrivilegedEndpoint 'AZS-ERCS01' `
+  -CloudAdminCredential $GLobal:cloudAdminCreds `  -PrivilegedEndpoint 'AZS-ERCS01' `
   -DefaultSSLCertificatePassword $PfxPass -DependencyFilesLocalPath .\cert `  -AcceptLicense -Azcredential $ServiceAdminCreds 
 
