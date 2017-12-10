@@ -22,10 +22,7 @@ $parameters.Add("serverFarmResourceGroup",$App_Name)
 
 
 Register-AzureRmResourceProvider -ProviderNamespace microsoft.web
-
-
 New-AzureRmResourceGroup -ResourceGroupName $RG_NAME -Location $Location
-
 New-AzureRmResourceGroupDeployment -Name "$($App_Name)_Deployment" `
     -TemplateUri $Template_uri -ResourceGroupName $RG_NAME `
     -TemplateParameterObject $parameters -Verbose
