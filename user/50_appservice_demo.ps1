@@ -19,9 +19,17 @@ $parameters.Add(“workerSize”,"0")
 $parameters.Add(“skuCode”,"D1")
 $parameters.Add(“sku”,"shared")
 $parameters.Add("serverFarmResourceGroup",$App_Name)
-
-
-Register-AzureRmResourceProvider -ProviderNamespace microsoft.web
+$Provider = "Microsoft.Web"
+if ((Get-AzureRmResourceProvider -ProviderNamespace $Provider).RegistrationState[-1] -ne "Registered")
+    {
+    Write-Host -NoNewline "Registering AzureRM Resource Provider $Provider"
+    Register-AzureRmResourceProvider -ProviderNamespace $Provider
+    do {$RegistrationState = (Get-AzureRmResourceProvider -ProviderNamespace $Provider).RegistrationState  
+    write-host -NoNewline .
+    sleep 5}
+    until ($RegistrationState -eq "Registered")
+    }
+Write-Host
 New-AzureRmResourceGroup -ResourceGroupName $RG_NAME -Location $Location
 New-AzureRmResourceGroupDeployment -Name "$($App_Name)_Deployment" `
     -TemplateUri $Template_uri -ResourceGroupName $RG_NAME `
