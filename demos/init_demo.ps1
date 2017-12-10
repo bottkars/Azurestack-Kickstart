@@ -5,7 +5,7 @@ $repo = "my_appservice_html5_demo"
 
 ##do ot change the upstreams, we´re mirroring them"
 $upstream = "appservice_html5_demo"
-$upstream_repo = "https://github.com/bottkars/$upstream.git"
+$upstream_repo = "https://github.com/bottkars/$upstream"
 Set-Location $Home
 
 git clone $upstream_repo
