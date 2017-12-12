@@ -1,15 +1,38 @@
-﻿$Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
+﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
+param (
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json"
+)
+
+if (!(Test-Path $Defaultsfile))
+{
+    Write-Warning "$Defaultsfile file does not exist.please copy from admin.json.example"
+    Break
+}
+else
+    {
+    Write-Host -ForegroundColor Gray " ==>loading Admin Enviromment from $Defaultsfile"
+    try {
+        $Admin_Defaults = Get-Content $Defaultsfile | ConvertFrom-Json -ErrorAction SilentlyContinue   
+    }
+    catch {
+        Write-Host "could not load $Defaultsfile, maybe a format error ?"
+        break
+    }
+    
+    Write-Output $Admin_Defaults
+    }
+
+$Global:VMPassword = $Admin_Defaults.VMPassword
+$Global:TenantName = $Admin_Defaults.TenantName
+$Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
+$Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
+
+$Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
 foreach ($Util in $Utils)
     {
     Install-Script $Util -Scope CurrentUser -Force -Confirm:$false
     ."$util.ps1"
     }
-# Specify Azure Active Directory tenant name.
-
-Start-Process "sc" -ArgumentList "config wuauserv start=disabled" -Wait -NoNewWindow
-$TenantName = "karstenbottemc.onmicrosoft.com"
-
-# Set the module repository and the execution policy.
 Set-PSRepository `
   -Name "PSGallery" `
   -InstallationPolicy Trusted
@@ -29,47 +52,18 @@ Install-Module `
   -Force
 
 Use-AzureRmProfile `
-  -Profile 2017-03-09-profile `
+  -Profile $($Admin_Defaults.AzureRmProfile) `
   -Force
 
 Install-Module `
   -Name AzureStack `
-  -RequiredVersion 1.2.11 `
+  -RequiredVersion $($Admin_Defaults.AzureSTackModuleVersion) `
   -Force 
-
-# Download Azure Stack tools from GitHub and import the connect module.
-cd c:\
-git clone  https://github.com/Azure/AzureStack-Tools/
-#invoke-webrequest `
-#  https://github.com/Azure/AzureStack-Tools/archive/master.zip `
-#  -OutFile master.zip
-
-#expand-archive master.zip `
-#  -DestinationPath . `
-#  -Force
-
-cd AzureStack-Tools
-
-Import-Module .\Connect\AzureStack.Connect.psm1
-
-# For Azure Stack development kit, this value is set to https://adminmanagement.local.azurestack.external. To get this value for Azure Stack integrated systems, contact your service provider.
-  $ArmEndpoint = "https://adminmanagement.local.azurestack.external"
-
-# For Azure Stack development kit, this value is adminvault.local.azurestack.external 
-$KeyvaultDnsSuffix = “adminvault.local.azurestack.external”
+git clone  https://github.com/Azure/AzureStack-Tools/  $Global:AZSTools_location
 
 
+Import-Module "$($Global:AZSTools_location)/Connect/AzureStack.Connect.psm1"
 # Register an AzureRM environment that targets your Azure Stack instance
   Add-AzureRMEnvironment `
     -Name "AzureStackAdmin" `
-    -ArmEndpoint $ArmEndpoint
-
-# Get the Active Directory tenantId that is used to deploy Azure Stack
-  $TenantID = Get-AzsDirectoryTenantId `
-    -AADTenantName $TenantName `
-    -EnvironmentName "AzureStackAdmin"
-
-# Sign in to your environment
-  Login-AzureRmAccount `
-    -EnvironmentName "AzureStackAdmin" `
-    -TenantId $TenantID
+    -ArmEndpoint $Admin_Defaults.ArmEndpoint

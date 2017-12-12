@@ -1,5 +1,4 @@
-﻿#$serviceAdminPass = ConvertTo-SecureString "Passw0rd" -AsPlainText -Force
-[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
+﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json"
 )
@@ -73,4 +72,3 @@ catch  {
     Break	
 }
 $GLobal:ServiceAdminCreds = $ServiceAdminCreds
-Set-AzureRmEnvironment -Name AzureStackAdmin -GraphAudience https://graph.windows.net/
