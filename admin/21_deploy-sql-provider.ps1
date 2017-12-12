@@ -1,6 +1,7 @@
 ﻿$domain = "AzureStack"
 $prefix = "AzS"
 $privilegedEndpoint = "$prefix-ERCS01"
+$Global:VMPassword = "Regen2017+"
 
 # Point to the directory where the RP installation files were extracted
 $SQL_DIR = 'C:\TEMP\SQLRP'
@@ -18,12 +19,12 @@ Start-Process "./$SQL_RP_FILE" -ArgumentList "-s" -Wait
 
 
 # Set the credentials for the Resource Provider VM
-$vmLocalAdminPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
-$vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ("sqlrpadmin", $vmLocalAdminPass)
+$vmLocalAdminPass = ConvertTo-SecureString "$Global:VMPassword" -AsPlainText -Force
+$vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ("sqlrpadmin",$vmLocalAdminPass )
 
 
 # change the following as appropriate
-$PfxPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
+$PfxPass = ConvertTo-SecureString $Global:VMPassword -AsPlainText -Force
 
 # Change directory to the folder where you extracted the installation files
 # and adjust the endpoints
@@ -33,4 +34,3 @@ $PfxPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
   -PrivilegedEndpoint $privilegedEndpoint `
   -DefaultSSLCertificatePassword $PfxPass `
   -DependencyFilesLocalPath .\cert
-  # New-AzureStackRmDatabaseAdapterQuota

@@ -6,10 +6,17 @@ Total Space MB: <The total space in MB to be allocated for creation of databases
 Hosting Server SQL Login Name: <Name of a SQL login to be used for connecting to the SQL database engine on the hosting server using SQL authentication>
 Hosting Server SQL Login Password: <Password for the given SQL login>
 SKU Name: <Name of the SQL Adapter SKU to associate the hosting server to>
+
+
+
+SKU MUST BE CREATED AFTERB SQL RP IS CREATED !!! TAKES UP To 1 Hr to appear
+
+
+
 #>
 
 $sql_hostname = 'sqlhost1'
-$rppassword = "Passw0rd"
+$rppassword = $Global:VMPassword
 $templateuri = 'https://raw.githubusercontent.com/bottkars/AzureStack-QuickStart-Templates/patch-3/101-sqladapter-add-hosting-server/azuredeploy.json'
 $vmLocalAdminPass = ConvertTo-SecureString "$rppassword" -AsPlainText -Force 
 $vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ("sqlrpadmin", $vmLocalAdminPass) 

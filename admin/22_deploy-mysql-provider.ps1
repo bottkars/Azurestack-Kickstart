@@ -9,12 +9,12 @@ Start-BitsTransfer $MYSQL_RP_URI
 
 $MYSQL_RP_FILE = Split-Path -Leaf $MYSQL_RP_URI
 Start-Process "./$MYSQL_RP_FILE" -ArgumentList "-s" -Wait
-
-$vmLocalAdminPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
+$Password = $Global:VMPassword
+$vmLocalAdminPass = ConvertTo-SecureString $Password -AsPlainText -Force
 $vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ("mysqlrpadmin", $vmLocalAdminPass)
-$PfxPass = ConvertTo-SecureString "P@ssw0rd1" -AsPlainText -Force
+$PfxPass = ConvertTo-SecureString $Password -AsPlainText -Force
 
 .\DeployMySQLProvider.ps1 `  -VMLocalCredential $vmLocalAdminCreds `
   -CloudAdminCredential $GLobal:cloudAdminCreds `  -PrivilegedEndpoint 'AZS-ERCS01' `
-  -DefaultSSLCertificatePassword $PfxPass -DependencyFilesLocalPath .\cert `  -AcceptLicense -Azcredential $ServiceAdminCreds 
+  -DefaultSSLCertificatePassword $PfxPass -DependencyFilesLocalPath .\cert `  -AcceptLicense -Azcredential $Global:ServiceAdminCreds
 

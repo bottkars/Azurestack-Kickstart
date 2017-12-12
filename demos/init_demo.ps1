@@ -1,5 +1,5 @@
 ### set you git username !!!!
-$global:gitusername = "bottkars"
+$global:gitusername = "mountainbrother"
 ## create below repo in you git !!!!
 $repo = "my_appservice_html5_demo" 
 

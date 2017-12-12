@@ -1,5 +1,5 @@
-﻿$Global:azsuser = "azsuser1"
-$Global:TenantName = "karstenbottemc.onmicrosoft.com"
+﻿$Global:azsuser = "guenter.preisser"
+$Global:TenantName = "mhpcloudcampushotmail.onmicrosoft.com"
 $global:azsuseraccount = "$Global:azsuser@$Global:TenantName"
 $global:AZS_MODULES_ROOT = "D:\AzureStack-Tools\"
 if (!$azsuser_credentials)
