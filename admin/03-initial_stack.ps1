@@ -3,7 +3,7 @@ param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json",
 [switch]$noutils
 )
-
+#REQUIRES -RunAsAdministrator
 if (!(Test-Path $Defaultsfile))
 {
     Write-Warning "$Defaultsfile file does not exist.please copy from admin.json.example"
@@ -45,7 +45,7 @@ Set-ExecutionPolicy RemoteSigned `
 
 # Uninstall any existing Azure PowerShell modules. To uninstall, close all the active PowerShell sessions, and then run the following command:
 Get-Module -ListAvailable | `
-  where-Object {$_.Name -like “Azure*”} | `
+  where-Object {$_.Name -like "Azure*"} | `
   Uninstall-Module -ErrorAction SilentlyContinue
 # Get-Module -ListAvailable | where-Object {$_.Name -like “Azure*”} | Uninstall-Module
 
