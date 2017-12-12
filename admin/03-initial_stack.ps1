@@ -1,6 +1,7 @@
 ﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
-[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json"
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json",
+[switch]$noutils
 )
 
 if (!(Test-Path $Defaultsfile))
@@ -26,13 +27,15 @@ $Global:VMPassword = $Admin_Defaults.VMPassword
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
-
-$Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
-foreach ($Util in $Utils)
+if (!$noutils.IsPresent)
     {
-    Install-Script $Util -Scope CurrentUser -Force -Confirm:$false
-    ."$util.ps1"
-    }
+  $Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
+  foreach ($Util in $Utils)
+      {
+      Install-Script $Util -Scope CurrentUser -Force -Confirm:$false
+      ."$util.ps1"
+      }
+  }    
 Set-PSRepository `
   -Name "PSGallery" `
   -InstallationPolicy Trusted
@@ -43,7 +46,7 @@ Set-ExecutionPolicy RemoteSigned `
 # Uninstall any existing Azure PowerShell modules. To uninstall, close all the active PowerShell sessions, and then run the following command:
 Get-Module -ListAvailable | `
   where-Object {$_.Name -like “Azure*”} | `
-  Uninstall-Module
+  Uninstall-Module -ErrorAction SilentlyContinue
 # Get-Module -ListAvailable | where-Object {$_.Name -like “Azure*”} | Uninstall-Module
 
 # Install PowerShell for Azure Stack.
