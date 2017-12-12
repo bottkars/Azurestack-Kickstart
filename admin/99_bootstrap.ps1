@@ -37,17 +37,16 @@ if (!$Global:CloudAdminCreds)
     $CloudAdminCreds =  Get-Credential -UserName $CloudAdmin -Message "Enter Azure CloudAdmin Password for $Cloudadmin" 
     }
 
-Pause    
 Import-Module "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1" -Force
 Import-Module AzureRM.AzureStackStorage -Force
 Import-Module "$($Global:AZSTools_location)\serviceAdmin\AzureStack.ServiceAdmin.psm1" -Force
 Import-Module "$($Global:AZSTools_location)\ComputeAdmin\AzureStack.ComputeAdmin.psm1" -Force
 
 # For Azure Stack development kit, this value is set to https://adminmanagement.local.azurestack.external. To get this value for Azure Stack integrated systems, contact your service provider.
-$Global:ArmEndpoint = "https://adminmanagement.local.azurestack.external"
+$Global:ArmEndpoint = $Admin_Defaults.ArmEndpoint
 
 # For Azure Stack development kit, this value is adminvault.local.azurestack.external 
-$Global:KeyvaultDnsSuffix = “adminvault.local.azurestack.external”
+$Global:KeyvaultDnsSuffix = $Admin_Defaults.KeyvaultDnsSuffix
 
 
 # Register an AzureRM environment that targets your Azure Stack instance
