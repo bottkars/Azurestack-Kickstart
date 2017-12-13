@@ -85,7 +85,7 @@ if ($Azurestack_modules)
     }
 #Remove-Item "$HOME/Documents/WindowsPowerShell/Modules/Azure*" -Recurse -ErrorAction SilentlyContinue | Out-Null
 # Uninstall any existing Azure PowerShell modules. To uninstall, close all the active PowerShell sessions, and then run the following command:
-Write-Host "==>Checking for old Azure Powershell Modules" 
+Write-Host "[==>]Checking for old Azure Powershell Modules" 
 
 foreach ($modules in ("AzureRM.*","Azure.*"))
     {
@@ -141,4 +141,3 @@ Add-AzureRMEnvironment `
     -Name "AzureStackAdmin" `
     -ArmEndpoint "$($Admin_Defaults.ArmEndpoint)"
 Write-Host -ForegroundColor Green "[Done]"
-    
