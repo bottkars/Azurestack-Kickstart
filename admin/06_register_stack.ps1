@@ -31,7 +31,7 @@ Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack
 
 Add-AzsRegistration `
     -CloudAdminCredential $Global:CloudAdminCreds `
-    -AzureSubscriptionId $SubscriptionOwnerContext.Subscription `
+    -AzureSubscriptionId $SubscriptionOwnerContext.Context.Subscription `
     -AzureDirectoryTenantName $SubscriptionOwnerContext.Tenant.TenantId `
     -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
     -BillingModel Development 
