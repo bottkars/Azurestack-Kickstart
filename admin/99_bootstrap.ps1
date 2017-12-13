@@ -28,7 +28,7 @@ $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
 $Global:subscriptionID = $Admin_Defaults.subscriptionID
-$Global:subscriptionOwner = $Admin_Defaults.subscriptiOnwner
+$Global:subscriptionOwner = $Admin_Defaults.SubscriptionOwner
 $Global:CloudAdmin = "$($Admin_Defaults.Domain)\$($Admin_Defaults.Cloudadmin)"
 $Global:PrivilegedEndpoint = $Admin_Defaults.PrivilegedEndpoint
 if (!$Global:ServiceAdminCreds)

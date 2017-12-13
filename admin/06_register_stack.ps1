@@ -22,8 +22,8 @@ catch {
 Exit-PSSession
 
 
-Write-Host "You now have to log in with your Subscription Owner $Global:SubscriptionOwner"
-
+Write-Host -ForegroundColor  Yellow "You now have to log in with your Subscription Owner $Global:SubscriptionOwner"
+Pause
 $SubscriptionOwnerContext = Login-AzureRmAccount -Environment "AzureCloud"
 
 Select-AzureRmSubscription -SubscriptionId $Global:SubscriptionID
@@ -32,6 +32,6 @@ Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack
 Add-AzsRegistration `
     -CloudAdminCredential $Global:CloudAdminCreds `
     -AzureSubscriptionId $SubscriptionOwnerContext.Context.Subscription `
-    -AzureDirectoryTenantName $SubscriptionOwnerContext.Tenant.TenantId `
+    -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
     -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
     -BillingModel Development 
