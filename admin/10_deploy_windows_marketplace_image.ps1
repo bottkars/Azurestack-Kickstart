@@ -1,6 +1,7 @@
 ﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
-[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Download_Path="$HOME/Downloads"
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Download_Path="$HOME/Downloads",
+[version]$sku_version = (date -Format yyyy.MM.dd).ToString()
 )
 
 
@@ -44,4 +45,4 @@ $TenantID = Get-AzsDirectoryTenantId `
  -EnvironmentName AzureStackAdmin
 
 # Add a Windows Server 2016 Evaluation VM image.
-New-AzsServer2016VMImage -ISOPath $ISOPath -Version Both -CUPath $Updates_path/$update_file -CreateGalleryItem:$true -Location local 
+New-AzsServer2016VMImage -ISOPath $ISOPath -Version Both -CUPath $Updates_path/$update_file -CreateGalleryItem:$true -Location local -sku_version $SkuVersion
