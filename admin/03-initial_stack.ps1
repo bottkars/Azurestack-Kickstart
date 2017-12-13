@@ -121,7 +121,7 @@ Remove-Item $Global:AZSTools_location -Force -Recurse -ErrorAction SilentlyConti
 
 # Install PowerShell for Azure Stack.
 
-Write-Host "[==>]Loading Profile $($Admin_Defaults.AzureRmProfile)" -ForegroundColor White -NoNewline
+Write-Host "[==>]" -ForegroundColor White -NoNewline
 Use-AzureRmProfile `
   -Profile "$($Admin_Defaults.AzureRmProfile)" `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue
