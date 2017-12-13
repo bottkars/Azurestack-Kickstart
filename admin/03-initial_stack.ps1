@@ -1,7 +1,6 @@
 ﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
-[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json",
-[switch]$noutils
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json"
 )
 
 $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
@@ -11,18 +10,15 @@ $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
  
 # Check to see if we are currently running "as Administrator"
 if ($OldShell.IsPresent -or !$myWindowsPrincipal.IsInRole($adminRole))
-{
- $arguments = "-Defaultsfile $Defaultsfile"
-if ($noutils.IsPresent){
-  $arguments = "-noutils"}
-$newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
-$newProcess.Arguments = "-noexit $PSScriptRoot/$($myinvocation.MyCommand) $arguments" 
-Write-Host $newProcess.Arguments
-$newProcess.Verb = "runas"
-
-[System.Diagnostics.Process]::Start($newProcess) 
-exit
-}
+  {
+  $arguments = "-Defaultsfile $Defaultsfile"
+  $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+  $newProcess.Arguments = "-noexit $PSScriptRoot/$($myinvocation.MyCommand) $arguments" 
+  Write-Host $newProcess.Arguments
+  $newProcess.Verb = "runas"
+  [System.Diagnostics.Process]::Start($newProcess) 
+  exit
+  }
 [switch]$OldShell = $true
 if (!(Test-Path $Defaultsfile))
 {
@@ -48,15 +44,7 @@ $Global:VMPassword = $Admin_Defaults.VMPassword
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
-if (!$noutils.IsPresent)
-    {
-  $Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
-  foreach ($Util in $Utils)
-      {
-      Install-Script $Util -Scope CurrentUser -Force -Confirm:$false
-      ."$util.ps1"
-      }
-  }    
+   
 Set-PSRepository `
   -Name "PSGallery" `
   -InstallationPolicy Trusted
