@@ -2,7 +2,6 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json"
 )
-
 if (!(Test-Path $Defaultsfile))
 {
     Write-Warning "$Defaultsfile file does not exist.please copy from admin.json.example"
@@ -10,7 +9,7 @@ if (!(Test-Path $Defaultsfile))
 }
 else
     {
-    Write-Host -ForegroundColor Gray " ==>loading Admin Enviromment from $Defaultsfile"
+    Write-Host -ForegroundColor White " ==>loading Admin Enviromment from $Defaultsfile" -NoNewline
     try {
         $Admin_Defaults = Get-Content $Defaultsfile | ConvertFrom-Json -ErrorAction SilentlyContinue   
     }
@@ -19,7 +18,7 @@ else
         try validate at https://jsonlint.com/"
         break
     }
-    
+    Write-Host -ForegroundColor Green [Done]
     Write-Output $Admin_Defaults
     }
 
@@ -39,23 +38,27 @@ if (!$Global:CloudAdminCreds)
     {
     $Global:CloudAdminCreds = Get-Credential -UserName $CloudAdmin -Message "Enter Azure CloudAdmin Password for $Cloudadmin" 
     }
-
-Import-Module "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1" -Force
-Import-Module AzureRM.AzureStackStorage -Force
-Import-Module "$($Global:AZSTools_location)\serviceAdmin\AzureStack.ServiceAdmin.psm1" -Force
-Import-Module "$($Global:AZSTools_location)\ComputeAdmin\AzureStack.ComputeAdmin.psm1" -Force
-
+$Modules = ("$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1",
+    "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1",
+    "$($Global:AZSTools_location)\serviceAdmin\AzureStack.ServiceAdmin.psm1",
+    "$($Global:AZSTools_location)\ComputeAdmin\AzureStack.ComputeAdmin.psm1")
+foreach ($module in $Modules)
+    {
+        Write-Host -ForegroundColor White "[==>]Importing Module $Module" -NoNewline
+        Import-Module $Module -Force
+        Write-Host -ForegroundColor Green [Done]
+    }
 # For Azure Stack development kit, this value is set to https://adminmanagement.local.azurestack.external. To get this value for Azure Stack integrated systems, contact your service provider.
 $Global:ArmEndpoint = $Admin_Defaults.ArmEndpoint
-
 # For Azure Stack development kit, this value is adminvault.local.azurestack.external 
 $Global:KeyvaultDnsSuffix = $Admin_Defaults.KeyvaultDnsSuffix
 
-
 # Register an AzureRM environment that targets your Azure Stack instance
-  Add-AzureRMEnvironment `
+Write-Host -ForegroundColor White "[==>]Registering AzureRM Environment for $ArmEndpoint" -NoNewline
+Add-AzureRMEnvironment `
     -Name "AzureStackAdmin" `
     -ArmEndpoint $ArmEndpoint
+Write-Host -ForegroundColor Green [Done]
 
 # Get the Active Directory tenantId that is used to deploy Azure Stack
   $Global:TenantID = Get-AzsDirectoryTenantId `
