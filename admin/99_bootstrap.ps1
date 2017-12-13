@@ -55,7 +55,7 @@ $Global:KeyvaultDnsSuffix = $Admin_Defaults.KeyvaultDnsSuffix
 
 # Register an AzureRM environment that targets your Azure Stack instance
 Write-Host -ForegroundColor White "[==>]Registering AzureRM Environment for $ArmEndpoint" -NoNewline
-Add-AzureRMEnvironment `
+$Global_AZS_RM_Environment = Add-AzureRMEnvironment `
     -Name "AzureStackAdmin" `
     -ArmEndpoint $ArmEndpoint
 Write-Host -ForegroundColor Green [Done]
