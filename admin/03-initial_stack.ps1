@@ -51,21 +51,25 @@ Set-PSRepository `
 
 Set-ExecutionPolicy RemoteSigned `
   -force
-if (!(Get-Module -ListAvailable AZzureRM.BootStrapper))
+if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
   {
-    Write-Host "==>Installing AzureRM Bootstrapper"
+    Write-Host "[==>]Installing AzureRM Bootstrapper" -ForegroundColor White -NoNewline
     Install-Module `
       -Name AzureRm.BootStrapper `
       -Force
+      Write-Host -ForegroundColor Green "[Done]"
   }
   else {
+
+    Write-Host "[==>]Updating AzureRM Bootstrapper" -ForegroundColor White -NoNewline
     Update-Module AzureRM.BootStrapper
+    Write-Host -ForegroundColor Green "[Done]"
   }  
 
 
 if ($AzureRMProfileInstalled = Get-AzureRmProfile)
   {
-    Write-Host -ForegroundColor White -NoNewline "[==>] uninstalling $($AzureRMProfileInstalled.ProfileName)"
+    Write-Host -ForegroundColor White -NoNewline "[==>]uninstalling $($AzureRMProfileInstalled.ProfileName)"
     Uninstall-AzureRmProfile -Profile $AzureRMProfileInstalled.ProfileName -Force 
     Write-Host -ForegroundColor Green "[Done]"
   }   
