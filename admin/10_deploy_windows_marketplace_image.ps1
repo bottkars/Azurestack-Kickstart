@@ -23,7 +23,7 @@ Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
 If (!(test-path ( Join-Path $ISOFilePath)))
     {
-    Start-BitsTransfer -Description "Getting latest 2016CU" -Destination $ISOPath -Source $Latest_ISO
+    Start-BitsTransfer -Description "Getting latest 2016ISO" -Destination $ISOPath -Source $Latest_ISO
     }
 Write-Host -ForegroundColor Green [Done]
 <#
