@@ -23,13 +23,23 @@ The 2 Json Files to edit are admin.json and user.json, that have to be copied to
 }
 ```
 
+Start the post installation with
+The Command will run itsself in elevated Mode
+```Powershell
+D:\azurestack-dsc\admin\01_post_deploy.ps1
+```
+This will:
+    -disable updates
+   - Install GitSCM, Chrome and Shortcuts for the Portals 
+![image](https://user-images.githubusercontent.com/8255007/33950960-fb359682-e02d-11e7-87c7-4fc6d5f60f3c.png)
 
 
 
-Post-Installation run:
+To set the initial Stack Konfiguration and install Powershell Modules run:
 ```Powershell
 D:\azurestack-dsc\admin\03-initial_stack.ps1
 ```
+The Command will run itsself in elevated Mode
 ![image](https://user-images.githubusercontent.com/8255007/33949046-b1ac4e02-e028-11e7-93e9-d92aaa38ab96.png)
 
 
