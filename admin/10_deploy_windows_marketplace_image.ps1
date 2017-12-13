@@ -23,12 +23,10 @@ If (!(test-path ( Join-Path $Download_Path $ISO_FILE)))
     Start-BitsTransfer -Description "Getting latest 2016CU" -Destination $Download_Path -Source $ISO_FILE
     }
 Write-Host -ForegroundColor Green [Done]
-# Import-Module "$Global:AZTools_location\Connect\AzureStack.Connect.psm1"
-# Import-Module "$Global:AZTools_location\ComputeAdmin\AzureStack.ComputeAdmin.psm1"
 $GraphAudience = "https://graph.windows.net/"
 $TenantName = $Global:TenantName
 $ArmEndpoint = "https://adminmanagement.local.azurestack.external"
-
+<#
 # Create the Azure Stack operator's Azure Resource Manager environment by using the following cmdlet:
 Add-AzureRMEnvironment `
  -Name "AzureStackAdmin" `
@@ -41,6 +39,6 @@ Set-AzureRmEnvironment `
 $TenantID = Get-AzsDirectoryTenantId `
  -AADTenantName $TenantName `
  -EnvironmentName AzureStackAdmin
-
+#>
 # Add a Windows Server 2016 Evaluation VM image.
 New-AzsServer2016VMImage -ISOPath $ISOPath -Version Both -CUPath $Updates_path/$update_file -CreateGalleryItem:$true -Location local -sku_version $SkuVersion
