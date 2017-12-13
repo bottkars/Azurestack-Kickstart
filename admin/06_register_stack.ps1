@@ -1,12 +1,34 @@
-﻿$subscription = '8c21cadc-9e41-459e-bf4b-919aa2fad975'
+﻿if (!$Global:SubscriptionID)
+{
+Write-Warning -Message "You Have not Configured a SubscriptioID"
+break
+}
+if (!$Global:CloudAdminCreds)
+{
+Write-Warning -Message "You aree not signed in to your Azure RM Environment as CloudAdmin. Please run .\admin\99_bootstrap.ps1"
+break
+}
 Import-Module D:\AzureStack-Tools\Registration\RegisterWithAzure.psm1
-$CloudAdmin = "AzureStack\Cloudadmin"
-$CloudAdminPass = ConvertTo-SecureString "Passw0rd" -AsPlainText -Force
-$CloudAdminCreds = New-Object System.Management.Automation.PSCredential($CloudAdmin, $CloudAdminPass)
+Write-Host "Testing ESRC Connection"
+try {
+    $ERCS_SESSION = Enter-PSSession -ComputerName $Global:ercs -ConfigurationName PrivilegedEndpoint -Credential $Global:CloudAdminCreds
+}
+catch {
+        write-host "could not login Cloudadmin  $($Global:Cloudadmin), maybe wrong pasword ? 
+        please re-run ./admin/99_bootstrap.ps1"
+        $Global:CloudAdminCreds = ""
+        Break	
+}
+$ERCS_SESSION | Exit-PSSession
+
+Select-AzureRmSubscription -SubscriptionId $Global:SubscriptionID
+Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack  
+
+
 $AzureContext = Get-AzureRmContext
 Add-AzsRegistration `
-    -CloudAdminCredential $CloudAdminCreds `
-    -AzureSubscriptionId $AzureContext.Subscription.Id `
+    -CloudAdminCredential $Global:CloudAdminCreds `
+    -AzureSubscriptionId $AzureContext.Subscription `
     -AzureDirectoryTenantName $AzureContext.Tenant.TenantId `
-    -PrivilegedEndpoint AzS-ERCS01 `
+    -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
     -BillingModel Development 

@@ -5,7 +5,11 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$plan_name = "BASE_$($(new-guid).guid)"
 )
-
+if (!$Global:Service_RM_Account.Context)
+    {
+    Write-Warning -Message "You aree not signed in to your Azure RM Environment as Serviceadmin. Please run .\admin\99_bootstrap.ps1"
+    break
+    }
 $name = $plan_name
 $rg_name = "plans_and_offers"
 $ComputeQuota = New-AzsComputeQuota -Name "$($name)_compute" -Location local # -VirtualMachineCount 5000

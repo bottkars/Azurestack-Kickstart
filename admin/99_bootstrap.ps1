@@ -15,7 +15,8 @@ else
         $Admin_Defaults = Get-Content $Defaultsfile | ConvertFrom-Json -ErrorAction SilentlyContinue   
     }
     catch {
-        Write-Host "could not load $Defaultsfile, maybe a format error ?"
+        Write-Host "could not load $Defaultsfile, maybe a format error ?
+        try validate at https://jsonlint.com/"
         break
     }
     
@@ -26,8 +27,10 @@ $Global:VMPassword = $Admin_Defaults.VMPassword
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
-$CloudAdmin = "$($Admin_Defaults.Domain)\$($Admin_Defaults.Cloudadmin)"
-
+$Global:subscriptionID = $Admin_Defaults.subscriptionID
+$Global:subscriptionOwner = $Admin_Defaults.subscriptiOnwner
+$Global:CloudAdmin = "$($Admin_Defaults.Domain)\$($Admin_Defaults.Cloudadmin)"
+$Global:PrivilegedEndpoint = $Admin_Defaults.PrivilegedEndpoint
 if (!$Global:ServiceAdminCreds)
     {
     $ServiceAdminCreds = Get-Credential -UserName $GLobal:serviceAdmin -Message "Enter Azure ServiceAdmin Password"
@@ -60,9 +63,11 @@ $Global:KeyvaultDnsSuffix = $Admin_Defaults.KeyvaultDnsSuffix
     -EnvironmentName "AzureStackAdmin"
 
 # Sign in to your environment
+
+
 try {
 
- $Servive_RM_Account =Login-AzureRmAccount `
+ $Servive_RM_Account = Login-AzureRmAccount `
     -EnvironmentName "AzureStackAdmin" `
     -TenantId $TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
 }
@@ -72,3 +77,4 @@ catch  {
 }
 $Global:ServiceAdminCreds = $ServiceAdminCreds
 $Global:Service_RM_Account = $Servive_RM_Account
+$Global:CloudAdminCreds = $CloudAdminCreds
