@@ -1,8 +1,12 @@
 ﻿#requires -module AzureStack.ServiceAdmin
 #requires -module AzureStack.ComputeAdmin
 #requires -module AzureRM.AzureStackStorage
+[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
+param (
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$plan_name = "BASE_$($(new-guid).guid)"
+)
 
-$name = "Base"
+$name = $plan_name
 $rg_name = "plans_and_offers"
 $ComputeQuota = New-AzsComputeQuota -Name "$($name)_compute" -Location local # -VirtualMachineCount 5000
 $NetworkQuota = New-AzsNetworkQuota -Name "$($name)_network" -Location local # -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
