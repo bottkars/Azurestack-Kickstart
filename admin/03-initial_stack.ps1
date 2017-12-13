@@ -60,9 +60,8 @@ if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
       Write-Host -ForegroundColor Green "[Done]"
   }
   else {
-
     Write-Host "[==>]Updating AzureRM Bootstrapper" -ForegroundColor White -NoNewline
-    Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue
+    $mods = Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue
     Write-Host -ForegroundColor Green "[Done]"
   }  
 
