@@ -132,7 +132,7 @@ Install-Module `
   -Name AzureStack `
   -MinimumVersion "$($Admin_Defaults.AzureSTackModuleVersion)" `
   -Force -Scope CurrentUser
-git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-2 --singlebranch $Global:AZSTools_location
+git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-2 --single-branch $Global:AZSTools_location
 
 
 Import-Module "$($Global:AZSTools_location)/Connect/AzureStack.Connect.psm1"
