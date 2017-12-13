@@ -3,7 +3,27 @@ param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json",
 [switch]$noutils
 )
-#REQUIRES -RunAsAdministrator
+
+$myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+$myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
+
+$adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+ 
+# Check to see if we are currently running "as Administrator"
+if ($OldShell.IsPresent -or !$myWindowsPrincipal.IsInRole($adminRole))
+{
+ $arguments = "-Defaultsfile $Defaultsfile"
+if ($noutils.IsPresent){
+  $arguments = "-noutils"}
+$newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+$newProcess.Arguments = "-noexit $PSScriptRoot/$($myinvocation.MyCommand) $arguments" 
+Write-Host $newProcess.Arguments
+$newProcess.Verb = "runas"
+
+[System.Diagnostics.Process]::Start($newProcess) 
+exit
+}
+[switch]$OldShell = $true
 if (!(Test-Path $Defaultsfile))
 {
     Write-Warning "$Defaultsfile file does not exist.please copy from admin.json.example"
@@ -43,10 +63,17 @@ Set-PSRepository `
 
 Set-ExecutionPolicy RemoteSigned `
   -force
-Write-Host "==>Installing AzureRM Bottstrapper"
-Install-Module `
-  -Name AzureRm.BootStrapper `
-  -Force
+if (!(Get-Module -ListAvailable AZzureRM.BootStrapper))
+  {
+    Write-Host "==>Installing AzureRM Bootstrapper"
+    Install-Module `
+      -Name AzureRm.BootStrapper `
+      -Force
+  }
+  else {
+    Update-Module AzureRM.BootStrapper
+  }  
+
 
 if ($AzureRMProfileInstalled = Get-AzureRmProfile)
   {
@@ -92,19 +119,19 @@ foreach ($modules in ("AzureRM.*","Azure.*"))
 # Get-Module -ListAvailable | where-Object {$_.Name -like “Azure*”} | Uninstall-Module
 Write-Host -ForegroundColor Green " [done]"
 Remove-Module  AzureStack.Connect -ErrorAction SilentlyContinue  
-Remove-Item $Global:AZSTools_location -Force -Recurse  
+Remove-Item $Global:AZSTools_location -Force -Recurse | Out-Null 
 
 # Install PowerShell for Azure Stack.
 
 
 Use-AzureRmProfile `
   -Profile "$($Admin_Defaults.AzureRmProfile)" `
-  -Force
+  -Force -Scope CurrentUser
 
 Install-Module `
   -Name AzureStack `
   -MinimumVersion "$($Admin_Defaults.AzureSTackModuleVersion)" `
-  -Force 
+  -Force -Scope CurrentUser
 git clone  https://github.com/Azure/AzureStack-Tools/  $Global:AZSTools_location
 
 
