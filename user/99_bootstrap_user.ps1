@@ -51,16 +51,17 @@ if (!$noconnect.IsPresent)
       -AADTenantName "$Global:TenantName" `
       -EnvironmentName "AzureStackUser"      
     try {
-      Login-AzureRmAccount `
+      $azsuser_RM_Account = Login-AzureRmAccount `
       -EnvironmentName "AzureStackUser" `
       -TenantId $Global:TenantID `
-      -Credential $global:azsuser_credentials `
-      -ErrorAction stop
-    }
+      -Credential $azsuser_credentials `
+      -ErrorAction SilentlyContinue
+        }
     catch {
       Write-Host "Could not Login with $($Global:azsuser)
       Maybe not connected to Stack or wrong password ?"  
-
+      break      
     }
     $global:azsuser_credentials  = $azsuser_credentials
+    $Global:azsuser_RM_Account = $azsuser_RM_Account
     }

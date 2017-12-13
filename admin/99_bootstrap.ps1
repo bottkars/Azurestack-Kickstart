@@ -62,7 +62,7 @@ $Global:KeyvaultDnsSuffix = $Admin_Defaults.KeyvaultDnsSuffix
 # Sign in to your environment
 try {
 
- Login-AzureRmAccount `
+ $Servive_RM_Account =Login-AzureRmAccount `
     -EnvironmentName "AzureStackAdmin" `
     -TenantId $TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
 }
@@ -70,4 +70,5 @@ catch  {
     write-host "could not login AzureRMAccount $($Global:ServiceAdmin), maybe wrong pasword ? "
     Break	
 }
-$GLobal:ServiceAdminCreds = $ServiceAdminCreds
+$Global:ServiceAdminCreds = $ServiceAdminCreds
+$Global:Service_RM_Account = $Servive_RM_Account
