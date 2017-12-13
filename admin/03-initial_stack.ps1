@@ -65,18 +65,19 @@ if (!(Get-Module -ListAvailable AZzureRM.BootStrapper))
 
 if ($AzureRMProfileInstalled = Get-AzureRmProfile)
   {
-    Write-Host "==> uninstalling $($AzureRMProfileInstalled.ProfileName)"
+    Write-Host -ForegroundColor White -NoNewline "[==>] uninstalling $($AzureRMProfileInstalled.ProfileName)"
     Uninstall-AzureRmProfile -Profile $AzureRMProfileInstalled.ProfileName -Force 
+    Write-Host -ForegroundColor Green "[Done]"
   }   
-Write-Host "==>Checking for old Powershell Modules" -NoNewline
+Write-Host "[==>]Checking for old Powershell Modules" -NoNewline
 $Azurestack_modules = Get-Module -ListAvailable AzureStack
-Write-Host -ForegroundColor Green " [done]"
+Write-Host -ForegroundColor Green "[Done]"
 if ($Azurestack_modules)
   {
-    Write-Host "==> Removing old Azurestack Modules" -NoNewline
+    Write-Host "[==>]Removing old Azurestack Modules" -NoNewline
     $azurestack_modules | Remove-Module
     Remove-item $($Azurestack_modules.ModuleBase) -Force -Recurse -ErrorAction SilentlyContinue
-    Write-Host -ForegroundColor Green " [done]"
+    Write-Host -ForegroundColor Green "[Done]"
     }
 #Remove-Item "$HOME/Documents/WindowsPowerShell/Modules/Azure*" -Recurse -ErrorAction SilentlyContinue | Out-Null
 # Uninstall any existing Azure PowerShell modules. To uninstall, close all the active PowerShell sessions, and then run the following command:
@@ -89,24 +90,30 @@ foreach ($modules in ("AzureRM.*","Azure.*"))
       {
       if ($Module.Name -ne "AzureRM.BootStrapper")  
         {
-        Write-Host "Trying to remove $module"  
+        Write-Host -ForegroundColor White -NoNewline  "[==>]Trying to remove $module"  
         $Module | Remove-Module  #-ErrorAction SilentlyContinue -Force
-        Write-Host "Trying to uninstall $module"
+        Write-Host -ForegroundColor Green "[Done]"
+        
+        Write-Host "[==>]Trying to uninstall $module" -ForegroundColor White -NoNewline
         try 
           {
           $Module | Uninstall-Module -ErrorAction Stop -Force
           }
         catch 
           {
-          Write-Host "Forcing by deletion"
+          Write-Host -ForegroundColor Magenta " -->Forcing by deletion"
           Remove-Item $module.ModuleBase -Force -Recurse
           }
+        Write-Host -ForegroundColor Green "[Done]"
         }  
       }
   }
 # Get-Module -ListAvailable | where-Object {$_.Name -like “Azure*”} | Uninstall-Module
-Write-Host -ForegroundColor Green " [done]"
-Remove-Module  AzureStack.Connect -ErrorAction SilentlyContinue  
+Write-Host -ForegroundColor Green "[Done]"
+Write-Host -ForegroundColor White "[==>]Removong Module Azurestack.Connect" -NoNewline
+Remove-Module  AzureStack.Connect -ErrorAction SilentlyContinue 
+Write-Host -ForegroundColor Green "[Done]"
+
 Remove-Item $Global:AZSTools_location -Force -Recurse -ErrorAction SilentlyContinue 
 
 # Install PowerShell for Azure Stack.
@@ -125,6 +132,9 @@ git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-2 --sing
 
 Import-Module "$($Global:AZSTools_location)/Connect/AzureStack.Connect.psm1"
 # Register an AzureRM environment that targets your Azure Stack instance
-  Add-AzureRMEnvironment `
+Write-Host -ForegroundColor  White -NoNewline "[==>]Adding AzureStackAdmin RM Environment"
+Add-AzureRMEnvironment `
     -Name "AzureStackAdmin" `
     -ArmEndpoint "$($Admin_Defaults.ArmEndpoint)"
+Write-Host -ForegroundColor Green "[Done]"
+    
