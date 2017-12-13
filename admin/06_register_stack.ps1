@@ -21,14 +21,16 @@ catch {
 }
 $ERCS_SESSION | Exit-PSSession
 
+Write-Host "You now have to log in with your Subscription Owner $Global:SubscriptionOwner"
+
+$SubscriptionOwnerContext = Login-AzureRmAccount -Environment "AzureCloud"
+
 Select-AzureRmSubscription -SubscriptionId $Global:SubscriptionID
 Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack  
 
-
-$AzureContext = Get-AzureRmContext
 Add-AzsRegistration `
     -CloudAdminCredential $Global:CloudAdminCreds `
-    -AzureSubscriptionId $AzureContext.Subscription `
-    -AzureDirectoryTenantName $AzureContext.Tenant.TenantId `
+    -AzureSubscriptionId $SubscriptionOwnerContext.Subscription `
+    -AzureDirectoryTenantName $SubscriptionOwnerContext.Tenant.TenantId `
     -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
     -BillingModel Development 
