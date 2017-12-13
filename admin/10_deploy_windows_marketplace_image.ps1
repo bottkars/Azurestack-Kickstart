@@ -20,7 +20,7 @@ Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
 If (!(test-path ( Join-Path $Download_Path $ISO_FILE)))
     {
-    Start-BitsTransfer -Description "Getting latest 2016CU" -Destination $Download_Path -Source $ISO_FILE
+    Start-BitsTransfer -Description "Getting latest 2016CU" -Destination $Download_Path -Source $Latest_ISO
     }
 Write-Host -ForegroundColor Green [Done]
 $GraphAudience = "https://graph.windows.net/"
