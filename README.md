@@ -43,3 +43,12 @@ The Command will run itsself in elevated Mode
 ![image]![image](https://user-images.githubusercontent.com/8255007/33956253-4c7f325e-e03e-11e7-8bc9-86c480d74424.png)
 
 
+
+# Staring the customizations
+
+we have to load now our admin environment
+```Powershell
+ D:\azurestack-dsc\admin\99_bootstrap.ps1
+ ```
+![image](https://user-images.githubusercontent.com/8255007/33956638-7bd6c8d6-e03f-11e7-88b0-2293a6dd66bb.png)
+![image](https://user-images.githubusercontent.com/8255007/33956656-84f953b6-e03f-11e7-9018-27266d2a0ae6.png)
