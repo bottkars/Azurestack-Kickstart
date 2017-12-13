@@ -113,7 +113,7 @@ foreach ($modules in ("AzureRM.*","Azure.*"))
   }
 # Get-Module -ListAvailable | where-Object {$_.Name -like “Azure*”} | Uninstall-Module
 Write-Host -ForegroundColor Green "[Done]"
-Write-Host -ForegroundColor White "[==>]Removong Module Azurestack.Connect" -NoNewline
+Write-Host -ForegroundColor White "[==>]Removing Module Azurestack.Connect" -NoNewline
 Remove-Module  AzureStack.Connect -ErrorAction SilentlyContinue 
 Write-Host -ForegroundColor Green "[Done]"
 
@@ -128,10 +128,10 @@ Use-AzureRmProfile `
 Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Installing Module Azurestack Connect" -ForegroundColor White -NoNewline
-Install-Module `
+$mod = Install-Module `
   -Name AzureStack `
   -MinimumVersion "$($Admin_Defaults.AzureSTackModuleVersion)" `
-  -Force -Scope CurrentUser
+  -Force -Scope CurrentUser -WarningAction SilentlyContinue
 Write-Host -ForegroundColor Green "[Done]"
   
 Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline
