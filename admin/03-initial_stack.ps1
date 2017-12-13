@@ -131,10 +131,14 @@ Install-Module `
   -Name AzureStack `
   -MinimumVersion "$($Admin_Defaults.AzureSTackModuleVersion)" `
   -Force -Scope CurrentUser
+
+Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline
 git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-2 --single-branch $Global:AZSTools_location
+Write-Host -ForegroundColor Green "[Done]"
 
-
+Write-Host "[==>]Loading AzureStack.Connect" -ForegroundColor White -NoNewline
 Import-Module "$($Global:AZSTools_location)/Connect/AzureStack.Connect.psm1"
+Write-Host -ForegroundColor Green "[Done]"
 # Register an AzureRM environment that targets your Azure Stack instance
 Write-Host -ForegroundColor  White -NoNewline "[==>]Adding AzureStackAdmin RM Environment"
 Add-AzureRMEnvironment `
