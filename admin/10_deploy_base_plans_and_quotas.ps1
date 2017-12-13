@@ -3,7 +3,7 @@
 #requires -module AzureRM.AzureStackStorage
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
-[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$plan_name = "BASE_$($(new-guid).guid)"
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$plan_name = "BASE_$($(new-guid).guid)"
 )
 
 $name = $plan_name
