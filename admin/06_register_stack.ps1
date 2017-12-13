@@ -25,13 +25,19 @@ Exit-PSSession
 Write-Host -ForegroundColor  Yellow "You now have to log in with your Subscription Owner $Global:SubscriptionOwner"
 Pause
 $SubscriptionOwnerContext = Login-AzureRmAccount -Environment "AzureCloud"
-
+Write-Host -ForegroundColor White -NoNewline "[==>]Selecting $($SubscriptionOwnerContext.Context.Subscription) "
 Select-AzureRmSubscription -SubscriptionId $Global:SubscriptionID
+Write-Host -ForegroundColor Green [Done]
+Write-Host -ForegroundColor White -NoNewline "[==>]registering AzureRMProvider"
 Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack  
-
-Add-AzsRegistration `
+Write-Host -ForegroundColor Green [Done]
+Write-Host -ForegroundColor White "Registering Azure Stack with $($SubscriptionOwnerContext.Context.Tenant.TenantId)" -NoNewline
+$AZSregistration = Add-AzsRegistration `
     -CloudAdminCredential $Global:CloudAdminCreds `
     -AzureSubscriptionId $SubscriptionOwnerContext.Context.Subscription `
     -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
     -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
-    -BillingModel Development 
+    -BillingModel Development
+
+    Write-Host -ForegroundColor Green [Done]
+    
