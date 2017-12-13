@@ -12,13 +12,13 @@ $update_file = split-path -leaf $Latest_CU
 $ISO_FILE = Split-path -Leaf $Latest_ISO
 $ISOPath = Join-Path $Download_Path $ISO_FILE
 Write-Host -ForegroundColor White "[==>]Checking for $Latest_CU" -NoNewline
-if (!test-path ( Join-Path $Download_Path $update_file))
+if (!(test-path ( Join-Path $Download_Path $update_file)))
     {
     Start-BitsTransfer -Description "Getting latest 2016CU" -Destination $Download_Path-Source $Latest_CU
     }
 Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
-If (!test-path ( Join-Path $Download_Path $ISO_FILE))
+If (!(test-path ( Join-Path $Download_Path $ISO_FILE)))
     {
     Start-BitsTransfer -Description "Getting latest 2016CU" -Destination $Download_Path -Source $ISO_FILE
     }
