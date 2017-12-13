@@ -56,13 +56,13 @@ if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
     Write-Host "[==>]Installing AzureRM Bootstrapper" -ForegroundColor White -NoNewline
     Install-Module `
       -Name AzureRm.BootStrapper `
-      -Force
+      -Force -WarningAction SilentlyContinue
       Write-Host -ForegroundColor Green "[Done]"
   }
   else {
 
     Write-Host "[==>]Updating AzureRM Bootstrapper" -ForegroundColor White -NoNewline
-    Update-Module AzureRM.BootStrapper
+    Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue
     Write-Host -ForegroundColor Green "[Done]"
   }  
 
