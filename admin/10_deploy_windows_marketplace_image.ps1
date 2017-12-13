@@ -3,8 +3,6 @@ param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Download_Path="$HOME/Downloads",
 [version]$sku_version = (date -Format yyyy.MM.dd).ToString()
 )
-
-
 #REQUIRES -Module AzureStack.Connect
 #REQUIRES -Module AzureStack.ComputeAdmin
 $Latest_ISO = http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO
