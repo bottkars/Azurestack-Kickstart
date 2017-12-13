@@ -11,7 +11,7 @@ break
 Import-Module D:\AzureStack-Tools\Registration\RegisterWithAzure.psm1
 Write-Host "Testing ESRC Connection"
 try {
-    $ERCS_SESSION = Enter-PSSession -ComputerName $Global:ercs -ConfigurationName PrivilegedEndpoint -Credential $Global:CloudAdminCreds
+    $ERCS_SESSION = Enter-PSSession -ComputerName $Global:PrivilegedEndpoint -ConfigurationName PrivilegedEndpoint -Credential $Global:CloudAdminCreds
 }
 catch {
         write-host "could not login Cloudadmin  $($Global:Cloudadmin), maybe wrong pasword ? 
