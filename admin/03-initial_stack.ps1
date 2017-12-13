@@ -87,7 +87,7 @@ if ($Azurestack_modules)
   {
     Write-Host "==> Removing old Azurestack Modules" -NoNewline
     $azurestack_modules | Remove-Module
-    Remove-item $($Azurestack_modules.ModuleBase) -Force -Recurse
+    Remove-item $($Azurestack_modules.ModuleBase) -Force -Recurse -ErrorAction SilentlyContinue
     Write-Host -ForegroundColor Green " [done]"
     }
 #Remove-Item "$HOME/Documents/WindowsPowerShell/Modules/Azure*" -Recurse -ErrorAction SilentlyContinue | Out-Null
@@ -119,7 +119,7 @@ foreach ($modules in ("AzureRM.*","Azure.*"))
 # Get-Module -ListAvailable | where-Object {$_.Name -like “Azure*”} | Uninstall-Module
 Write-Host -ForegroundColor Green " [done]"
 Remove-Module  AzureStack.Connect -ErrorAction SilentlyContinue  
-Remove-Item $Global:AZSTools_location -Force -Recurse | Out-Null 
+Remove-Item $Global:AZSTools_location -Force -Recurse -ErrorAction SilentlyContinue 
 
 # Install PowerShell for Azure Stack.
 
