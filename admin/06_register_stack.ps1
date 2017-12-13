@@ -19,7 +19,8 @@ catch {
         $Global:CloudAdminCreds = ""
         Break	
 }
-$ERCS_SESSION | Exit-PSSession
+Exit-PSSession
+
 
 Write-Host "You now have to log in with your Subscription Owner $Global:SubscriptionOwner"
 
