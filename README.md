@@ -40,6 +40,6 @@ To set the initial Stack Konfiguration and install Powershell Modules run:
 D:\azurestack-dsc\admin\03-initial_stack.ps1
 ```
 The Command will run itsself in elevated Mode
-![image](https://user-images.githubusercontent.com/8255007/33949046-b1ac4e02-e028-11e7-93e9-d92aaa38ab96.png)
+![image]![image](https://user-images.githubusercontent.com/8255007/33956253-4c7f325e-e03e-11e7-8bc9-86c480d74424.png)
 
 
