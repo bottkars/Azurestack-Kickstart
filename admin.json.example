@@ -1,0 +1,12 @@
+{
+"Domain": "azurestack",
+"VMPassword": "Password123!",
+"TenantName": "contoso.onmicrosoft.com",
+"serviceuser": "masadmin",
+"cloudadmin": "cloudadmin",
+"AZSTools_Location": "D:\\AzureStack-Tools",
+"AzureRMProfile": "2017-03-09-profile",
+"AzureSTackModuleVersion": "1.2.11",
+"KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
+"ArmEndpoint": "https://adminmanagement.local.azurestack.external"
+}
