@@ -37,7 +37,7 @@ if (!$Global:ServiceAdminCreds)
     }
 if (!$Global:CloudAdminCreds)
     {
-    $CloudAdminCreds =  Get-Credential -UserName $CloudAdmin -Message "Enter Azure CloudAdmin Password for $Cloudadmin" 
+    $Global:CloudAdminCreds =  Get-Credential -UserName $CloudAdmin -Message "Enter Azure CloudAdmin Password for $Cloudadmin" 
     }
 
 Import-Module "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1" -Force
@@ -77,4 +77,3 @@ catch  {
 }
 $Global:ServiceAdminCreds = $ServiceAdminCreds
 $Global:Service_RM_Account = $Servive_RM_Account
-$Global:CloudAdminCreds = $CloudAdminCreds

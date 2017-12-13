@@ -1,6 +1,6 @@
 ﻿if (!$Global:SubscriptionID)
 {
-Write-Warning -Message "You Have not Configured a SubscriptioID"
+Write-Warning -Message "You Have not Configured a SubscriptionID"
 break
 }
 if (!$Global:CloudAdminCreds)
