@@ -39,10 +39,10 @@ $update_file = split-path -leaf $Latest_KB
 $updateFilePath = Join-Path $UpdatePath $update_file
 $ISO_FILE = Split-path -Leaf $Latest_ISO
 $ISOFilePath = Join-Path $ISOPath $ISO_FILE
-Write-Host -ForegroundColor White "[==>]Checking for $KB)" -NoNewline
+Write-Host -ForegroundColor White "[==>]Checking for $KB" -NoNewline
 if (!(test-path $updateFilePath))
     {
-    Start-BitsTransfer -Description "Getting latest 2016KB $KB)" -Destination $UpdatePath -Source $Latest_KB
+    Start-BitsTransfer -Description "Getting latest 2016KB $KB" -Destination $UpdatePath -Source $Latest_KB
     }
 Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
