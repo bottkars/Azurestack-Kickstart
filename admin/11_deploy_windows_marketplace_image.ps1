@@ -18,12 +18,6 @@ begin {
 
 process {
 
-if (!$sku_version)
-    {
-        [string]$SKU_DATE = (get-date $Updates[0].Date -Format "yyyyMMdd").ToString()
-        [string]$sku_version = "$($Updates[0].BUILD).$($SKU_DATE.ToString())"
-    }
-Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
 if (!$KB)
     {
         $Latest_KB = $Updates[0].URL
@@ -31,9 +25,15 @@ if (!$KB)
     }
 else
     {
-        $Latest_KB = ($Updates | where KB -match $KB).url
+        $Latest_KB = ($Updates | Where-Object KB -match $KB).url
     }
-
+if (!$sku_version)
+    {
+        $Version = $Updates | Where-Object {$_.KB -match $KB}
+        [string]$SKU_DATE = (get-date $Version.Date -Format "yyyyMMdd").ToString()
+        [string]$sku_version = "$($Version.BUILD).$($SKU_DATE.ToString())"
+    }    
+Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
 $Latest_ISO = "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
 $update_file = split-path -leaf $Latest_KB
 $updateFilePath = Join-Path $UpdatePath $update_file
