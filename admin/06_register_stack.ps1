@@ -17,7 +17,7 @@ catch {
         write-host "could not login Cloudadmin  $($Global:Cloudadmin), maybe wrong pasword ? 
         please re-run ./admin/99_bootstrap.ps1"
         $Global:CloudAdminCreds = ""
-        Break	
+        Break	0
 }
 Exit-PSSession
 

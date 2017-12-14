@@ -1,8 +1,62 @@
-[
-    { "kb:": "kb4051033",
-    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/11/windows10.0-kb4051033-x64_6e6a9d355d051a231e289a6d7931dd8f979f8d0c.msu"
-    },
-    { "kb": "kb4053579",
-    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/12/windows10.0-kb4053579-x64_c8f23cbaf60b5093a6902ce64520c354cfe360c7.msu"
-    }
-]   
+[{
+    "KB": "",
+    "Date": "",
+    "Build": "",
+    "URL": ""
+},
+{
+    "KB": "KB4038782",
+    "Date": "2017.09.12",
+    "Build": "14393.1715",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/secu/2017/09/windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu"
+},
+{
+    "KB": "KB4038801",
+    "Date": "2017.09.27",
+    "Build": "14393.1737",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/updt/2017/09/windows10.0-kb4038801-x64_4dd412107b61dc1c1eb6b9fb4ae0b366cea65687.msu"
+},
+
+{
+    "KB": "KB4041691",
+    "Date": "2017.10.10",
+    "Build": "14393.1770",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/secu/2017/10/windows10.0-kb4041691-x64_6b578432462f6bec9b4c903b3119d437ef32eb29.msu"
+},
+
+{
+    "KB": "KB4041688",
+    "Date": "2017.10.17",
+    "Build": "14393.1794",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/updt/2017/10/windows10.0-kb4041688-x64_a098c258a1d8f6b4bbfff87ee5ab687d629d3bd9.msu"
+},
+
+
+
+{
+    "KB": "KB4052231",
+    "Date": "2017.11.02",
+    "Build": "14393.1797",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/11/windows10.0-kb4052231-x64_463cd0a310785400394ca5648f6634f1244263ff.msu"
+},
+
+{
+    "KB": "KB4048953",
+    "Date": "2017.11.14",
+    "Build": "14393.1884",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/11/windows10.0-kb4048953-x64_6fccbf0ed11c9dfbc8d13e50d81ccfe97d1e2b82.msu"
+},
+
+{
+    "KB": "KB4051033",
+    "Date": "2017.11.27",
+    "Build": "14393.1914",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/11/windows10.0-KB4051033-x64_6e6a9d355d051a231e289a6d7931dd8f979f8d0c.msu"
+},
+{
+    "KB": "KB4053579",
+    "Date": "2017.12.12",
+    "Build": "14393.1944",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/12/windows10.0-KB4053579-x64_c8f23cbaf60b5093a6902ce64520c354cfe360c7.msu"
+}
+]

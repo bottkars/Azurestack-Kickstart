@@ -2,17 +2,30 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ISOPath="$HOME/Downloads",
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 2)][ValidateScript({ Test-Path -Path $_ })]$UpdatePath="$HOME/Downloads",
-[version]$sku_version = (date -Format yyyy.MM.dd).ToString()
+[Parameter(ParameterSetName = "1", Mandatory = $false, Position = 3)][ValidateSet('KB4053579','KB4051033','KB4048953','KB4052231','KB4041688','KB4041691','KB4038801','KB4038782')]$KB,
+[version]$sku_version # = (date -Format yyyy.MM.dd).ToString()
 )
 #REQUIRES -Module AzureStack.Connect
 #REQUIRES -Module AzureStack.ComputeAdmin
 #REQUIREs -RunAsAdministrator
-Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
-$PSScriptRoot
 $Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
-$Latest_KB = $Updates[-1].URL
+$Updates = $Updates |  Sort-Object -Descending -Property Date
+if (!$sku_version)
+    {
+        [version]$sku_version = "$($Updates[0].KB -replace '\D+').$($Updates[0].DATE)"
+    }
+Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
+$Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
+if (!$KB)
+    {
+        $Latest_KB = $Updates[0].URL  
+    }
+else
+    {
+        $Latest_KB = $KB
+    }
+
 $Latest_ISO = "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
-#$Latest_KB = "http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/12/windows10.0-kb4053579-x64_c8f23cbaf60b5093a6902ce64520c354cfe360c7.msu"
 $update_file = split-path -leaf $Latest_KB
 $updateFilePath = Join-Path $UpdatePath $update_file
 $ISO_FILE = Split-path -Leaf $Latest_ISO
