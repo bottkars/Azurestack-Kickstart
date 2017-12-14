@@ -38,7 +38,7 @@ if (!$sku_version)
 Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
 $Latest_ISO = "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
 $update_file = split-path -leaf $Latest_KB
-$update_cab = $file -replace "msu","cab"
+$update_cab = $update_file -replace "msu","cab"
 $updateFilePath = Join-Path $UpdatePath $update_file
 $ISO_FILE = Split-path -Leaf $Latest_ISO
 $ISOFilePath = Join-Path $ISOPath $ISO_FILE
