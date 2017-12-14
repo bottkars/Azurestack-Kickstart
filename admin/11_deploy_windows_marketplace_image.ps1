@@ -20,7 +20,7 @@ $ISOFilePath = Join-Path $ISOPath $ISO_FILE
 Write-Host -ForegroundColor White "[==>]Checking for $($Updates[-1].KB)" -NoNewline
 if (!(test-path $updateFilePath))
     {
-    Start-BitsTransfer -Description "Getting latest 2016KB" -Destination $UpdatePath -Source $Latest_KB
+    Start-BitsTransfer -Description "Getting latest 2016KB $($Updates[-1].KB)" -Destination $UpdatePath -Source $Latest_KB
     }
 Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
