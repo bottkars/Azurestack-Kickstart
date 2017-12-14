@@ -2,20 +2,24 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ISOPath="$HOME/Downloads",
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 2)][ValidateScript({ Test-Path -Path $_ })]$UpdatePath="$HOME/Downloads",
-[Parameter(ParameterSetName = "1", Mandatory = $false, Position = 3)][ValidateSet('KB4053579','KB4051033','KB4048953','KB4052231','KB4041688','KB4041691','KB4038801','KB4038782')]$KB,
+[Parameter(ParameterSetName = "1", Mandatory = $false, Position = 3,ValueFromPipelineByPropertyName = $true)][ValidateSet('KB4053579','KB4051033','KB4048953','KB4052231','KB4041688','KB4041691','KB4038801','KB4038782')]$KB,
 [version]$sku_version # = (date -Format yyyy.MM.dd).ToString()
 )
 #REQUIRES -Module AzureStack.Connect
 #REQUIRES -Module AzureStack.ComputeAdmin
-#REQUIREs -RunAsAdministrator
-$Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
-$Updates = $Updates |  Sort-Object -Descending -Property Date
+#REQUIRES -RunAsAdministrator
+begin {
+    $Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
+    $Updates = $Updates |  Sort-Object -Descending -Property Date
+}
+
+process {
+
 if (!$sku_version)
     {
         [version]$sku_version = "$($Updates[0].KB -replace '\D+').$($Updates[0].DATE)"
     }
 Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
-$Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
 if (!$KB)
     {
         $Latest_KB = $Updates[0].URL  
@@ -63,3 +67,5 @@ $TenantID = Get-AzsDirectoryTenantId `
 # Add a Windows Server 2016 Evaluation VM image.
 New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
 Remove-Item "./$PSScriptRoot/*.vhd"
+}
+end {}
