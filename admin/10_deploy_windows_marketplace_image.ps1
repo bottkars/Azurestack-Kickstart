@@ -2,7 +2,7 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ISOPath="$HOME/Downloads",
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 2)][ValidateScript({ Test-Path -Path $_ })]$UpdatePath="$HOME/Downloads",
-[version]$sku_version = (date -Format yyyy.MM.dd).ToString()
+[version]$sku_version = "(date -Format yyyy.MM.dd).ToString()"
 
 )
 #REQUIRES -Module AzureStack.Connect
@@ -45,4 +45,4 @@ $TenantID = Get-AzsDirectoryTenantId `
  -EnvironmentName AzureStackAdmin
 #>
 # Add a Windows Server 2016 Evaluation VM image.
-New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $SkuVersion
+New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
