@@ -1,8 +1,10 @@
 # Azurestack-dsc
 
-This repo is a Collection of scripts to run after AzureStack ASDK Installations
-The Idea is to have base components/logins stored in a json template and consistent stored in Session Variables
-The 2 Json Files to edit are admin.json and user.json, that have to be copied to the users Homedirectory
+This repo is a Collection of scripts to run after AzureStack ASDK Installations 
+The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
+The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
+The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
+
 
 ## example admin.json
 ```json
@@ -22,26 +24,29 @@ The 2 Json Files to edit are admin.json and user.json, that have to be copied to
 "ArmEndpoint": "https://adminmanagement.local.azurestack.external"
 }
 ```
-
+# Initail Post Installation
 Start the post installation with
 The Command will run itsself in elevated Mode
 ```Powershell
 D:\azurestack-dsc\admin\01_post_deploy.ps1
 ```
-This will:
-    -disable updates
+This will:  
+   - disable updates
    - Install GitSCM, Chrome and Shortcuts for the Portals 
 ![image](https://user-images.githubusercontent.com/8255007/33950960-fb359682-e02d-11e7-87c7-4fc6d5f60f3c.png)
 
+## initial powershell modules config
 
-
-To set the initial Stack Konfiguration and install Powershell Modules run:
+To set the initial stack configuration and install Powershell Modules run:
 ```Powershell
 D:\azurestack-dsc\admin\03-initial_stack.ps1
 ```
-The Command will run itsself in elevated Mode
+The Command will run itself in elevated Mode
 ![image]![image](https://user-images.githubusercontent.com/8255007/33956253-4c7f325e-e03e-11e7-8bc9-86c480d74424.png)
 
+this task can be repeated at any time to update the AzureStack Powershell environment
+
+## register the stack
 
 
 # Staring the customizations
@@ -67,3 +72,10 @@ D:\azurestack-dsc\admin\99_bootstrap.ps1
 D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1
 ```
 ![image](https://user-images.githubusercontent.com/8255007/33983160-65a941c8-e0b3-11e7-8bb2-8200074af068.png)  
+
+you can cerate Bulk Marketplace Images by using:
+```Powershell
+$KB = (get-content D:\azurestack-dsc\admin\windowsupdate.json | ConvertFrom-Json) |  Sort-Object  -Property Date | Select-Object KB | Where-Object KB -ne ""
+$KB | D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1 -ISOPath 'D:\updates\' -UpdatePath D:\updates\
+```
+this will batch create Marketplace Items for All Windows Server 2016 KB´s liusted in the included windowsupdate.json  
