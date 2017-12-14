@@ -9,6 +9,7 @@ param (
 #REQUIRES -Module AzureStack.ComputeAdmin
 #REQUIRES -RunAsAdministrator
 begin {
+    Remove-Item "./$PSScriptRoot/*.vhd"
     $Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
     $Updates = $Updates |  Sort-Object -Descending -Property Date
 }
@@ -17,7 +18,8 @@ process {
 
 if (!$sku_version)
     {
-        [version]$sku_version = "$($Updates[0].KB -replace '\D+').$($Updates[0].DATE)"
+        [string]$SKU_DATE = (get-date $Updates[0].Date -Format "yyyy.MM").ToString()
+        [version]$sku_version = "$($Updates[0].BUILD).$($SKU_DATE.ToString())"
     }
 Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
 if (!$KB)

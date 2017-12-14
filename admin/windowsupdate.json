@@ -5,6 +5,12 @@
     "URL": ""
 },
 {
+    "KB": "KB4039396",
+    "Date": "2017.08.28",
+    "Build": "14393.1670",
+    "URL": ""
+},
+{
     "KB": "KB4038782",
     "Date": "2017.09.12",
     "Build": "14393.1715",
@@ -30,8 +36,6 @@
     "Build": "14393.1794",
     "URL": "http://download.windowsupdate.com/c/msdownload/update/software/updt/2017/10/windows10.0-kb4041688-x64_a098c258a1d8f6b4bbfff87ee5ab687d629d3bd9.msu"
 },
-
-
 
 {
     "KB": "KB4052231",
