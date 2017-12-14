@@ -49,17 +49,21 @@ The Command will run itsself in elevated Mode
 we have to load now our admin environment
 ```Powershell
  D:\azurestack-dsc\admin\99_bootstrap.ps1
- ```
-![image](https://user-images.githubusercontent.com/8255007/33956638-7bd6c8d6-e03f-11e7-88b0-2293a6dd66bb.png)
-![image](https://user-images.githubusercontent.com/8255007/33956656-84f953b6-e03f-11e7-9018-27266d2a0ae6.png)
+```  
+![image](https://user-images.githubusercontent.com/8255007/33956638-7bd6c8d6-e03f-11e7-88b0-2293a6dd66bb.png)  
+![image](https://user-images.githubusercontent.com/8255007/33956656-84f953b6-e03f-11e7-9018-27266d2a0ae6.png)  
 
 ## deploy Base Plans
 
 ```Powershell
 D:\azurestack-dsc\admin\10_deploy_base_plans_and_quotas.ps1
-```
-![image](https://user-images.githubusercontent.com/8255007/33957262-636e5f0a-e041-11e7-8c36-05a15bf939d8.png)
+```  
+![image](https://user-images.githubusercontent.com/8255007/33957262-636e5f0a-e041-11e7-8c36-05a15bf939d8.png)  
 
 ## deploy Windows Marketplace Items from ISO
-
+this needs to run in an Admin Session ...  
+```Powershell
+D:\azurestack-dsc\admin\99_bootstrap.ps1
+D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1
+```
  
