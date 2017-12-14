@@ -60,4 +60,6 @@ D:\azurestack-dsc\admin\10_deploy_base_plans_and_quotas.ps1
 ```
 ![image](https://user-images.githubusercontent.com/8255007/33957262-636e5f0a-e041-11e7-8c36-05a15bf939d8.png)
 
+## deploy Windows Marketplace Items from ISO
+
  

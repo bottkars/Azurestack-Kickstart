@@ -14,20 +14,22 @@ SKU MUST BE CREATED AFTERB SQL RP IS CREATED !!! TAKES UP To 1 Hr to appear
 
 
 #>
-
-$sql_hostname = 'sqlhost1'
+param(
+$sql_hostname = 'sqlhost1',
+$RG= "RG_SQL_HOSTING"    
+)
 $rppassword = $Global:VMPassword
 $templateuri = 'https://raw.githubusercontent.com/bottkars/AzureStack-QuickStart-Templates/patch-3/101-sqladapter-add-hosting-server/azuredeploy.json'
 $vmLocalAdminPass = ConvertTo-SecureString "$rppassword" -AsPlainText -Force 
 $vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ("sqlrpadmin", $vmLocalAdminPass) 
 $PfxPass = ConvertTo-SecureString "$rppassword" -AsPlainText -Force 
 
-
-
-
-$RG= "RG_SQL_HOSTING"
 New-AzureRmResourceGroup -Name $RG -Location local 
-
 New-AzureRmResourceGroupDeployment -Name "$($RG)_DEPLOY" -ResourceGroupName $RG `
     -TemplateUri $templateuri `
-    -HostingServerName "$($sql_hostname).local.cloudapp.azurestack.external" `-hostingServerSQLLoginName sa `-hostingServerSQLLoginPassword $vmlocaladminpass `-Mode Incremental `-totalSpaceMB 102400 `-skuName SQL2014 -Verbose `
+    -HostingServerName "$($sql_hostname).local.cloudapp.azurestack.external" `
+-hostingServerSQLLoginName sa `
+-hostingServerSQLLoginPassword $vmlocaladminpass `
+-Mode Incremental `
+-totalSpaceMB 102400 `
+-skuName SQL2014 -Verbose
