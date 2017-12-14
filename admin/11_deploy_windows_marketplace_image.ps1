@@ -72,5 +72,6 @@ $TenantID = Get-AzsDirectoryTenantId `
 # Add a Windows Server 2016 Evaluation VM image.
 New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
 Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
+$sku_version =""
 }
 end {}
