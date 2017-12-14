@@ -66,4 +66,6 @@ this needs to run in an Admin Session ...
 D:\azurestack-dsc\admin\99_bootstrap.ps1
 D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1
 ```
+![image](https://user-images.githubusercontent.com/8255007/33983160-65a941c8-e0b3-11e7-8bb2-8200074af068.png)
+
  
