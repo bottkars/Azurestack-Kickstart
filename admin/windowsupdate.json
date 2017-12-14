@@ -1,14 +1,27 @@
-[{
+[
+{
     "KB": "",
     "Date": "",
     "Build": "",
     "URL": ""
 },
 {
+    "KB": "KB4034658",
+    "Date": "2017.08.08",
+    "Build": "14393.1593",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/08/windows10.0-kb4034658-x64_187d92752d3f566f44cc6727f2af99acf74a8c8f.msu"
+},
+{
+    "KB": "KB4034661",
+    "Date": "2017.08.16",
+    "Build": "14393.1613",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/08/windows10.0-kb4034661-x64_f776ef2c5c18168cb0e7a1b2d69d7e785cdcbf51.msu"
+},
+{
     "KB": "KB4039396",
     "Date": "2017.08.28",
     "Build": "14393.1670",
-    "URL": ""
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/updt/2017/08/windows10.0-kb4039396-x64_bd1f9e1c7add02b8f3334f1aeaa07cae6632c3cf.msu"
 },
 {
     "KB": "KB4038782",
