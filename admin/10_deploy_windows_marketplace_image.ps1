@@ -2,7 +2,7 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ISOPath="$HOME/Downloads",
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 2)][ValidateScript({ Test-Path -Path $_ })]$UpdatePath="$HOME/Downloads",
-[version]$sku_version = "(date -Format yyyy.MM.dd).ToString()"
+[version]$sku_version = (date -Format yyyy.MM.dd).ToString()
 
 )
 #REQUIRES -Module AzureStack.Connect
