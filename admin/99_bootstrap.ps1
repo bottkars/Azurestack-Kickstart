@@ -9,7 +9,7 @@ if (!(Test-Path $Defaultsfile))
 }
 else
     {
-    Write-Host -ForegroundColor White " ==>loading Admin Enviromment from $Defaultsfile" -NoNewline
+    Write-Host -ForegroundColor White "[==>]loading Admin Enviromment from $Defaultsfile" -NoNewline
     try {
         $Admin_Defaults = Get-Content $Defaultsfile | ConvertFrom-Json -ErrorAction SilentlyContinue   
     }
