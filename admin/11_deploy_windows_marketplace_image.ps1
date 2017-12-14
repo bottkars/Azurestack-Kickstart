@@ -11,7 +11,7 @@ param (
 #REQUIRES -Module AzureStack.ComputeAdmin
 #REQUIRES -RunAsAdministrator
 begin {
-    Remove-Item "./$PSScriptRoot/*.vhd"
+    Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
     $Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
     $Updates = $Updates |  Sort-Object -Descending -Property Date
 }
@@ -26,7 +26,8 @@ if (!$sku_version)
 Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
 if (!$KB)
     {
-        $Latest_KB = $Updates[0].URL  
+        $Latest_KB = $Updates[0].URL
+        $KB =  $Updates[0].KB  
     }
 else
     {
@@ -38,10 +39,10 @@ $update_file = split-path -leaf $Latest_KB
 $updateFilePath = Join-Path $UpdatePath $update_file
 $ISO_FILE = Split-path -Leaf $Latest_ISO
 $ISOFilePath = Join-Path $ISOPath $ISO_FILE
-Write-Host -ForegroundColor White "[==>]Checking for $($Updates[-1].KB)" -NoNewline
+Write-Host -ForegroundColor White "[==>]Checking for $KB)" -NoNewline
 if (!(test-path $updateFilePath))
     {
-    Start-BitsTransfer -Description "Getting latest 2016KB $($Updates[-1].KB)" -Destination $UpdatePath -Source $Latest_KB
+    Start-BitsTransfer -Description "Getting latest 2016KB $KB)" -Destination $UpdatePath -Source $Latest_KB
     }
 Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
@@ -70,6 +71,6 @@ $TenantID = Get-AzsDirectoryTenantId `
 #>
 # Add a Windows Server 2016 Evaluation VM image.
 New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
-Remove-Item "./$PSScriptRoot/*.vhd"
+Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
 }
 end {}
