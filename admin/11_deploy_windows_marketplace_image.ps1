@@ -20,8 +20,8 @@ process {
 
 if (!$sku_version)
     {
-        [string]$SKU_DATE = (get-date $Updates[0].Date -Format "yyyy.MM").ToString()
-        [version]$sku_version = "$($Updates[0].BUILD).$($SKU_DATE.ToString())"
+        [string]$SKU_DATE = (get-date $Updates[0].Date -Format "yyyyMMdd").ToString()
+        [string]$sku_version = "$($Updates[0].BUILD).$($SKU_DATE.ToString())"
     }
 Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
 if (!$KB)

@@ -1,5 +1,5 @@
-﻿param(
-    $sql_hostname = 'sqlhost1'
+﻿param (
+[ValidatePattern("^[a-z][a-z0-9-]{1,61}[a-z0-9]$")]$sql_hostname = 'sqlhost1'
 )
 
 $rppassword = $Global:VMPassword

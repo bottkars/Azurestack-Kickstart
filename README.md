@@ -47,9 +47,12 @@ The Command will run itself in elevated Mode
 this task can be repeated at any time to update the AzureStack Powershell environment
 
 ## register the stack
+```Powershell
+D:\azurestack-dsc\admin\06-_register_tack.ps1
+```
 
 
-# Staring the customizations
+# Starting the customizations
 
 we have to load now our admin environment
 ```Powershell
@@ -73,9 +76,9 @@ D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1
 ```
 ![image](https://user-images.githubusercontent.com/8255007/33983160-65a941c8-e0b3-11e7-8bb2-8200074af068.png)  
 
-you can cerate Bulk Marketplace Images by using:
+you can create Bulk Marketplace Images by using:
 ```Powershell
 $KB = (get-content D:\azurestack-dsc\admin\windowsupdate.json | ConvertFrom-Json) |  Sort-Object  -Property Date | Select-Object KB | Where-Object KB -ne ""
 $KB | D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1 -ISOPath 'D:\updates\' -UpdatePath D:\updates\
 ```
-this will batch create Marketplace Items for All Windows Server 2016 KB´s liusted in the included windowsupdate.json  
+this will batch create Marketplace Items for All Windows Server 2016 KB´s listed in the included windowsupdate.json  
