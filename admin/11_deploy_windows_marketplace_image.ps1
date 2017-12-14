@@ -73,9 +73,16 @@ $TenantID = Get-AzsDirectoryTenantId `
  -EnvironmentName AzureStackAdmin
 #>
 # Add a Windows Server 2016 Evaluation VM image.
-New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
-Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
-Remove-Item $UpdatePath\$update_cab -force -ErrorAction SilentlyContinue
+
+Write-Host -ForegroundColor White "[==>]Creating image for $Sku_version" -NoNewline
+$azserverimage = New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
+Write-Host -ForegroundColor Green [Done]
+Write-Host -ForegroundColor White "[==>]Removing VHD´s for $Sku_version" -NoNewline
+$remove = Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
+Write-Host -ForegroundColor Green [Done]
+Write-Host -ForegroundColor White "[==>]removing $update_cab" -NoNewline
+$remove = Remove-Item $UpdatePath\$update_cab -force -ErrorAction SilentlyContinue
+Write-Host -ForegroundColor Green [Done]
 $sku_version =""
 }
 end {}
