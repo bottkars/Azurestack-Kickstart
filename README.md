@@ -81,4 +81,12 @@ you can create Bulk Marketplace Images by using:
 $KB = (get-content D:\azurestack-dsc\admin\windowsupdate.json | ConvertFrom-Json) |  Sort-Object  -Property Date | Select-Object KB | Where-Object KB -ne ""
 $KB | D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1 -ISOPath 'D:\updates\' -UpdatePath D:\updates\
 ```
-this will batch create Marketplace Items for All Windows Server 2016 KB´s listed in the included windowsupdate.json  
+this will batch create Marketplace Items for All Windows Server 2016 KB´s listed in the included windowsupdate.json   
+the process is 
+- checking if SKU and Version already in Marketplace
+- eval the Steps
+- download updates if not available
+- clean up orphan vhd / cab files
+the msu files remain in the $updatepath
+![image](https://user-images.githubusercontent.com/8255007/34031744-164f69ca-e173-11e7-803a-d846d9571acd.png)
+
