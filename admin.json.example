@@ -11,5 +11,6 @@
 "AzureRMProfile": "2017-03-09-profile",
 "AzureSTackModuleVersion": "1.2.11",
 "KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
-"ArmEndpoint": "https://adminmanagement.local.azurestack.external"
+"ArmEndpoint": "https://adminmanagement.local.azurestack.external",
+"location": "local"
 }

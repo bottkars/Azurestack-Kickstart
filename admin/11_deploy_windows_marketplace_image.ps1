@@ -34,55 +34,77 @@ if (!$sku_version)
         $Version = $Updates | Where-Object {$_.KB -match $KB}
         [string]$SKU_DATE = (get-date $Version.Date -Format "yyyyMMdd").ToString()
         [string]$sku_version = "$($Version.BUILD).$($SKU_DATE.ToString())"
-    }    
-Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
-$Latest_ISO = "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
-$update_file = split-path -leaf $Latest_KB
-$update_cab = $update_file -replace "msu","cab"
-$updateFilePath = Join-Path $UpdatePath $update_file
-$ISO_FILE = Split-path -Leaf $Latest_ISO
-$ISOFilePath = Join-Path $ISOPath $ISO_FILE
-Write-Host -ForegroundColor White "[==>]Checking for $KB" -NoNewline
-if (!(test-path $updateFilePath))
-    {
-    Start-BitsTransfer -Description "Getting latest 2016KB $KB" -Destination $UpdatePath -Source $Latest_KB
     }
+Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter $sku_version " -NoNewline
+$Has_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+    -Offer WindowsServer -Skus 2016-Datacenter `
+    -Version $sku_version
 Write-Host -ForegroundColor Green [Done]
-Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
-If (!(test-path $ISOFilePath))
+
+Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter-Server-Core $sku_version " -NoNewline
+$Has_Core_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+    -Offer WindowsServer -Skus 2016-Datacenter-Server-Core `
+    -Version $sku_version
+Write-Host -ForegroundColor Green [Done]
+
+$evalnum = 0
+If ($Has_Image) {$evalnum = $evalnum +1}
+If ($Has_core_Image) {$evalnum = $evalnum +2}
+
+# 1= server, 2 = core, 3= both
+switch ($eval)
     {
-    Start-BitsTransfer -Description "Getting latest 2016ISO" -Destination $ISOPath -Source $Latest_ISO
+        1
+            { 
+            $image_version = "FULL"
+            }
+        2
+            { 
+            $image_version = "CORE"
+            }
+        3
+            { 
+            $image_version = "BOTH"
+            }
+        0
+            { 
+            $image_version = "NONE"
+            }               
     }
-Write-Host -ForegroundColor Green [Done]
-<#
-$GraphAudience = "https://graph.windows.net/"
-$TenantName = $Global:TenantName
-$ArmEndpoint = "https://adminmanagement.local.azurestack.external"
 
-# Create the Azure Stack operator's Azure Resource Manager environment by using the following cmdlet:
-Add-AzureRMEnvironment `
- -Name "AzureStackAdmin" `
- -ArmEndpoint $ArmEndpoint
+Write-Host -ForegroundColor White "[==]Need to get $image_version WindowsServer images for $sku_version[==]" 
+if ($image_version -ne "NONE")
+    {
+    Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
+    $Latest_ISO = "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
+    $update_file = split-path -leaf $Latest_KB
+    $update_cab = "$(($update_file -split "_")[0]).msi"
+    $updateFilePath = Join-Path $UpdatePath $update_file
+    $ISO_FILE = Split-path -Leaf $Latest_ISO
+    $ISOFilePath = Join-Path $ISOPath $ISO_FILE
+    Write-Host -ForegroundColor White "[==>]Checking for $KB" -NoNewline
+    if (!(test-path $updateFilePath))
+        {
+        Start-BitsTransfer -Description "Getting latest 2016KB $KB" -Destination $UpdatePath -Source $Latest_KB
+        }
+    Write-Host -ForegroundColor Green [Done]
+    Write-Host -ForegroundColor White "[==>]Checking for $ISO_FILE" -NoNewline
+    If (!(test-path $ISOFilePath))
+        {
+        Start-BitsTransfer -Description "Getting latest 2016ISO" -Destination $ISOPath -Source $Latest_ISO
+        }
+    Write-Host -ForegroundColor Green [Done]
 
-Set-AzureRmEnvironment `
- -Name "AzureStackAdmin" `
- -GraphAudience $GraphAudience
-
-$TenantID = Get-AzsDirectoryTenantId `
- -AADTenantName $TenantName `
- -EnvironmentName AzureStackAdmin
-#>
-# Add a Windows Server 2016 Evaluation VM image.
-
-Write-Host -ForegroundColor White "[==>]Creating image for $Sku_version" -NoNewline
-$azserverimage = New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version Both -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
-Write-Host -ForegroundColor Green [Done]
-Write-Host -ForegroundColor White "[==>]Removing VHD´s for $Sku_version" -NoNewline
-$remove = Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
-Write-Host -ForegroundColor Green [Done]
-Write-Host -ForegroundColor White "[==>]removing $update_cab" -NoNewline
-$remove = Remove-Item $UpdatePath\$update_cab -force -ErrorAction SilentlyContinue
-Write-Host -ForegroundColor Green [Done]
+    Write-Host -ForegroundColor White "[==>]Creating image for $Sku_version" -NoNewline
+    $azserverimage = New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version $image_version -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
+    Write-Host -ForegroundColor Green [Done]
+    Write-Host -ForegroundColor White "[==>]Removing VHD´s for $Sku_version" -NoNewline
+    $remove = Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
+    Write-Host -ForegroundColor Green [Done]
+    Write-Host -ForegroundColor White "[==>]removing $update_cab" -NoNewline
+    $remove = Remove-Item $UpdatePath\$update_cab -force -ErrorAction SilentlyContinue
+    Write-Host -ForegroundColor Green [Done]
+    }
 $sku_version =""
 }
 end {}

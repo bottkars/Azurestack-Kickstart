@@ -30,6 +30,7 @@ $Global:subscriptionID = $Admin_Defaults.subscriptionID
 $Global:subscriptionOwner = $Admin_Defaults.SubscriptionOwner
 $Global:CloudAdmin = "$($Admin_Defaults.Domain)\$($Admin_Defaults.Cloudadmin)"
 $Global:PrivilegedEndpoint = $Admin_Defaults.PrivilegedEndpoint
+$Global:AZS_Location = $Admin_Defaults.location
 if (!$Global:ServiceAdminCreds)
     {
     $ServiceAdminCreds = Get-Credential -UserName $GLobal:serviceAdmin -Message "Enter Azure ServiceAdmin Password"
