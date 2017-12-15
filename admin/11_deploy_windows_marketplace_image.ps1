@@ -58,7 +58,6 @@ catch {
     Write-Host " >>Not Found" -NoNewline
 }
 Write-Host -ForegroundColor Green [Done]
-
 # 1= server, 2 = core, 3= both
 switch ($evalnum)
     {
