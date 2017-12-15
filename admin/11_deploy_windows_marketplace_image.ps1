@@ -48,8 +48,8 @@ $Has_Core_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherNa
 Write-Host -ForegroundColor Green [Done]
 
 $evalnum = 0
-If ($Has_Image) {$evalnum = $evalnum +1}
-If ($Has_core_Image) {$evalnum = $evalnum +2}
+If (!$Has_Image) {$evalnum = $evalnum +1}
+If (!$Has_core_Image) {$evalnum = $evalnum +2}
 
 # 1= server, 2 = core, 3= both
 switch ($evalnum)
