@@ -21,7 +21,8 @@ The Bootstrap Scripts wll read the user / admin json files having envronment dat
 "AzureRMProfile": "2017-03-09-profile",
 "AzureSTackModuleVersion": "1.2.11",
 "KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
-"ArmEndpoint": "https://adminmanagement.local.azurestack.external"
+"ArmEndpoint": "https://adminmanagement.local.azurestack.external",
+"Location": "local"
 }
 ```
 # Initail Post Installation
@@ -86,7 +87,7 @@ the process is
 - checking if SKU and Version already in Marketplace
 - eval the Steps
 - download updates if not available
-- clean up orphan vhd / cab files
+- clean up orphan vhd / cab files  
 the msu files remain in the $updatepath
 ![image](https://user-images.githubusercontent.com/8255007/34031744-164f69ca-e173-11e7-803a-d846d9571acd.png)
 
