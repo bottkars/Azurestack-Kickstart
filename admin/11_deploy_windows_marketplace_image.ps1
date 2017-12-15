@@ -79,7 +79,7 @@ switch ($evalnum)
             }               
     }
 
-Write-Host -ForegroundColor White "[==]Need to get $image_version WindowsServer images for $sku_version[==]" 
+Write-Host -ForegroundColor White "[==]Need to create $image_version WindowsServer images for $sku_version[==]" 
 if ($image_version -ne "NONE")
     {
     Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
