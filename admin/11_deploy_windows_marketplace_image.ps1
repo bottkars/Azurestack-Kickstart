@@ -85,7 +85,7 @@ if ($image_version -ne "NONE")
     Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
     $Latest_ISO = "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
     $update_file = split-path -leaf $Latest_KB
-    $update_cab = "$(($update_file -split "_")[0]).msi"
+    $update_cab = "$(($update_file -split "_")[0]).cab"
     $updateFilePath = Join-Path $UpdatePath $update_file
     $ISO_FILE = Split-path -Leaf $Latest_ISO
     $ISOFilePath = Join-Path $ISOPath $ISO_FILE
@@ -109,7 +109,7 @@ if ($image_version -ne "NONE")
     $remove = Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
     Write-Host -ForegroundColor Green [Done]
     Write-Host -ForegroundColor White "[==>]removing $update_cab" -NoNewline
-    $remove = Remove-Item $UpdatePath\$update_cab -force -ErrorAction SilentlyContinue
+    $remove = Remove-Item "$UpdatePath\$update_cab" -force -ErrorAction SilentlyContinue
     Write-Host -ForegroundColor Green [Done]
     }
 $sku_version =""
