@@ -36,20 +36,28 @@ if (!$sku_version)
         [string]$sku_version = "$($Version.BUILD).$($SKU_DATE.ToString())"
     }
 Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter $sku_version " -NoNewline
-$Has_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+evalnum = 0
+try {
+    $Has_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter `
-    -Version $sku_version
+    -Version $sku_version -ErrorAction SilentlyContinue
+    }
+catch {
+    $evalnum + 1
+    Write-Host " >>Not Found" -NoNewline  
+}
 Write-Host -ForegroundColor Green [Done]
-
 Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter-Server-Core $sku_version " -NoNewline
-$Has_Core_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+try {
+    $Has_Core_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter-Server-Core `
-    -Version $sku_version
+    -Version $sku_version -ErrorAction SilentlyContinue
+}
+catch {
+    $evalnum +2
+    Write-Host " >>Not Found" -NoNewline
+}
 Write-Host -ForegroundColor Green [Done]
-
-$evalnum = 0
-If (!$Has_Image) {$evalnum = $evalnum +1}
-If (!$Has_core_Image) {$evalnum = $evalnum +2}
 
 # 1= server, 2 = core, 3= both
 switch ($evalnum)
