@@ -52,7 +52,7 @@ If ($Has_Image) {$evalnum = $evalnum +1}
 If ($Has_core_Image) {$evalnum = $evalnum +2}
 
 # 1= server, 2 = core, 3= both
-switch ($eval)
+switch ($evalnum)
     {
         1
             { 
