@@ -36,7 +36,7 @@ if (!$sku_version)
         [string]$sku_version = "$($Version.BUILD).$($SKU_DATE.ToString())"
     }
 Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter $sku_version " -NoNewline
-evalnum = 0
+$evalnum = 0
 try {
     $Has_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter `
