@@ -8,62 +8,62 @@
     {
         "KB": "KB3197954",
         "Date": "2016.10.27",
-        "Build": "14393.0351",
+        "Build": "14393.351",
         "URL": "http://download.windowsupdate.com/d/msdownload/update/software/crup/2016/10/windows10.0-kb3197954-x64_74819c01705e7a4d0f978cc0fbd7bed6240642b0.msu"
     },
 {
     "KB": "KB3200970",
     "Date": "2016.11.09",
-    "Build": "14393.0448",
+    "Build": "14393.448",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2016/11/windows10.0-kb3200970-x64_3fa1daafc46a83ed5d0ecbd0a811e1421b7fad5a.msu"
 },
 {
     "KB": "KB3201845",
     "Date": "2016.12.09",
-    "Build": "14393.0479",
+    "Build": "14393.479",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/crup/2016/11/windows10.0-kb3201845-x64_95e1e765344e1388fee3f7c0c143499e0b617d9f.msu"
 }, 
 {
     "KB": "KB3206632",
     "Date": "2016.12.13",
-    "Build": "14393.0576",
+    "Build": "14393.576",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2016/12/windows10.0-kb3206632-x64_b2e20b7e1aa65288007de21e88cd21c3ffb05110.msu"
 }, 
 {
     "KB": "KB3213986",
     "Date": "2017.01.10",
-    "Build": "14393.0693",
+    "Build": "14393.693",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2016/12/windows10.0-kb3213986-x64_a1f5adacc28b56d7728c92e318d6596d9072aec4.msu"
 },         
 {
     "KB": "KB3216755",
     "Date": "2017.01.26",
-    "Build": "14393.0726",
+    "Build": "14393.726",
     "URL": "http://download.windowsupdate.com/c/msdownload/update/software/crup/2017/01/windows10.0-kb3216755-x64_eba0675fd22087449c80b4d26df6b7035e9fb91f.msu"
 }, 
 {
     "KB": "KB4010672",
     "Date": "2017.01.30",
-    "Build": "14393.0729",
+    "Build": "14393.729",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/01/windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu"
 }, 
 
 {
     "KB": "KB4013429",
     "Date": "2017.03.14",
-    "Build": "14393.0953",
+    "Build": "14393.953",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/03/windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu"
 }, 
 {
     "KB": "KB4015438",
     "Date": "2017.03.20",
-    "Build": "14393.0969",
+    "Build": "14393.969",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/03/windows10.0-kb4015438-x64_c0e4b528d1c6b75503efd12d44d71a809c997555.msu"
 }, 
 {
     "KB": "KB4016635",
     "Date": "2017.03.22",
-    "Build": "14393.0970",
+    "Build": "14393.970",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/03/windows10.0-kb4016635-x64_2b1b48aa6ec51c019187f15059b768b1638a21ab.msu"
 }, 
 {
