@@ -43,7 +43,7 @@ try {
     -Version $sku_version -ErrorAction Stop
     }
 catch {
-    $evalnum + 1
+    $evalnum += 1
     Write-Host " >>Not Found" -NoNewline  
 }
 Write-Host -ForegroundColor Green [Done]
@@ -54,7 +54,7 @@ try {
     -Version $sku_version -ErrorAction Stop
 }
 catch {
-    $evalnum +2
+    $evalnum += 2
     Write-Host " >>Not Found" -NoNewline
 }
 Write-Host -ForegroundColor Green [Done]
