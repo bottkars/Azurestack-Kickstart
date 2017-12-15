@@ -40,7 +40,7 @@ $evalnum = 0
 try {
     $Has_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter `
-    -Version $sku_version -ErrorAction SilentlyContinue
+    -Version $sku_version -ErrorAction Stop
     }
 catch {
     $evalnum + 1
@@ -51,7 +51,7 @@ Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplac
 try {
     $Has_Core_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter-Server-Core `
-    -Version $sku_version -ErrorAction SilentlyContinue
+    -Version $sku_version -ErrorAction Stop
 }
 catch {
     $evalnum +2
