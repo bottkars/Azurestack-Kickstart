@@ -51,7 +51,7 @@ $parameters.Add("adminpassword",$adminPassword)
 $parameters.Add("osImageOffer",$osImageOffer)
 $parameters.Add("osImagePublisher",$osImagePublisher)
 $parameters.Add("osImageSKU",$osImageSku)
-
+$parameters.Add("osImageSkuVersion",$osImageSkuVersion)
 $Templateuri = "https://raw.githubusercontent.com/bottkars/201_vmss_windows_skuversion/master/201_vmss_windows_skuversion/azuredeploy.json"
 Write-host "[==>]Creating Resourcegroup $resourcegroup_name " -NoNewline
 $RG = New-AzureRmResourceGroup -Name $resourcegroup_name -Location $Global:AZS_Location  
