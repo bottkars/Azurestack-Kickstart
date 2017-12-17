@@ -58,6 +58,7 @@ $RG = New-AzureRmResourceGroup -Name $resourcegroup_name -Location $Global:AZS_L
 Write-Host -ForegroundColor Green "[Done]" 
 
 Write-host "[==>]Starting Deployment  $($resourcegroup_name)_deploy for ResourceGroup $resourcegroup_name, this can take some minutes" -NoNewline
-$RG | New-AzureRmResourceGroupDeployment -Name "$($resourcegroup_name)_deploy" `
+$Deployment = $RG | New-AzureRmResourceGroupDeployment -Name "$($resourcegroup_name)_deploy" `
  -TemplateUri $Templateuri -TemplateParameterObject $Parameters -Verbose:$False 
 Write-Host -ForegroundColor Green "[Done]" 
+Write-Output $Deployment
