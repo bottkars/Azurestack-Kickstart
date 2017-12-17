@@ -113,7 +113,7 @@ the msu files remain in the $updatepath
 } 
 ```
 # user bootstrapping   
-once the use has created his config file, he can bootstrap brom his powershell. to get permanent variables in the session.  
+once the use has created his config file, he can bootstrap from his powershell to get permanent variables in the session.  
 ```Powershell
 .\user\99_bootstrap_user.ps1
 ```
