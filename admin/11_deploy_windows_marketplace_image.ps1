@@ -7,7 +7,7 @@ param (
 'KB4038782','KB4039396','KB4034661','KB4034658','KB4025334','KB4025339','KB4022723',
 'KB4022715','KB4023680','KB4019472','KB4015217','KB4016635','KB4015438','KB4013429',
 'KB4010672','KB3216755','KB3213986','KB3206632','KB3201845','KB3194798','KB3200970','KB3197954')]$KB,
-[version]$sku_version # = (date -Format yyyy.MM.dd).ToString()
+[alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
 #REQUIRES -Module AzureStack.Connect
 #REQUIRES -Module AzureStack.ComputeAdmin
@@ -29,29 +29,29 @@ else
     {
         $Latest_KB = ($Updates | Where-Object KB -match $KB).url
     }
-if (!$sku_version)
+if (!$osImageSkuVersion)
     {
         $Version = $Updates | Where-Object {$_.KB -match $KB}
         [string]$SKU_DATE = (get-date $Version.Date -Format "yyyyMMdd").ToString()
-        [string]$sku_version = "$($Version.BUILD).$($SKU_DATE.ToString())"
+        [string]$osImageSkuVersion = "$($Version.BUILD).$($SKU_DATE.ToString())"
     }
-Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter $sku_version " -NoNewline
+Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter $osImageSkuVersion " -NoNewline
 $evalnum = 0
 try {
     $Has_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter `
-    -Version $sku_version -ErrorAction Stop
+    -Version $osImageSkuVersion -ErrorAction Stop
     }
 catch {
     $evalnum += 1
     Write-Host " >>Not Found" -NoNewline  
 }
 Write-Host -ForegroundColor Green [Done]
-Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter-Server-Core $sku_version " -NoNewline
+Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter-Server-Core $osImageSkuVersion " -NoNewline
 try {
     $Has_Core_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter-Server-Core `
-    -Version $sku_version -ErrorAction Stop
+    -Version $osImageSkuVersion -ErrorAction Stop
 }
 catch {
     $evalnum += 2
@@ -79,10 +79,10 @@ switch ($evalnum)
             }               
     }
 
-Write-Host -ForegroundColor White "[==]Need to create $image_version WindowsServer images for $sku_version[==]" 
+Write-Host -ForegroundColor White "[==]Need to create $image_version WindowsServer images for $osImageSkuVersion[==]" 
 if ($image_version -ne "NONE")
     {
-    Write-Host -ForegroundColor White "[==]Using sku Version $($sku_version.toString())[==]"
+    Write-Host -ForegroundColor White "[==]Using sku Version $($osImageSkuVersion.toString())[==]"
     $Latest_ISO = "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
     $update_file = split-path -leaf $Latest_KB
     $update_cab = "$(($update_file -split "_")[0]).cab"
@@ -102,16 +102,18 @@ if ($image_version -ne "NONE")
         }
     Write-Host -ForegroundColor Green [Done]
 
-    Write-Host -ForegroundColor White "[==>]Creating image for $Sku_version" -NoNewline
-    $azserverimage = New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version $image_version -CUPath $updateFilePath -CreateGalleryItem:$true -Location local -sku_version $sku_version
+    Write-Host -ForegroundColor White "[==>]Creating image for $osImageSkuVersion" -NoNewline
+    $azserverimage = New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version $image_version `
+        -CUPath $updateFilePath -CreateGalleryItem:$true `
+        -Location local -osImageSkuVersion $osImageSkuVersion -Verbose:$false
     Write-Host -ForegroundColor Green [Done]
-    Write-Host -ForegroundColor White "[==>]Removing VHD´s for $Sku_version" -NoNewline
+    Write-Host -ForegroundColor White "[==>]Removing VHD´s for $osImageSkuVersion" -NoNewline
     $remove = Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
     Write-Host -ForegroundColor Green [Done]
     Write-Host -ForegroundColor White "[==>]removing $update_cab" -NoNewline
     $remove = Remove-Item "$UpdatePath\$update_cab" -force -ErrorAction SilentlyContinue
     Write-Host -ForegroundColor Green [Done]
     }
-$sku_version =""
+$osImageSkuVersion =""
 }
 end {}

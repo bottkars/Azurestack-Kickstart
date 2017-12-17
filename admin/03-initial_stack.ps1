@@ -40,7 +40,7 @@ else
     Write-Output $Admin_Defaults
     }
 
-$Global:VMPassword = $Admin_Defaults.VMPassword
+$Global:VMPassword = $Admin_Defaults.VMPassword 
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location

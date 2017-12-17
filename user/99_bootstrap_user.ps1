@@ -26,6 +26,8 @@ $Global:azsuser = $User_Defaults.azsuser
 $Global:TenantName = $User_Defaults.TenantName
 $global:azsuseraccount = "$Global:azsuser@$Global:TenantName"
 $global:AZS_MODULES_ROOT = $User_Defaults.AZSTools_Location
+$Global:VMUser= $User_Defaults.VMuser
+$Global:VMPassword = $User_Defaults.VMPassword | ConvertTo-SecureString -AsPlainText -Force
 if (!$azsuser_credentials)
     {
     $azsuser_credentials = Get-Credential -Message "Enter Azure User Password for $global:azsuser" -UserName $global:azsuseraccount
@@ -35,6 +37,7 @@ Import-Module "$global:AZS_MODULES_ROOT\Connect\AzureStack.Connect.psm1"
 $Global:ArmEndpoint = $User_Defaults.ArmEndpoint
 $Global:GraphAudience = $User_Defaults.GraphAudience
 $Global:StackIP = $User_Defaults.StackIP
+$Global:AZS_Location = $User_Defaults.location
 
 
 if (!$noconnect.IsPresent)

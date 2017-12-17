@@ -22,7 +22,7 @@ else
     Write-Output $Admin_Defaults
     }
 
-$Global:VMPassword = $Admin_Defaults.VMPassword
+$Global:VMPassword = $Admin_Defaults.VMPassword | ConvertTo-SecureString -AsPlainText -Force
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
@@ -31,6 +31,10 @@ $Global:subscriptionOwner = $Admin_Defaults.SubscriptionOwner
 $Global:CloudAdmin = "$($Admin_Defaults.Domain)\$($Admin_Defaults.Cloudadmin)"
 $Global:PrivilegedEndpoint = $Admin_Defaults.PrivilegedEndpoint
 $Global:AZS_Location = $Admin_Defaults.location
+$Global:VMUser= $Admin_Defaults.VMuser
+$Global:SQLRPadmin = $Admin_Defaults.SQLRPADMIN
+$Global:MySQLRPadmin = $Admin_Defaults.MySQLRPADMIN
+
 if (!$Global:ServiceAdminCreds)
     {
     $ServiceAdminCreds = Get-Credential -UserName $GLobal:serviceAdmin -Message "Enter Azure ServiceAdmin Password"

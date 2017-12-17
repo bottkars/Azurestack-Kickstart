@@ -1,5 +1,6 @@
 {
 "Domain": "azurestack",
+"VMuser": "azureuser",
 "VMPassword": "Password123!",
 "TenantName": "contoso.onmicrosoft.com",
 "azsuser": "azsuser1",
