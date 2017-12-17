@@ -110,12 +110,15 @@ the msu files remain in the $updatepath
 "KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
 "ArmEndpoint": "https://management.local.azurestack.external",
 "StackIP": "10.204.16.82"
-}
-# user bootstrapping  
+} 
+```
+# user bootstrapping   
 once the use has created his config file, he can bootstrap brom his powershell. to get permanent variables in the session.  
 ```Powershell
 .\user\99_bootstrap_user.ps1
 ```
+![image](https://user-images.githubusercontent.com/8255007/34080665-12e337dc-e342-11e7-9c41-d68fb3b972c3.png)  
+
 
 ## creating Windows VM Scalesets using  -osImageSkuVersion
 If the Cloudadmin has provided differnt osImageSKU´s from above, we can   
