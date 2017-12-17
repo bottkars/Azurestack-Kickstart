@@ -118,7 +118,7 @@ once the use has created his config file, he can bootstrap brom his powershell. 
 ```
 
 ## creating Windows VM Scalesets using  -osImageSkuVersion
-If teh Cloudadmin has provided differnt osImageSKU´s form above, we can   
+If the Cloudadmin has provided differnt osImageSKU´s from above, we can   
 ```Powershell  
 PS C:\Users\bottk\Azurestack-dsc> .\user\60_new-azsserver2016vmss.ps1 -vmssName myssdemo -osImageSkuVersion 14393.729.20170130
 ```  
