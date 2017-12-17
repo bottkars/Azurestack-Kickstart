@@ -11,6 +11,7 @@ The Bootstrap Scripts wll read the user / admin json files having envronment dat
 {
 "Domain": "azurestack",
 "VMPassword": "Password123!",
+"VMuser": "azureuser",
 "TenantName": "contoso.onmicrosoft.com",
 "subscriptionID": "8c21cadc-9e41-459e-bf4b-919aa2fad975",
 "SubscriptionOwner": "Administrator@contoso.com.com", 
@@ -22,7 +23,9 @@ The Bootstrap Scripts wll read the user / admin json files having envronment dat
 "AzureSTackModuleVersion": "1.2.11",
 "KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
 "ArmEndpoint": "https://adminmanagement.local.azurestack.external",
-"Location": "local"
+"location": "local",
+"SQLRPadmin": "SQLRPadmin",
+"MySQLRPadmin": "MySQLRPadmin"
 }
 ```
 # Initail Post Installation
