@@ -4,7 +4,7 @@ This repo is a Collection of scripts to run after AzureStack ASDK Installations
 The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
-
+# ALL SRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY YOLD TOOLS AND NOT TESTED
 
 ## example admin.json
 ```json
@@ -28,7 +28,7 @@ The Bootstrap Scripts wll read the user / admin json files having envronment dat
 "MySQLRPadmin": "MySQLRPadmin"
 }
 ```
-# Initail Post Installation
+# Initial Post Installation
 Start the post installation with
 The Command will run itsself in elevated Mode
 ```Powershell
@@ -93,4 +93,35 @@ the process is
 - clean up orphan vhd / cab files  
 the msu files remain in the $updatepath
 ![image](https://user-images.githubusercontent.com/8255007/34031744-164f69ca-e173-11e7-803a-d846d9571acd.png)
+
+# user scripts
+# example user.json file
+```json
+{
+"Domain": "azurestack",
+"VMuser": "azureuser",
+"VMPassword": "Password123!",
+"TenantName": "contoso.onmicrosoft.com",
+"azsuser": "azsuser1",
+"cloudadmin": "cloudadmin",
+"AZSTools_Location": "D:\\AzureStack-Tools",
+"AzureRMProfile": "2017-03-09-profile",
+"AzureSTackModuleVersion": "1.2.11",
+"KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
+"ArmEndpoint": "https://management.local.azurestack.external",
+"StackIP": "10.204.16.82"
+}
+# user bootstrapping
+once the use has created his config file, he can bootstrap brom his powershell. to get permanent variables in the session.
+
+## creating Windows VM Scalesets using  -osImageSkuVersion
+If teh Cloudadmin has provided differnt osImageSKU´s form above, we can 
+```Powershell
+.\user\60_new-azsserver2016vmss.ps1 -vmssName myssdemo1 -osImageSkuVersion '14393.1797.20171102'
+```
+This creates a new vmscaleset
+![image](https://user-images.githubusercontent.com/8255007/34031744-164f69ca-e173-11e7-803a-d846d9571acd.png)  
+
+
+
 
