@@ -1,6 +1,6 @@
 [
 {
-    "KB": "KB3194798 ",
+    "KB": "KB3194798",
     "Date": "2016.11.10",
     "Build": "14393.321",
     "URL": "http://download.windowsupdate.com/c/msdownload/update/software/secu/2016/10/windows10.0-kb3194798-x64_8bc6befc7b3c51f94ae70b8d1d9a249bb4b5e108.msu"
@@ -67,7 +67,7 @@
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2017/03/windows10.0-kb4016635-x64_2b1b48aa6ec51c019187f15059b768b1638a21ab.msu"
 }, 
 {
-    "KB": "KB4015217 ",
+    "KB": "KB4015217",
     "Date": "2017.04.11",
     "Build": "14393.1066",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/04/windows10.0-kb4015217-x64_60bfcc7b365f9ab40608e2fb96bc2be8229bc319.msu"
