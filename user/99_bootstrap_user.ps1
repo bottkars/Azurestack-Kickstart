@@ -42,17 +42,23 @@ $Global:AZS_Location = $User_Defaults.location
 
 if (!$noconnect.IsPresent)
     {
+    Write-Host -ForegroundColor White "[==>]Adding Arm Endpoint $($Global:ArmEndpoint) to Environment" -NoNewline   
     Add-AzureRMEnvironment `
       -Name "AzureStackUser" `
-      -ArmEndpoint $Global:ArmEndpoint
-    
+      -ArmEndpoint $Global:ArmEndpoint |out-null
+    Write-Host -ForegroundColor Green "[Done]"
+    Write-Host -ForegroundColor White "[==>]Setting Graph Audience $($Global:GraphAudience)" -NoNewline  
     Set-AzureRmEnvironment `
       -Name "AzureStackUser" `
-      -GraphAudience $Global:GraphAudience
+      -GraphAudience $Global:GraphAudience | Out-Null
+    Write-Host -ForegroundColor Green "[Done]"
     
+    Write-Host -ForegroundColor White "[==>]Getting Tenantid for $($Global:TenantName)" -NoNewline  
     $Global:TenantID = Get-AzsDirectoryTenantId `
       -AADTenantName "$Global:TenantName" `
-      -EnvironmentName "AzureStackUser"      
+      -EnvironmentName "AzureStackUser" 
+    Write-Host -ForegroundColor Green "[Done]"
+    Write-Host -ForegroundColor White "[==>]Performin Login for $($Global:azsuseraccount )" -NoNewline  
     try {
       $azsuser_RM_Account = Login-AzureRmAccount `
       -EnvironmentName "AzureStackUser" `
@@ -65,6 +71,8 @@ if (!$noconnect.IsPresent)
       Maybe not connected to Stack or wrong password ?"  
       break      
     }
+    Write-Host -ForegroundColor Green "[Done]"
+
     $global:azsuser_credentials  = $azsuser_credentials
     $Global:azsuser_RM_Account = $azsuser_RM_Account
     }
