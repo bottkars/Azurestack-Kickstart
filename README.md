@@ -4,7 +4,7 @@ This repo is a Collection of scripts to run after AzureStack ASDK Installations
 The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
-# ALL SRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY YOLD TOOLS AND NOT TESTED
+# ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY YOLD TOOLS AND NOT TESTED
 
 ## example admin.json
 ```json
@@ -111,20 +111,23 @@ the msu files remain in the $updatepath
 "ArmEndpoint": "https://management.local.azurestack.external",
 "StackIP": "10.204.16.82"
 }
-# user bootstrapping
-once the use has created his config file, he can bootstrap brom his powershell. to get permanent variables in the session.
+# user bootstrapping  
+once the use has created his config file, he can bootstrap brom his powershell. to get permanent variables in the session.  
+```Powershell
+.\user\99_bootstrap_user.ps1
+```
 
 ## creating Windows VM Scalesets using  -osImageSkuVersion
-If teh Cloudadmin has provided differnt osImageSKU´s form above, we can 
-```Powershell
+If teh Cloudadmin has provided differnt osImageSKU´s form above, we can   
+```Powershell  
 PS C:\Users\bottk\Azurestack-dsc> .\user\60_new-azsserver2016vmss.ps1 -vmssName myssdemo -osImageSkuVersion 14393.729.20170130
-```
-This creates a new vmscaleset with the os image version 14393.729.20170130
-![image](https://user-images.githubusercontent.com/8255007/34080434-3c129e4e-e33e-11e7-97ee-03fd66bccd4f.png)
+```  
+This creates a new vmscaleset with the os image version 14393.729.20170130  
+![image](https://user-images.githubusercontent.com/8255007/34080434-3c129e4e-e33e-11e7-97ee-03fd66bccd4f.png)  
 
-we can verify the properties of the scaleset :
+we can verify the properties of the scaleset :  
 
-![image](https://user-images.githubusercontent.com/8255007/34080443-7a25f834-e33e-11e7-8923-af75dc42ae5a.png)
+![image](https://user-images.githubusercontent.com/8255007/34080443-7a25f834-e33e-11e7-8923-af75dc42ae5a.png)  
 
 
 
