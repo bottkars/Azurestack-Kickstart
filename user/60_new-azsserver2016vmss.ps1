@@ -5,9 +5,9 @@ param(
 [int]$instanceCount = 3,         
 [string]$adminUsername= $global:VMuser,
 [securestring]$adminPassword= $global:VMPassword,                        
-[string]$osImagePublisher="MicrosoftWindowsServer",
-[string]$osImageOffer="WindowsServer",
-[string][ValidateSet("2016-Datacenter","2016-Datacenter-Sevre-Core")]$osImageSku="2016-Datacenter",
+#[string]$osImagePublisher="MicrosoftWindowsServer",
+#[string]$osImageOffer="WindowsServer",
+[string][ValidateSet("2016-Datacenter","2016-Datacenter-Server-Core")]$osImageSku="2016-Datacenter-Server-Core",
 # POS Image SKU Version
 [Parameter(Mandatory = $False)][ValidateSet("14393.321.20161110",
 "14393.351.20161027",
@@ -41,6 +41,11 @@ param(
 [alias('sku_version')][version]$osImageSkuVersion,
 $resourcegroup_name = "rg_$vmssName"
 )
+
+
+
+[string]$osImagePublisher="MicrosoftWindowsServer"
+[string]$osImageOffer="WindowsServer"
 
 $parameters = @{}
 $parameters.Add("vmSKU",$vmSku)
