@@ -105,7 +105,7 @@ if ($image_version -ne "NONE")
     Write-Host -ForegroundColor White "[==>]Creating image for $osImageSkuVersion" -NoNewline
     $azserverimage = New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version $image_version `
         -CUPath $updateFilePath -CreateGalleryItem:$true `
-        -Location local -osImageSkuVersion $osImageSkuVersion -Verbose:$false
+        -Location local -osImageSkuVersion $sku_Version -Verbose:$false
     Write-Host -ForegroundColor Green [Done]
     Write-Host -ForegroundColor White "[==>]Removing VHD´s for $osImageSkuVersion" -NoNewline
     $remove = Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
