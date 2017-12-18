@@ -5,7 +5,7 @@ $SQLRPadmin = $Global:SQLRPAdmin
 )
 Push-Location    
 $SQL_DIR = 'C:\TEMP\SQLRP'
-Remove-Item $tempDir -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
+Remove-Item $SQL_DIR -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
 $Uri = "https://aka.ms/azurestacksqlrp"
 New-Item -ItemType Directory $SQL_DIR -Force | Out-Null
 Set-Location $SQL_DIR
