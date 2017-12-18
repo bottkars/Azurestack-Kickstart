@@ -40,7 +40,9 @@ create an admin.json file in your Homedirectory ( copy the admin.json.example fr
 "ArmEndpoint": "https://adminmanagement.local.azurestack.external",
 "location": "local",
 "SQLRPadmin": "SQLRPadmin",
-"MySQLRPadmin": "MySQLRPadmin"
+"MySQLRPadmin": "MySQLRPadmin",
+"ISOpath": "D:\\ISO",
+"Updatepath": "D:\\Updates"
 }
 ```
 
