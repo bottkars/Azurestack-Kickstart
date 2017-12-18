@@ -1,4 +1,41 @@
 
+<#PSScriptInfo
+
+.VERSION 1.2
+
+.GUID a6511736-a96f-4c6f-a8f2-2f4f877627c0
+
+.AUTHOR Karsten.Bott@labbuildr.com
+
+.COMPANYNAME 
+
+.COPYRIGHT 
+
+.TAGS 
+
+.LICENSEURI 
+
+.PROJECTURI 
+
+.ICONURI 
+
+.EXTERNALMODULEDEPENDENCIES 
+
+.REQUIREDSCRIPTS 
+
+.EXTERNALSCRIPTDEPENDENCIES 
+
+.RELEASENOTES
+
+
+#>
+
+<# 
+
+.DESCRIPTION 
+ KickAss your Azure Stack ASDK with this kickstart 
+
+#> 
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
 [switch]$noutils
@@ -24,8 +61,8 @@ if (!$myWindowsPrincipal.IsInRole($adminRole))
   exit
   }
 
-
-Write-Host -ForegroundColor White -NoNewline  "[==>]Disabling Wiendows Update"    
+Set-Location $Home
+Write-Host -ForegroundColor White -NoNewline  "[==>]Disabling WIndows Update"    
 Start-Process "sc" -ArgumentList "config wuauserv start=disabled" -Wait -NoNewWindow
 Write-Host -ForegroundColor Green "[Done]"
 if (!$noutils.IsPresent)
@@ -39,6 +76,5 @@ foreach ($Util in $Utils)
   Write-Host -ForegroundColor Green "[Done]"
   }
 }
-
-Write-Host "[==]now cloning into Azurestack Kickstart[==]"
-git clone https://github.com/bottkars/Azurestack-DSC
+Write-Host "[==]now cloning into Azurestack Kickstart Environment[==]"
+git clone https://github.com/bottkars/Azurestack-DSC 

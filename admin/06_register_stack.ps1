@@ -1,6 +1,22 @@
-﻿if (!$Global:SubscriptionID)
+﻿$myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+$myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
+
+$adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+ 
+# Check to see if we are currently running "as Administrator"
+if (!$myWindowsPrincipal.IsInRole($adminRole))
+  {
+  $arguments = "-Defaultsfile $Defaultsfile"
+  $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+  $newProcess.Arguments = "-noexit $PSScriptRoot/99_bootstrap.ps1;$PSScriptRoot/$($myinvocation.MyCommand)" 
+  Write-Host $newProcess.Arguments
+  $newProcess.Verb = "runas"
+  [System.Diagnostics.Process]::Start($newProcess) 
+  exit
+  }
+if (!$Global:SubscriptionID)
 {
-Write-Warning -Message "You Have not Configured a SubscriptionID"
+Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
 break
 }
 if (!$Global:CloudAdminCreds)
