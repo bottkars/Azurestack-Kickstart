@@ -6,25 +6,20 @@ Total Space MB: <The total space in MB to be allocated for creation of databases
 Hosting Server SQL Login Name: <Name of a SQL login to be used for connecting to the SQL database engine on the hosting server using SQL authentication>
 Hosting Server SQL Login Password: <Password for the given SQL login>
 SKU Name: <Name of the SQL Adapter SKU to associate the hosting server to>
-
-
-
 SKU MUST BE CREATED AFTERB SQL RP IS CREATED !!! TAKES UP To 1 Hr to appear
-
-
-
 #>
 param (
-[ValidatePattern("^[a-z][a-z0-9-]{1,61}[a-z0-9]$")]$sql_hostname = 'sqlhost1',
-[securestring]$SQLRPPassword = $Global:VMPassword
+[ValidatePattern("^[a-z][a-z0-9-]{1,61}[a-z0-9]$")]$sqlhost = $Global:SQLhost,
+[securestring]$SQLRPPassword = $Global:VMPassword,
+$RG= "rg_sql_hosting"
 )
     
 $templateuri = 'https://raw.githubusercontent.com/bottkars/AzureStack-QuickStart-Templates/patch-3/101-sqladapter-add-hosting-server/azuredeploy.json'
-$RG= "RG_SQL_HOSTING"
+
 New-AzureRmResourceGroup -Name $RG -Location local 
 New-AzureRmResourceGroupDeployment -Name "$($RG)_DEPLOY" -ResourceGroupName $RG `
     -TemplateUri $templateuri `
-    -HostingServerName "$($sql_hostname).local.cloudapp.azurestack.external" `
+    -HostingServerName "$($sqlhost).local.cloudapp.azurestack.external" `
 -hostingServerSQLLoginName sa `
 -hostingServerSQLLoginPassword $SQLRPPassword `
 -Mode Incremental `

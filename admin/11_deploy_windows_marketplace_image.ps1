@@ -16,6 +16,7 @@ begin {
     Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
     $Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
     $Updates = $Updates |  Sort-Object -Descending -Property Date
+    $azserverimage = @()
 }
 
 process {
@@ -38,9 +39,9 @@ if (!$osImageSkuVersion)
 Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter $osImageSkuVersion " -NoNewline
 $evalnum = 0
 try {
-    $Has_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+    Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter `
-    -Version $osImageSkuVersion -ErrorAction Stop
+    -Version $osImageSkuVersion -ErrorAction Stop | Out-Null
     }
 catch {
     $evalnum += 1
@@ -49,9 +50,9 @@ catch {
 Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for 2016-Datacenter-Server-Core $osImageSkuVersion " -NoNewline
 try {
-    $Has_Core_Image = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+    Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter-Server-Core `
-    -Version $osImageSkuVersion -ErrorAction Stop
+    -Version $osImageSkuVersion -ErrorAction Stop | Out-Null
 }
 catch {
     $evalnum += 2
@@ -103,7 +104,7 @@ if ($image_version -ne "NONE")
     Write-Host -ForegroundColor Green [Done]
 
     Write-Host -ForegroundColor White "[==>]Creating image for $osImageSkuVersion" -NoNewline
-    $azserverimage = New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version $image_version `
+    $azserverimage += New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version $image_version `
         -CUPath $updateFilePath -CreateGalleryItem:$true `
         -Location local -Sku_Version $osImageSkuVersion -Verbose:$false
     Write-Host -ForegroundColor Green [Done]
@@ -116,4 +117,8 @@ if ($image_version -ne "NONE")
     }
 $osImageSkuVersion =""
 }
-end {}
+end {
+
+    Write-Output $azserverimage
+
+}

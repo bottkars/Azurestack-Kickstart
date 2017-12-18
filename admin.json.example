@@ -16,5 +16,7 @@
 "GraphAudience": "https://graph.local.azurestack.external/",
 "location": "local",
 "SQLRPadmin": "SQLRPadmin",
-"MySQLRPadmin": "MySQLRPadmin"
+"MySQLRPadmin": "MySQLRPadmin",
+"SQLHost": "SQLHost1",
+"MySQLHost": "MySQLHost1"
 }

@@ -21,25 +21,76 @@ else
     
     Write-Output $User_Defaults
     }
-
+if (!$User_Defaults.azsuser)
+    {
+       Write-Warning "azsuser is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:azsuser = $User_Defaults.azsuser
+
+if (!$User_Defaults.tenantname)
+    {
+       Write-Warning "tenantname is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:TenantName = $User_Defaults.TenantName
 $global:azsuseraccount = "$Global:azsuser@$Global:TenantName"
+
+if (!$User_Defaults.AZSTools_Location)
+    {
+       Write-Warning "AZSTools_Location is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $global:AZS_MODULES_ROOT = $User_Defaults.AZSTools_Location
+
+if (!$User_Defaults.VMuser)
+    {
+       Write-Warning "VMuser is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:VMUser= $User_Defaults.VMuser
+
+
+if (!$User_Defaults.VMPassword)
+    {
+       Write-Warning "VMpassword is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:VMPassword = $User_Defaults.VMPassword | ConvertTo-SecureString -AsPlainText -Force
+
 if (!$azsuser_credentials)
     {
     $azsuser_credentials = Get-Credential -Message "Enter Azure User Password for $global:azsuser" -UserName $global:azsuseraccount
     }
 Import-Module AzureRM.AzureStackAdmin
 Import-Module "$global:AZS_MODULES_ROOT\Connect\AzureStack.Connect.psm1"
+if (!$User_Defaults.ArmEndpoint)
+    {
+       Write-Warning "ArmEndpoint is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:ArmEndpoint = $User_Defaults.ArmEndpoint
+if (!$User_Defaults.GraphAudience)
+    {
+       Write-Warning "GraphAudience is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:GraphAudience = $User_Defaults.GraphAudience
+if (!$User_Defaults.StackIP)
+    {
+       Write-Warning "StackIP is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:StackIP = $User_Defaults.StackIP
+if (!$User_Defaults.location)
+    {
+       Write-Warning "VMpassword is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
 $Global:AZS_Location = $User_Defaults.location
 
 
+######
 if (!$noconnect.IsPresent)
     {
     Write-Host -ForegroundColor White "[==>]Adding Arm Endpoint $($Global:ArmEndpoint) to Environment" -NoNewline   

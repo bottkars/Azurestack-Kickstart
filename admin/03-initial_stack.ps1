@@ -61,7 +61,7 @@ if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
   }
   else {
     Write-Host "[==>]Updating AzureRM Bootstrapper" -ForegroundColor White -NoNewline
-    $mods = Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue
+    Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue | Out-Null
     Write-Host -ForegroundColor Green "[Done]"
   }  
 
@@ -128,10 +128,10 @@ Use-AzureRmProfile `
 Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Installing Module Azurestack Connect" -ForegroundColor White -NoNewline
-$mod = Install-Module `
+Install-Module `
   -Name AzureStack `
   -MinimumVersion "$($Admin_Defaults.AzureSTackModuleVersion)" `
-  -Force -Scope CurrentUser -WarningAction SilentlyContinue
+  -Force -Scope CurrentUser -WarningAction SilentlyContinue | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   
 Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline

@@ -1,5 +1,4 @@
 ﻿param (
-[ValidatePattern("^[a-z][a-z0-9-]{1,61}[a-z0-9]$")]$sql_hostname = 'sqlhost1',
 [securestring]$SQLRPPassword = $Global:VMPassword,
 [securestring]$PfxPass = $Global:VMPassword,
 $SQLRPadmin = $Global:SQLRPAdmin
