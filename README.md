@@ -1,10 +1,25 @@
-# Azurestack-dsc
+# Azurestack-Kickstart
 
 This repo is a Collection of scripts to run after AzureStack ASDK Installations 
 The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
 # ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY YOLD TOOLS AND NOT TESTED
+
+to install the Azuer Stack Kickstart, simply type in 
+```Powershell
+install-script azurestack-kickstart -Scope CurrentUser -Force
+Azurestack-Kickstart.ps1
+```
+the command will run itsself in elevated Mode and will:  
+   - disable updates
+   - Install GitSCM, Chrome and Shortcuts for the Portals
+   - CLone into Azuerstack-Kickstart Distro
+![image](https://user-images.githubusercontent.com/8255007/33950960-fb359682-e02d-11e7-87c7-4fc6d5f60f3c.png)
+
+Once finished, CD into Azurestack-DSC.
+create an admin.json file in your Homedirectory ( copy the admin.json.example fro the root of the distro as reference)
+
 
 ## example admin.json
 ```json
@@ -28,22 +43,13 @@ The Bootstrap Scripts wll read the user / admin json files having envronment dat
 "MySQLRPadmin": "MySQLRPadmin"
 }
 ```
-# Initial Post Installation
-Start the post installation with
-The Command will run itsself in elevated Mode
-```Powershell
-D:\azurestack-dsc\admin\01_post_deploy.ps1
-```
-This will:  
-   - disable updates
-   - Install GitSCM, Chrome and Shortcuts for the Portals 
-![image](https://user-images.githubusercontent.com/8255007/33950960-fb359682-e02d-11e7-87c7-4fc6d5f60f3c.png)
+
 
 ## initial powershell modules config
 
 To set the initial stack configuration and install Powershell Modules run:
 ```Powershell
-D:\azurestack-dsc\admin\03-initial_stack.ps1
+D:\azurestack-dsc\admin\03_initial_stack.ps1
 ```
 The Command will run itself in elevated Mode
 ![image]![image](https://user-images.githubusercontent.com/8255007/33956253-4c7f325e-e03e-11e7-8bc9-86c480d74424.png)
@@ -52,8 +58,9 @@ this task can be repeated at any time to update the AzureStack Powershell enviro
 
 ## register the stack
 ```Powershell
-D:\azurestack-dsc\admin\06-_register_tack.ps1
+D:\azurestack-dsc\admin\06_register_stack.ps1
 ```
+this will use your setiings from admin.json to register your azurestack
 
 
 # Starting the customizations

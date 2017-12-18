@@ -89,6 +89,7 @@ Write-Host "[==>]Checking for old Azure Powershell Modules"
 foreach ($modules in ("AzureRM.*","Azure.*"))
     {
   $My_Modules = Get-Module -ListAvailable $modules
+  Write-Host -ForegroundColor Green "[Done]"
   foreach ($module in $my_Modules)
       {
       if ($Module.Name -ne "AzureRM.BootStrapper")  
@@ -112,7 +113,6 @@ foreach ($modules in ("AzureRM.*","Azure.*"))
       }
   }
 # Get-Module -ListAvailable | where-Object {$_.Name -like “Azure*”} | Uninstall-Module
-Write-Host -ForegroundColor Green "[Done]"
 Write-Host -ForegroundColor White "[==>]Removing Module Azurestack.Connect" -NoNewline
 Remove-Module  AzureStack.Connect -ErrorAction SilentlyContinue 
 Write-Host -ForegroundColor Green "[Done]"
