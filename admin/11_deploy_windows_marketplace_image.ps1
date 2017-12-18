@@ -1,7 +1,7 @@
 ﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
-[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ISOPath="$HOME/Downloads",
-[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 2)][ValidateScript({ Test-Path -Path $_ })]$UpdatePath="$HOME/Downloads",
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ISOPath=$Global:ISOPath,
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 2)][ValidateScript({ Test-Path -Path $_ })]$UpdatePath=$Global:UpdatePath,
 [Parameter(ParameterSetName = "1", Mandatory = $false, Position = 3,ValueFromPipelineByPropertyName = $true)][ValidateSet(
 'KB4053579','KB4051033','KB4048953','KB4052231','KB4041688','KB4041691','KB4038801',
 'KB4038782','KB4039396','KB4034661','KB4034658','KB4025334','KB4025339','KB4022723',

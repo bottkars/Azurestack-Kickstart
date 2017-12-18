@@ -128,6 +128,20 @@ if (!$Admin_Defaults.KeyvaultDnsSuffix)
 $Global:KeyvaultDnsSuffix = $Admin_Defaults.KeyvaultDnsSuffix
 
 
+if (!$Admin_Defaults.ISOPath)
+    {
+       Write-Warning "ISOpath is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:ISOPath = $Admin_Defaults.ISOpath
+
+if (!$Admin_Defaults.UpdatePath)
+    {
+       Write-Warning "UpdatePath is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:UpdatePath= $Admin_Defaults.UpdatePath
+
 
 
 

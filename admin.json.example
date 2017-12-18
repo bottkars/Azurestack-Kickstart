@@ -18,5 +18,7 @@
 "SQLRPadmin": "SQLRPadmin",
 "MySQLRPadmin": "MySQLRPadmin",
 "SQLHost": "SQLHost1",
-"MySQLHost": "MySQLHost1"
+"MySQLHost": "MySQLHost1",
+"ISOpath": "D:\\ISO",
+"Updatepath": "D:\\Updates"
 }
