@@ -6,7 +6,6 @@ $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
 # Check to see if we are currently running "as Administrator"
 if (!$myWindowsPrincipal.IsInRole($adminRole))
   {
-  $arguments = "-Defaultsfile $Defaultsfile"
   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
   $newProcess.Arguments = "-noexit $PSScriptRoot/99_bootstrap.ps1;$PSScriptRoot/$($myinvocation.MyCommand)" 
   Write-Host $newProcess.Arguments
