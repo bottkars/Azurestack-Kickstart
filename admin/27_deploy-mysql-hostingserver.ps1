@@ -3,7 +3,8 @@ param (
 [securestring]$MySQLRPPassword = $Global:VMPassword,
 [securestring]$PfxPass = $Global:VMPassword,
 $MySQLRPadmin = $Global:MySQLRPAdmin,
-$RG = "rg_MySQLHostingserver"
+$RG = "rg_MySQLHostingserver",
+$skuName = "mysql57"
 )
 
 $fqdn = "$mysqlhost.local.cloudapp.azurestack.external"
@@ -18,4 +19,4 @@ New-AzureRmResourceGroupDeployment -Name MySQLHostingserver_Deploy -ResourceGrou
 -username $MySQLRPadmin `
 -Mode Incremental `
 -totalSpaceMB 102400 `
--skuName mysql57
+-skuName $skuName
