@@ -14,8 +14,8 @@ Azurestack-Kickstart.ps1
 the command will run itsself in elevated Mode and will:  
    - disable updates
    - Install GitSCM, Chrome and Shortcuts for the Portals
-   - CLone into Azuerstack-Kickstart Distro
-![image](https://user-images.githubusercontent.com/8255007/33950960-fb359682-e02d-11e7-87c7-4fc6d5f60f3c.png)
+   - Clone into Azuerstack-Kickstart Distro
+![azurestack-kickstart](https://user-images.githubusercontent.com/8255007/34120361-abf1a93e-e425-11e7-827e-98fceb33c8f3.gif)  
 
 Once finished, CD into Azurestack-DSC.
 create an admin.json file in your Homedirectory ( copy the admin.json.example fro the root of the distro as reference)
