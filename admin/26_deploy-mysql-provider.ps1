@@ -3,7 +3,7 @@
 [securestring]$PfxPass = $Global:VMPassword,
 $MySQLRPadmin = $Global:MySQLRPAdmin
 )
-
+push-location
 $MYSQL_DIR = "C:\Temp\MySQL"
 Remove-Item $MYSQL_DIR -Force -Recurse -ErrorAction SilentlyContinue -Confirm:$false | out-null
 New-Item -ItemType Directory $MYSQL_DIR -Force
@@ -23,3 +23,4 @@ $vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ($MySQ
   -DefaultSSLCertificatePassword $PfxPass -DependencyFilesLocalPath .\cert `
   -AcceptLicense -Azcredential $Global:ServiceAdminCreds
 
+Pop-Location

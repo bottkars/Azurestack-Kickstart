@@ -3,7 +3,7 @@
 [securestring]$PfxPass = $Global:VMPassword,
 $SQLRPadmin = $Global:SQLRPAdmin
 )
-    
+Push-Location    
 $SQL_DIR = 'C:\TEMP\SQLRP'
 Remove-Item $tempDir -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue
 $Uri = "https://aka.ms/azurestacksqlrp"
@@ -21,3 +21,4 @@ $PfxPass = ConvertTo-SecureString $Global:VMPassword -AsPlainText -Force
   -PrivilegedEndpoint $global:privilegedEndpoint `
   -DefaultSSLCertificatePassword $PfxPass `
   -DependencyFilesLocalPath .\cert
+Pop-Location
