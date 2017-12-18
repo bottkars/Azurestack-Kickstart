@@ -89,9 +89,10 @@ if (!$Admin_Defaults.SQLRPADMIN)
     }
 
 $Global:SQLRPadmin = $Admin_Defaults.SQLRPADMIN
+
 if (!$Admin_Defaults.MySQLRPADMIN)
     {
-       Write-Warning "MYSQLRPADMIN is not set in $defaultsfile. Please add entry and retry" 
+       Write-Warning "MySQLRPADMIN is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
 $Global:MySQLRPadmin = $Admin_Defaults.MySQLRPADMIN
@@ -108,7 +109,7 @@ if (!$Admin_Defaults.MySQLHost)
        Write-Warning "MySQLHost is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
-$Global:MySQLRPadmin = $Admin_Defaults.MySQLHost
+$Global:MySQLHost = $Admin_Defaults.MySQLHost
 
 
 
