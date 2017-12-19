@@ -18,6 +18,7 @@ $PrivilegedEndpoint = $Global:PrivilegedEndpoint,
 [switch]$NoOfflineDownload,
 $Offlinepath = "D:\AppService"
 )
+#Requires -Runas Administrator
 Push-Location
 Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false
 $Location = new-item -ItemType Directory C:\Temp\AppService -Force
