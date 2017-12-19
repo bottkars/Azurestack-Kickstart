@@ -1,7 +1,10 @@
 ﻿param(# Set Deployment Variables
 $RGName = "rg_App_Service_FS",
 $myLocation = $Global:AZS_Location,
-[securestring]$FilesharePassword = $Global:VMPassword
+[securestring]$FilesharePassword = $Global:VMPassword,
+[securestring]$PfxPassword = $Global:VMPassword,
+$PrivilegedEndpoint = $Global:PrivilegedEndpoint
+
 )
 Push-Location
 $Location = new-item -ItemType Directory C:\Temp\AppService -Force
@@ -32,15 +35,15 @@ $AdminArmEndpoint = split-path -Leaf $Global:ArmEndpoint
 
 Set-Location "C:\Temp\AppService\AppServiceHelperScripts\"
 
-.\Create-AppServiceCerts.ps1 -PfxPassword $Pass -DomainName "local.azurestack.external"
-.\Get-AzureStackRootCert.ps1 -PrivilegedEndpoint "AzS-ERCS01" -CloudAdminCredential $Global:CloudAdminCreds
+.\Create-AppServiceCerts.ps1 -PfxPassword $PfxPassword -DomainName "$($Global:AZS_Location).$($Global:DNSDomain)"
+.\Get-AzureStackRootCert.ps1 -PrivilegedEndpoint $PrivilegedEndpoint -CloudAdminCredential $Global:CloudAdminCreds
 
 # Requires Azure Login Credentials  
-.\Create-AADIdentityApp.ps1 -DirectoryTenantName $TenantName `
+.\Create-AADIdentityApp.ps1 -DirectoryTenantName $Global:ArmEndpoint `
  -AdminArmEndpoint $AdminArmEndpoint `
  -TenantArmEndpoint $TenantArmEndpoint `
- -CertificateFilePath (join-path (get-location).Path "sso.appservice.local.azurestack.external.pfx") `
- -CertificatePassword $Pass
+ -CertificateFilePath (join-path (get-location).Path "sso.appservice.$($Global:AZS_Location).$($Global:DNSDomain).pfx") `
+ -CertificatePassword $PfxPassword
 Set-Location C:\Temp\AppService\
 Start-Process ".\AppService.exe" -ArgumentList "/logfile c:\temp\Appservice\appservice.log" -Wait
 Pop-Location

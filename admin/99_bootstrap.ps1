@@ -32,6 +32,16 @@ if (!$Admin_Defaults.TenantName)
        Write-Warning "TenantName is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
+if (!$Admin_Defaults.DNSDomain)
+    {
+       Write-Warning "DNSDomain is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:DNSDomain = $Admin_Defaults.DNSDomain
+
+
+
+
 
 $Global:TenantName = $Admin_Defaults.TenantName
 if (!$Admin_Defaults.serviceuser)

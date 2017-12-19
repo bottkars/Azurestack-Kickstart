@@ -1,5 +1,7 @@
 {
+"DNSDomain" :"azurestack.external",
 "Domain": "azurestack",
+"location": "local",
 "VMPassword": "Password123!",
 "VMuser": "azureuser",
 "TenantName": "contoso.onmicrosoft.com",
@@ -15,7 +17,6 @@
 "ArmEndpoint": "https://adminmanagement.local.azurestack.external",
 "TenantArmEndpoint": "https://management.local.azurestack.external",
 "GraphAudience": "https://graph.local.azurestack.external/",
-"location": "local",
 "SQLRPadmin": "SQLRPadmin",
 "MySQLRPadmin": "MySQLRPadmin",
 "SQLHost": "SQLHost1",
