@@ -13,6 +13,7 @@
 "AzureSTackModuleVersion": "1.2.11",
 "KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
 "ArmEndpoint": "https://adminmanagement.local.azurestack.external",
+"TenantArmEndpoint": "https://management.local.azurestack.external",
 "GraphAudience": "https://graph.local.azurestack.external/",
 "location": "local",
 "SQLRPadmin": "SQLRPadmin",

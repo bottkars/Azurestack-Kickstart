@@ -111,7 +111,14 @@ if (!$Admin_Defaults.MySQLHost)
     }
 $Global:MySQLHost = $Admin_Defaults.MySQLHost
 
-
+# $TenantArmEndpoint = "management.local.azurestack.external"
+if (!$Admin_Defaults.TenantArmEndpoint)
+    {
+       Write-Warning "TenantArmEndpoint is not set in $defaultsfile. Please add entry and retry
+       For Azure Stack development kit, this value is set to https://management.local.azurestack.external" 
+       Break 
+    }
+$Global:TenantArmEndpoint = $Admin_Defaults.TenantArmEndpoint
 
 if (!$Admin_Defaults.ArmEndpoint)
     {

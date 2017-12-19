@@ -3,6 +3,7 @@
 [securestring]$PfxPass = $Global:VMPassword,
 $SQLRPadmin = $Global:SQLRPAdmin
 )
+#Requires -runas Administrator
 Push-Location    
 $SQL_DIR = 'C:\TEMP\SQLRP'
 Remove-Item $SQL_DIR -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
