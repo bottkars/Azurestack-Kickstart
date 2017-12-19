@@ -28,7 +28,6 @@ if (!$myWindowsPrincipal.IsInRole($adminRole))
         $arguments = "-noutils"
     }
   $arguments = "$arguments -LanguageTag $LanguageTag"
- 
   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
   $newProcess.Arguments = "-noexit $PSScriptRoot/$($myinvocation.MyCommand) $arguments" 
   Write-Host $newProcess.Arguments
