@@ -1,10 +1,22 @@
-﻿param(# Set Deployment Variables
+﻿<#
+appservice.exe /quiet /log <log-file> Install
+    appservice.exe /quiet /log <log-file> CreateOfflineInstallationPackage OfflineInstallationPackageFile=<zip-file>
+    appservice.exe /quiet /log <log-file> Install OfflineInstallationPackageFile=<zip-file>
+    appservice.exe /quiet /log <log-file> Deploy UserName=<UserName>Password=<Password> ParamFile=<parameter-file>
+    appservice.exe /help
+    appservice.exe /?
+
+#>
+
+param(# Set Deployment Variables
 $RGName = "rg_App_Service_FS",
 $myLocation = $Global:AZS_Location,
 [securestring]$FilesharePassword = $Global:VMPassword,
 [securestring]$PfxPassword = $Global:VMPassword,
 $PrivilegedEndpoint = $Global:PrivilegedEndpoint,
-[switch]$NoFileserverDeployment
+[switch]$NoFileserverDeployment,
+[switch]$NoOfflineDownload,
+$Offlinepath = "D:\AppService"
 )
 Push-Location
 Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false
@@ -14,6 +26,10 @@ Invoke-WebRequest https://aka.ms/appsvconmashelpers -OutFile AppServiceHelperScr
 Expand-Archive AppServiceHelperScripts.zip
 Invoke-WebRequest https://aka.ms/appsvconmasinstaller -OutFile AppService.exe
 
+if (!(test-path $Offlinepath))
+    {
+        New-Item -ItemType Directory -Path $Offlinepath -Force | Out-Null
+    }
 
 if (!$NoFileserverDeployment.IsPresent)
     {
@@ -48,5 +64,7 @@ Set-Location "C:\Temp\AppService\AppServiceHelperScripts\"
  -CertificateFilePath (join-path (get-location).Path "sso.appservice.$($Global:AZS_Location).$($Global:DNSDomain).pfx") `
  -CertificatePassword $PfxPassword
 Set-Location C:\Temp\AppService\
-Start-Process ".\AppService.exe" -ArgumentList "/logfile c:\temp\Appservice\appservice.log" -Wait
+Write-Host -ForegroundColor White "[==>]Downloading AppService Offline Package, please be patient"
+Start-Process ".\AppService.exe" -ArgumentList "/quiet /logfile c:\temp\Appservice\appservice.log  CreateOfflineInstallationPackage OfflineInstallationPackageFile=$($Offlinepath)\appservice.zip" -Wait
+Write-Host -ForegroundColor Green "[Done]"
 Pop-Location
