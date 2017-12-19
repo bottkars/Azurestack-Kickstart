@@ -22,7 +22,7 @@ $parameters.Add("fileshareUserPassword",$FilesharePassword)
 $parameters.Add("AdminPassword",$FilesharePassword)
 $parameters.Add("fileServerVirtualMachineSize","Standard_A3")
 
-<# Create Resource Group for Template Deployment
+# Create Resource Group for Template Deployment
 New-AzureRmResourceGroup -Name $RGName -Location $myLocation
 # Deploy FS Template
 New-AzureRmResourceGroupDeployment `
@@ -33,7 +33,7 @@ New-AzureRmResourceGroupDeployment `
     -Verbose
 $TenantArmEndpoint = split-path -Leaf $Global:TenantArmEndpoint
 $AdminArmEndpoint = split-path -Leaf $Global:ArmEndpoint
-#>
+
 Set-Location "C:\Temp\AppService\AppServiceHelperScripts\"
 
 .\Create-AppServiceCerts.ps1 -PfxPassword $PfxPassword -DomainName "$($Global:AZS_Location).$($Global:DNSDomain)"
