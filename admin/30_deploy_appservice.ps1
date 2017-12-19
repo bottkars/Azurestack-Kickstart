@@ -3,8 +3,8 @@ $RGName = "rg_App_Service_FS",
 $myLocation = $Global:AZS_Location,
 [securestring]$FilesharePassword = $Global:VMPassword,
 [securestring]$PfxPassword = $Global:VMPassword,
-$PrivilegedEndpoint = $Global:PrivilegedEndpoint
-
+$PrivilegedEndpoint = $Global:PrivilegedEndpoint,
+[switch]$NoFileserverDeployment
 )
 Push-Location
 Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false
@@ -15,22 +15,24 @@ Expand-Archive AppServiceHelperScripts.zip
 Invoke-WebRequest https://aka.ms/appsvconmasinstaller -OutFile AppService.exe
 
 
+if (!$NoFileserverDeployment.IsPresent)
+    {
+    $parameters = @{}
+    $parameters.Add("fileshareOwnerPassword",$FilesharePassword)
+    $parameters.Add("fileshareUserPassword",$FilesharePassword)
+    $parameters.Add("AdminPassword",$FilesharePassword)
+    $parameters.Add("fileServerVirtualMachineSize","Standard_A3")
 
-$parameters = @{}
-$parameters.Add("fileshareOwnerPassword",$FilesharePassword)
-$parameters.Add("fileshareUserPassword",$FilesharePassword)
-$parameters.Add("AdminPassword",$FilesharePassword)
-$parameters.Add("fileServerVirtualMachineSize","Standard_A3")
-
-# Create Resource Group for Template Deployment
-New-AzureRmResourceGroup -Name $RGName -Location $myLocation
-# Deploy FS Template
-New-AzureRmResourceGroupDeployment `
-    -Name "$($RGName)_Deployment" `
-    -ResourceGroupName $RGName `
-    -TemplateUri https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/appservice-fileserver-standalone/azuredeploy.json `
-    -TemplateParameterObject $parameters `
-    -Verbose
+    # Create Resource Group for Template Deployment
+    New-AzureRmResourceGroup -Name $RGName -Location $myLocation
+    # Deploy FS Template
+    New-AzureRmResourceGroupDeployment `
+        -Name "$($RGName)_Deployment" `
+        -ResourceGroupName $RGName `
+        -TemplateUri https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/appservice-fileserver-standalone/azuredeploy.json `
+        -TemplateParameterObject $parameters `
+        -Verbose
+    }
 $TenantArmEndpoint = split-path -Leaf $Global:TenantArmEndpoint
 $AdminArmEndpoint = split-path -Leaf $Global:ArmEndpoint
 
