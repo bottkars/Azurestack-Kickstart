@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 1.3
+.VERSION 1.4
 
 .GUID a6511736-a96f-4c6f-a8f2-2f4f877627c0
 
@@ -62,7 +62,7 @@ if (!$myWindowsPrincipal.IsInRole($adminRole))
   }
 
 Set-Location $Home
-Write-Host -ForegroundColor White -NoNewline  "[==>]Disabling WIndows Update"    
+Write-Host -ForegroundColor White -NoNewline  "[==>]Disabling Windows Update"    
 Start-Process "sc" -ArgumentList "config wuauserv start=disabled" -Wait -NoNewWindow
 Write-Host -ForegroundColor Green "[Done]"
 if (!$noutils.IsPresent)
@@ -77,4 +77,4 @@ foreach ($Util in $Utils)
   }
 }
 Write-Host "[==]now cloning into Azurestack Kickstart Environment[==]"
-git clone https://github.com/bottkars/Azurestack-DSC 
+git clone https://github.com/bottkars/Azurestack-Kickstart 
