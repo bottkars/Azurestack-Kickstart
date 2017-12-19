@@ -42,7 +42,7 @@ Set-Location "C:\Temp\AppService\AppServiceHelperScripts\"
 .\Get-AzureStackRootCert.ps1 -PrivilegedEndpoint $PrivilegedEndpoint -CloudAdminCredential $Global:CloudAdminCreds
 
 # Requires Azure Login Credentials  
-.\Create-AADIdentityApp.ps1 -DirectoryTenantName $Global:ArmEndpoint `
+.\Create-AADIdentityApp.ps1 -DirectoryTenantName $Global:Tenantname `
  -AdminArmEndpoint $AdminArmEndpoint `
  -TenantArmEndpoint $TenantArmEndpoint `
  -CertificateFilePath (join-path (get-location).Path "sso.appservice.$($Global:AZS_Location).$($Global:DNSDomain).pfx") `
