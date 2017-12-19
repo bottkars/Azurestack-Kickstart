@@ -1,0 +1,16 @@
+{
+"Domain": "azurestack",
+"VMuser": "azureuser",
+"VMPassword": "Password123!",
+"TenantName": "contoso.onmicrosoft.com",
+"azsuser": "azsuser1",
+"cloudadmin": "cloudadmin",
+"AZSTools_Location": "D:\\AzureStack-Tools",
+"AzureRMProfile": "2017-03-09-profile",
+"AzureSTackModuleVersion": "1.2.11",
+"KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
+"ArmEndpoint": "https://management.local.azurestack.external",
+"GraphAudience": "https://graph.local.azurestack.external/",
+"location": "local",
+"StackIP": "10.204.16.82"
+}
