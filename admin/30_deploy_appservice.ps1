@@ -7,6 +7,7 @@ $PrivilegedEndpoint = $Global:PrivilegedEndpoint
 
 )
 Push-Location
+Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false
 $Location = new-item -ItemType Directory C:\Temp\AppService -Force
 Set-Location $Location
 Invoke-WebRequest https://aka.ms/appsvconmashelpers -OutFile AppServiceHelperScripts.zip
