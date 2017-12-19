@@ -36,6 +36,7 @@ if (!$myWindowsPrincipal.IsInRole($adminRole))
   exit
   }
 
+Set-Location $Home
 
 Write-Host -ForegroundColor White -NoNewline  "[==>]Disabling Windows Update"    
 Start-Process "sc" -ArgumentList "config wuauserv start=disabled" -Wait -NoNewWindow
