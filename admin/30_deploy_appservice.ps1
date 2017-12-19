@@ -64,7 +64,10 @@ Set-Location "C:\Temp\AppService\AppServiceHelperScripts\"
  -CertificateFilePath (join-path (get-location).Path "sso.appservice.$($Global:AZS_Location).$($Global:DNSDomain).pfx") `
  -CertificatePassword $PfxPassword
 Set-Location C:\Temp\AppService\
-Write-Host -ForegroundColor White "[==>]Downloading AppService Offline Package, please be patient"
-Start-Process ".\AppService.exe" -ArgumentList "/quiet /logfile c:\temp\Appservice\appservice.log  CreateOfflineInstallationPackage OfflineInstallationPackageFile=$($Offlinepath)\appservice.zip" -Wait
-Write-Host -ForegroundColor Green "[Done]"
+if (!$NoOfflineDownload.IsPresent)
+    {
+        Write-Host -ForegroundColor White "[==>]Downloading AppService Offline Package, please be patient"
+        Start-Process ".\AppService.exe" -ArgumentList "/quiet /logfile c:\temp\Appservice\appservice.log  CreateOfflineInstallationPackage OfflineInstallationPackageFile=$($Offlinepath)\appservice.zip" -Wait
+        Write-Host -ForegroundColor Green "[Done]"
+    }
 Pop-Location
