@@ -20,11 +20,32 @@ else
     }
     Write-Host -ForegroundColor Green [Done]
     Write-Output $Admin_Defaults
+}
+
+write-host "[==>]Setting Endpoints" -NoNewline
+if (!$Admin_Defaults.location)
+    {
+        Write-Warning "location is not set in $defaultsfile. Please add entry and retry" 
+        Break 
     }
+$Global:AZS_Location = $Admin_Defaults.location
+if (!$Admin_Defaults.DNSDomain)
+    {
+        Write-Warning "DNSDomain is not set in $defaultsfile. Please add entry and retry" 
+        Break 
+    }
+$Global:DNSDomain = $Admin_Defaults.DNSDomain
+$Global:TenantArmEndpoint = "https://management.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:ArmEndpoint = "https://adminmanagement.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:KeyvaultDnsSuffix = "adminvault.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:GraphEndpoint = "https://graph.$($Global:AZS_Location).$($Global:DNSDomain)"
+Write-Host -ForegroundColor Green "[Done]"
+    
+
 if (!$Admin_Defaults.VMPassword)
     {
-       Write-Warning "VMpassword is not set in $defaultsfile. Please add entry and retry" 
-       Break 
+        Write-Warning "VMpassword is not set in $defaultsfile. Please add entry and retry" 
+        Break 
     }
 $Global:VMPassword = $Admin_Defaults.VMPassword | ConvertTo-SecureString -AsPlainText -Force
 if (!$Admin_Defaults.TenantName)
@@ -32,16 +53,6 @@ if (!$Admin_Defaults.TenantName)
        Write-Warning "TenantName is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
-if (!$Admin_Defaults.DNSDomain)
-    {
-       Write-Warning "DNSDomain is not set in $defaultsfile. Please add entry and retry" 
-       Break 
-    }
-$Global:DNSDomain = $Admin_Defaults.DNSDomain
-
-
-
-
 
 $Global:TenantName = $Admin_Defaults.TenantName
 if (!$Admin_Defaults.serviceuser)
@@ -80,12 +91,7 @@ if (!$Admin_Defaults.PrivilegedEndpoint)
        Break 
     }
 $Global:PrivilegedEndpoint = $Admin_Defaults.PrivilegedEndpoint
-if (!$Admin_Defaults.location)
-    {
-       Write-Warning "location is not set in $defaultsfile. Please add entry and retry" 
-       Break 
-    }
-$Global:AZS_Location = $Admin_Defaults.location
+
 if (!$Admin_Defaults.VMuser)
     {
        Write-Warning "VMuser is not set in $defaultsfile. Please add entry and retry" 
@@ -120,13 +126,6 @@ if (!$Admin_Defaults.MySQLHost)
        Break 
     }
 $Global:MySQLHost = $Admin_Defaults.MySQLHost
-write-host "[==>]Setting Endpoints"
-# $TenantArmEndpoint = "management.local.azurestack.external"
-$Global:TenantArmEndpoint = "https://management.$($Global:AZS_Location).$($Global:DNSDomain)"
-$Global:ArmEndpoint = "https://adminmanagement.$($Global:AZS_Location).$($Global:DNSDomain)"
-$Global:KeyvaultDnsSuffix = "adminvault.$($Global:AZS_Location).$($Global:DNSDomain)"
-$Global:GraphEndpoint = "https://graph.$($Global:AZS_Location).$($Global:DNSDomain)"
-
 
 if (!$Admin_Defaults.ISOPath)
     {

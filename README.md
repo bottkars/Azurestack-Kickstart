@@ -24,23 +24,24 @@ create an admin.json file in your Homedirectory ( copy the admin.json.example fr
 ## example admin.json
 ```json
 {
+"DNSDomain" :"azurestack.external",
 "Domain": "azurestack",
+"location": "local",
 "VMPassword": "Password123!",
 "VMuser": "azureuser",
 "TenantName": "contoso.onmicrosoft.com",
 "subscriptionID": "8c21cadc-9e41-459e-bf4b-919aa2fad975",
-"SubscriptionOwner": "Administrator@contoso.com.com", 
+"SubscriptionOwner": "Administrator@contoso.com", 
 "PrivilegedEndpoint": "azs-ercs01.azurestack.local",
 "serviceuser": "masadmin",
 "cloudadmin": "cloudadmin",
 "AZSTools_Location": "D:\\AzureStack-Tools",
 "AzureRMProfile": "2017-03-09-profile",
 "AzureSTackModuleVersion": "1.2.11",
-"KeyvaultDnsSuffix": "adminvault.local.azurestack.external",
-"ArmEndpoint": "https://adminmanagement.local.azurestack.external",
-"location": "local",
 "SQLRPadmin": "SQLRPadmin",
 "MySQLRPadmin": "MySQLRPadmin",
+"SQLHost": "SQLHost1",
+"MySQLHost": "MySQLHost1",
 "ISOpath": "D:\\ISO",
 "Updatepath": "D:\\Updates"
 }

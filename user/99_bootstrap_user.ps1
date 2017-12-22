@@ -19,8 +19,29 @@ else
         break
     }
     
-    Write-Output $User_Defaults
+Write-Output $User_Defaults
+
+}
+
+
+write-host "[==>]Setting Endpoints" -NoNewline
+if (!$Admin_Defaults.location)
+    {
+        Write-Warning "location is not set in $defaultsfile. Please add entry and retry" 
+        Break 
     }
+$Global:AZS_Location = $Admin_Defaults.location
+if (!$Admin_Defaults.DNSDomain)
+    {
+        Write-Warning "DNSDomain is not set in $defaultsfile. Please add entry and retry" 
+        Break 
+    }
+$Global:DNSDomain = $Admin_Defaults.DNSDomain
+$Global:TenantArmEndpoint = "https://management.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:ArmEndpoint = "https://adminmanagement.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:KeyvaultDnsSuffix = "adminvault.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:GraphEndpoint = "https://graph.$($Global:AZS_Location).$($Global:DNSDomain)"
+Write-Host -ForegroundColor Green "[Done]"
 if (!$User_Defaults.azsuser)
     {
        Write-Warning "azsuser is not set in $defaultsfile. Please add entry and retry" 
