@@ -120,30 +120,12 @@ if (!$Admin_Defaults.MySQLHost)
        Break 
     }
 $Global:MySQLHost = $Admin_Defaults.MySQLHost
-
+write-host "[==>]Setting Endpoints"
 # $TenantArmEndpoint = "management.local.azurestack.external"
-if (!$Admin_Defaults.TenantArmEndpoint)
-    {
-       Write-Warning "TenantArmEndpoint is not set in $defaultsfile. Please add entry and retry
-       For Azure Stack development kit, this value is set to https://management.local.azurestack.external" 
-       Break 
-    }
-$Global:TenantArmEndpoint = $Admin_Defaults.TenantArmEndpoint
-
-if (!$Admin_Defaults.ArmEndpoint)
-    {
-       Write-Warning "ArmEndpoint is not set in $defaultsfile. Please add entry and retry
-       For Azure Stack development kit, this value is set to https://adminmanagement.local.azurestack.external" 
-       Break 
-    }
-$Global:ArmEndpoint = $Admin_Defaults.ArmEndpoint
-if (!$Admin_Defaults.KeyvaultDnsSuffix)
-    {
-       Write-Warning "KeyvaultDnsSuffix is not set in $defaultsfile. Please add entry and retry
-       For Azure Stack development kit, this value is adminvault.local.azurestack.external" 
-       Break 
-    }
-$Global:KeyvaultDnsSuffix = $Admin_Defaults.KeyvaultDnsSuffix
+$Global:TenantArmEndpoint = "https://management.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:ArmEndpoint = "https://adminmanagement.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:KeyvaultDnsSuffix = "adminvault.$($Global:AZS_Location).$($Global:DNSDomain)"
+$Global:GraphEndpoint = "https://graph.$($Global:AZS_Location).$($Global:DNSDomain)"
 
 
 if (!$Admin_Defaults.ISOPath)

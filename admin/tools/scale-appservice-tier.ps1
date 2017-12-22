@@ -1,7 +1,14 @@
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false, Position = 1,ValueFromPipelineByPropertyName = $true)][ValidateSet(  
-'MediumWorkerTierScaleSet','MediumWorkerTierScale','MediumWorkerTierScale')]$WorkerTier,
+'FrontEndsScaleSet',
+'LargeWorkerTierScaleSet',
+'ManagementServersScaleSet',
+'MediumWorkerTierScaleSet',
+'PublishersScaleSet',
+'SharedWorkerTierScaleSet',
+'SmallWorkerTierScaleSet'
+)]$WorkerTier,
 [int][ValidateRange(1,10)]$scale,
 [string]$ResourceGroup = "Appservice.local"
 )
