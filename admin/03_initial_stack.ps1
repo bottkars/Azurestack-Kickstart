@@ -141,9 +141,3 @@ Write-Host -ForegroundColor Green "[Done]"
 Write-Host "[==>]Loading AzureStack.Connect" -ForegroundColor White -NoNewline
 Import-Module "$($Global:AZSTools_location)/Connect/AzureStack.Connect.psm1"
 Write-Host -ForegroundColor Green "[Done]"
-# Register an AzureRM environment that targets your Azure Stack instance
-Write-Host -ForegroundColor  White -NoNewline "[==>]Adding AzureStackAdmin RM Environment"
-$Global:AzureRMEnvironment = Add-AzureRMEnvironment `
-    -Name "AzureStackAdmin" `
-    -ArmEndpoint "$($Admin_Defaults.ArmEndpoint)"
-Write-Host -ForegroundColor Green "[Done]"

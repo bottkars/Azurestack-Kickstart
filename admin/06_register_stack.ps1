@@ -36,7 +36,6 @@ catch {
 }
 Exit-PSSession
 
-
 Write-Host -ForegroundColor  Yellow "You now have to log in with your Subscription Owner $Global:SubscriptionOwner"
 Pause
 $SubscriptionOwnerContext = Login-AzureRmAccount -Environment "AzureCloud"
