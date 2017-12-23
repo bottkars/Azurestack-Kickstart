@@ -1,4 +1,4 @@
-﻿param (
+﻿param ()
 $TMP_DIR = $HOME
 Remove-Item $SQL_DIR -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
 $Uri = "https://aka.ms/InstallAzureCliWindows"
