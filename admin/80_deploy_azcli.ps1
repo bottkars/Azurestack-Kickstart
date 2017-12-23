@@ -1,6 +1,5 @@
 ﻿param ()
 $TMP_DIR = $HOME
-Remove-Item $SQL_DIR -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
 $Uri = "https://aka.ms/InstallAzureCliWindows"
 $MSI = (Invoke-WebRequest -UseBasicParsing -MaximumRedirection 0 $Uri -ErrorAction SilentlyContinue).links.href
 Start-BitsTransfer $MSI
