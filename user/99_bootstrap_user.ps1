@@ -85,18 +85,6 @@ if (!$azsuser_credentials)
     }
 Import-Module AzureRM.AzureStackAdmin
 Import-Module "$global:AZS_MODULES_ROOT\Connect\AzureStack.Connect.psm1"
-if (!$User_Defaults.ArmEndpoint)
-    {
-       Write-Warning "ArmEndpoint is not set in $defaultsfile. Please add entry and retry" 
-       Break 
-    }
-$Global:ArmEndpoint = $User_Defaults.ArmEndpoint
-if (!$User_Defaults.GraphAudience)
-    {
-       Write-Warning "GraphAudience is not set in $defaultsfile. Please add entry and retry" 
-       Break 
-    }
-$Global:GraphAudience = $User_Defaults.GraphAudience
 if (!$User_Defaults.StackIP)
     {
        Write-Warning "StackIP is not set in $defaultsfile. Please add entry and retry" 
