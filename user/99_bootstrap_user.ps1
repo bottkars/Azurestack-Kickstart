@@ -25,18 +25,18 @@ Write-Output $User_Defaults
 
 
 write-host "[==>]Setting Endpoints" -NoNewline
-if (!$Admin_Defaults.location)
+if (!$User_Defaults.location)
     {
         Write-Warning "location is not set in $defaultsfile. Please add entry and retry" 
         Break 
     }
-$Global:AZS_Location = $Admin_Defaults.location
-if (!$Admin_Defaults.DNSDomain)
+$Global:AZS_Location = $User_Defaults.location
+if (!$User_Defaults.DNSDomain)
     {
         Write-Warning "DNSDomain is not set in $defaultsfile. Please add entry and retry" 
         Break 
     }
-$Global:DNSDomain = $Admin_Defaults.DNSDomain
+$Global:DNSDomain = $User_Defaults.DNSDomain
 $Global:TenantArmEndpoint = "https://management.$($Global:AZS_Location).$($Global:DNSDomain)"
 $Global:ArmEndpoint = "https://adminmanagement.$($Global:AZS_Location).$($Global:DNSDomain)"
 $Global:KeyvaultDnsSuffix = "adminvault.$($Global:AZS_Location).$($Global:DNSDomain)"
