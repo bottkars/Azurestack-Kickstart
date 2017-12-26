@@ -70,13 +70,53 @@ $Opsmgr_VIP = New-AzureRmPublicIpAddress -Name ops-manager-ip -ResourceGroupName
 
 $vmName = "ops-manager-2.0"
 $computerName = "ops-manager-2"
-$vmSize = "Standard_DS1_v2"
+$vmSize = "Standard_D2"
 $location = $Location
 $imageName = "opsmanager"
+$Image = "https://boshstorageaccount.blob.local.azurestack.external/opsmanager/ops-manager-2.0-build.213.vhd"
+
+$UserName='azureuser'
+$securePassword = ConvertTo-SecureString ' ' -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential ($UserName, $securePassword)
 
 
-$imageConfig = New-AzureRmImageConfig -Location $location
-$imageConfig = Set-AzureRmImageOsDisk -Image $imageConfig -OsType Linux `
- -OsState Generalized `
- -BlobUri "https://boshstorageaccount.blob.local.azurestack.external/opsmanager/ops-manager-2.0-build.213.vhd"
-$image = New-AzureRmImage -ImageName $imageName -ResourceGroupName $rgName -Image $imageConfig
+
+$OPMGR_VMM = New-AzureRmVMConfig -VMName $Computername -VMSize $vmSize
+$OPMGR_VMM | Set-AzureRmVMOSDisk `
+-VhdUri $Image `
+-Name $imageName -CreateOption attach -Linux -Caching ReadWrite `
+-DiskSizeInGB 128
+$sshPublicKey = Get-Content 'C:\Users\AzureStackAdmin\opsman.pub'
+
+ $OPMGR_VMM | Add-AzureRmVMSshPublicKey -VM $computerName `
+ -KeyData $sshPublicKey `
+ -Path "/home/azureuser/.ssh/authorized_keys"
+
+ $OPMGR_VMM | Set-AzureRmVMOperatingSystem `
+ -Linux `
+ -ComputerName $computerName `
+ -Credential $cred
+
+token="$(uaac context | awk '/^ *access_token\: *([a-zA-Z0-9.\/+\-_]+) *$/ {print $2}' -)"
+curl -H "Authorization: bearer $token" "$@
+
+curl "https://opsmngr.local.cloudapp.azurestack.external/api/v0/vm_types" \
+    -X GET \
+    -H "Authorization: bearer $token" \
+    --insecure
+
+
+
+
+curl -k https://opsmngr.local.cloudapp.azurestack.external/api/v0/vm_types -X \
+PUT -H "Authorization: bearer $token" -H \
+"Content-Type: application/json" -d '{"vm_types":[
+{"name":"Standard_DS1_v2","ram":3584,"cpu":1,"ephemeral_disk":51200},
+{"name":"Standard_DS2_v2","ram":7168,"cpu":2,"ephemeral_disk":102400},
+{"name":"Standard_DS3_v2","ram":14336,"cpu":4,"ephemeral_disk":204800},
+{"name":"Standard_DS4_v2","ram":28672,"cpu":8,"ephemeral_disk":409600},
+{"name":"Standard_DS5_v2","ram":57344,"cpu":8,"ephemeral_disk":819200},
+{"name":"Standard_DS11_v2","ram":14336,"cpu":2,"ephemeral_disk":102400},
+{"name":"Standard_DS12_v2","ram":28672,"cpu":4,"ephemeral_disk":204800},
+{"name":"Standard_DS13_v2","ram":57344,"cpu":8,"ephemeral_disk":409600},
+{"name":"Standard_DS14_v2","ram":114688,"cpu":16,"ephemeral_disk":819200}]}' --insecure
