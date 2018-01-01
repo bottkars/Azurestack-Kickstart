@@ -98,7 +98,7 @@ $sshPublicKey = Get-Content 'C:\Users\AzureStackAdmin\opsman.pub'
  -Credential $cred
 
 token="$(uaac context | awk '/^ *access_token\: *([a-zA-Z0-9.\/+\-_]+) *$/ {print $2}' -)"
-curl -H "Authorization: bearer $token" "$@
+curl -H "Authorization: bearer $token" "$@"
 
 curl "https://opsmngr.local.cloudapp.azurestack.external/api/v0/vm_types" \
     -X GET \
@@ -120,3 +120,17 @@ PUT -H "Authorization: bearer $token" -H \
 {"name":"Standard_DS12_v2","ram":28672,"cpu":4,"ephemeral_disk":204800},
 {"name":"Standard_DS13_v2","ram":57344,"cpu":8,"ephemeral_disk":409600},
 {"name":"Standard_DS14_v2","ram":114688,"cpu":16,"ephemeral_disk":819200}]}' --insecure
+
+
+
+###
+
+$URI = "https://vmimage.blob.local.azurestack.external/vmimage/aliases.json"
+
+az cloud register `
+  -n AzureStackUser `
+  --endpoint-resource-manager "https://management.local.azurestack.external" `
+  --suffix-storage-endpoint "local.azurestack.external" `
+  --suffix-keyvault-dns ".vault.local.azurestack.external" `
+  --endpoint-active-directory-graph-resource-id "https://graph.windows.net/" `
+  --endpoint-vm-image-alias-doc $uri

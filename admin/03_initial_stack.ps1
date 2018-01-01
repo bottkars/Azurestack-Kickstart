@@ -12,7 +12,7 @@ $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
 if ($OldShell.IsPresent -or !$myWindowsPrincipal.IsInRole($adminRole))
   {
   $arguments = "-Defaultsfile $Defaultsfile"
-  $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+  $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell"
   $newProcess.Arguments = "-noexit $PSScriptRoot/$($myinvocation.MyCommand) $arguments" 
   Write-Host $newProcess.Arguments
   $newProcess.Verb = "runas"
