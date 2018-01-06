@@ -6,6 +6,21 @@ $adminUsername= $Global:SQLRPadmin
 
 $templateuri = 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/sql-2014-standalone/azuredeploy.json'
 
+
+# we need an Server 2016 Image , so let´s check
+try {
+    Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+    -Offer WindowsServer -Skus 2016-Datacenter `
+    -ErrorAction Stop
+}
+catch {
+     Write-Warning "No 2016-Datacenter found in $($Global:AZS_location), please upload a 2016-Datacenter Image first ( use 11_deploy_windows_marketplace_image.ps1 )"
+     Break
+    }
+Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
+  -Offer WindowsServer -Skus 2016-Datacenter `
+  -ErrorAction Stop
+
 New-AzureRmResourceGroup -Name "RG_$sqlhost" -Location local 
 New-AzureRmResourceGroupDeployment -Name "$($sqlhost)_deployment" `
 -vmName $sqlhost -dnsNameForPublicIP $sqlhost `

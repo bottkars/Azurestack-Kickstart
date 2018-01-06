@@ -103,6 +103,9 @@ the process is
 the msu files remain in the $updatepath
 ![image](https://user-images.githubusercontent.com/8255007/34031744-164f69ca-e173-11e7-803a-d846d9571acd.png)
 
+## Create SQL Server for PaaS
+
+
 # user scripts
 # example user.json file
 ```json
