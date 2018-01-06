@@ -17,7 +17,7 @@ the command will run itsself in elevated Mode and will:
    - Clone into Azuerstack-Kickstart Distro
 ![azurestack-kickstart](https://user-images.githubusercontent.com/8255007/34120361-abf1a93e-e425-11e7-827e-98fceb33c8f3.gif)  
 
-Once finished, CD into Azurestack-DSC.
+Once finished, CD into Azurestack-Kickstart.
 create an admin.json file in your Homedirectory ( copy the admin.json.example fro the root of the distro as reference)
 
 
@@ -52,7 +52,7 @@ create an admin.json file in your Homedirectory ( copy the admin.json.example fr
 
 To set the initial stack configuration and install Powershell Modules run:
 ```Powershell
-D:\azurestack-dsc\admin\03_initial_stack.ps1
+D:\Azurestack-Kickstart\admin\03_initial_stack.ps1
 ```
 The Command will run itself in elevated Mode
 ![image]![image](https://user-images.githubusercontent.com/8255007/33956253-4c7f325e-e03e-11e7-8bc9-86c480d74424.png)
@@ -61,7 +61,7 @@ this task can be repeated at any time to update the AzureStack Powershell enviro
 
 ## register the stack
 ```Powershell
-D:\azurestack-dsc\admin\06_register_stack.ps1
+D:\Azurestack-Kickstart\admin\06_register_stack.ps1
 ```
 this will use your setiings from admin.json to register your azurestack
 
@@ -70,7 +70,7 @@ this will use your setiings from admin.json to register your azurestack
 
 we have to load now our admin environment
 ```Powershell
- D:\azurestack-dsc\admin\99_bootstrap.ps1
+ D:\Azurestack-Kickstart\admin\99_bootstrap.ps1
 ```  
 ![image](https://user-images.githubusercontent.com/8255007/33956638-7bd6c8d6-e03f-11e7-88b0-2293a6dd66bb.png)  
 ![image](https://user-images.githubusercontent.com/8255007/33956656-84f953b6-e03f-11e7-9018-27266d2a0ae6.png)  
@@ -78,22 +78,22 @@ we have to load now our admin environment
 ## deploy Base Plans
 
 ```Powershell
-D:\azurestack-dsc\admin\10_deploy_base_plans_and_quotas.ps1
+D:\Azurestack-Kickstart\admin\10_deploy_base_plans_and_quotas.ps1
 ```  
 ![image](https://user-images.githubusercontent.com/8255007/33957262-636e5f0a-e041-11e7-8c36-05a15bf939d8.png)  
 
 ## deploy Windows Marketplace Items from ISO
 this needs to run in an Admin Session ...  
 ```Powershell
-D:\azurestack-dsc\admin\99_bootstrap.ps1
-D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1
+D:\Azurestack-Kickstart\admin\99_bootstrap.ps1
+D:\Azurestack-Kickstart\admin\11_deploy_windows_marketplace_image.ps1
 ```
 ![image](https://user-images.githubusercontent.com/8255007/33983160-65a941c8-e0b3-11e7-8bb2-8200074af068.png)  
 
 you can create Bulk Marketplace Images by using:
 ```Powershell
-$KB = (get-content D:\azurestack-dsc\admin\windowsupdate.json | ConvertFrom-Json) |  Sort-Object  -Property Date | Select-Object KB | Where-Object KB -ne ""
-$KB | D:\azurestack-dsc\admin\11_deploy_windows_marketplace_image.ps1 -ISOPath 'D:\updates\' -UpdatePath D:\updates\
+$KB = (get-content D:\Azurestack-Kickstart\admin\windowsupdate.json | ConvertFrom-Json) |  Sort-Object  -Property Date | Select-Object KB | Where-Object KB -ne ""
+$KB | D:\Azurestack-Kickstart\admin\11_deploy_windows_marketplace_image.ps1 -ISOPath 'D:\updates\' -UpdatePath D:\updates\
 ```
 this will batch create Marketplace Items for All Windows Server 2016 KB´s listed in the included windowsupdate.json   
 the process is 
@@ -133,7 +133,7 @@ once the use has created his config file, he can bootstrap from his powershell t
 ## creating Windows VM Scalesets using  -osImageSkuVersion
 If the Cloudadmin has provided differnt osImageSKU´s from above, we can   
 ```Powershell  
-PS C:\Users\bottk\Azurestack-dsc> .\user\60_new-azsserver2016vmss.ps1 -vmssName myssdemo -osImageSkuVersion 14393.729.20170130
+PS C:\Users\bottk\Azurestack-Kickstart> .\user\60_new-azsserver2016vmss.ps1 -vmssName myssdemo -osImageSkuVersion 14393.729.20170130
 ```  
 This creates a new vmscaleset with the os image version 14393.729.20170130  
 ![image](https://user-images.githubusercontent.com/8255007/34080434-3c129e4e-e33e-11e7-97ee-03fd66bccd4f.png)  

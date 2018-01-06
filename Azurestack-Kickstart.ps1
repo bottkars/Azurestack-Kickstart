@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 1.5
+.VERSION 1.6
 
 .GUID a6511736-a96f-4c6f-a8f2-2f4f877627c0
 
@@ -36,7 +36,7 @@
  KickAss your Azure Stack ASDK with this kickstart 
 
 #> 
-[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
+[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param ([Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateSet('af-ZA',
 'sq-AL','ar-DZ','ar-BH','ar-EG','ar-IQ','ar-JO','ar-KW','ar-LB','ar-LY','ar-MA','ar-OM','ar-QA','ar-SA','ar-SY','ar-TN','ar-AE','ar-YE',
 'hy-AM','Cy-az-AZ','Lt-az-AZ','eu-ES','be-BY','bg-BG','ca-ES','zh-CN','zh-HK','zh-MO','zh-SG','zh-TW','zh-CHS','zh-CHT','hr-HR','cs-CZ',
