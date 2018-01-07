@@ -20,8 +20,8 @@ $Offlinepath = "D:\AppService"
 )
 #Requires -Runas
 Push-Location
-Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false | Out-Null
-$Location = new-item -ItemType Directory C:\Temp\AppService -Force
+Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
+$Location = new-item -ItemType Directory C:\Temp\AppService -Force -ErrorAction SilentlyContinue
 Set-Location $Location
 Invoke-WebRequest https://aka.ms/appsvconmashelpers -OutFile AppServiceHelperScripts.zip
 Expand-Archive AppServiceHelperScripts.zip
