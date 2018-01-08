@@ -4,9 +4,13 @@ This repo is a Collection of scripts to run after AzureStack ASDK Installations
 The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
-# ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY YOLD TOOLS AND NOT TESTED
+# example flow:  
+<script src="https://gist.github.com/bottkars/14340b7311e04806a218c15169a75fdf.js"></script>
 
-to install the Azuer Stack Kickstart, simply type in 
+
+
+# ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY YOLD TOOLS AND NOT TESTED
+to install the Azure Stack Kickstart, simply type in 
 ```Powershell
 install-script azurestack-kickstart -Scope CurrentUser -Force
 Azurestack-Kickstart.ps1
@@ -65,7 +69,6 @@ this task can be repeated at any time to update the AzureStack Powershell enviro
 
 ## register the stack
 ```Powershell
-.\admin\99_bootstrap.ps1
 .\admin\06_register_stack.ps1
 ```
 this will use your setiings from admin.json to register your azurestack
@@ -73,7 +76,8 @@ this will use your setiings from admin.json to register your azurestack
 
 # Starting the customizations
 
-we have to load now our admin environment
+we have to load now our admin environment and gegister our cloudadmin/serviceadmin user   
+this will store credentials in the session for avoiding multiple login requests 
 ```Powershell
  .\admin\99_bootstrap.ps1
 ```  
