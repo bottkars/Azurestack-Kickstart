@@ -4,12 +4,7 @@ This repo is a Collection of scripts to run after AzureStack ASDK Installations
 The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
-# example flow:  
-<script src="https://gist.github.com/bottkars/14340b7311e04806a218c15169a75fdf.js"></script>
-
-
-
-# ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY YOLD TOOLS AND NOT TESTED
+## ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY OLD TOOLS AND NOT TESTED
 to install the Azure Stack Kickstart, simply type in 
 ```Powershell
 install-script azurestack-kickstart -Scope CurrentUser -Force
