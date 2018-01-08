@@ -11,6 +11,10 @@ to install the Azuer Stack Kickstart, simply type in
 install-script azurestack-kickstart -Scope CurrentUser -Force
 Azurestack-Kickstart.ps1
 ```
+Note: If you want a customized keyboard, simply tab for your language tag:
+```Powershell
+Azurestack-Kickstart.ps1 -LanguageTag de-DE
+```  
 the command will run itsself in elevated Mode and will:  
    - disable updates
    - Install GitSCM, Chrome and Shortcuts for the Portals
@@ -61,6 +65,7 @@ this task can be repeated at any time to update the AzureStack Powershell enviro
 
 ## register the stack
 ```Powershell
+.\admin\99_bootstrap.ps1
 .\admin\06_register_stack.ps1
 ```
 this will use your setiings from admin.json to register your azurestack
@@ -83,9 +88,14 @@ we have to load now our admin environment
 ![image](https://user-images.githubusercontent.com/8255007/33957262-636e5f0a-e041-11e7-8c36-05a15bf939d8.png)  
 
 ## deploy Windows Marketplace Items from ISO
-this needs to run in an Admin Session ...  
+this needs to run in an Admin Session    
+first browse available KB Versions ...  
 ```Powershell
-.\admin\11_deploy_windows_marketplace_image.ps1
+get-content .\admin\windowsupdate.json | ConvertFrom-Json
+```
+then deploy ...  
+```Powershell
+ .\admin\11_deploy_windows_marketplace_image.ps1 -KB KB4056890
 ```
 ![image](https://user-images.githubusercontent.com/8255007/33983160-65a941c8-e0b3-11e7-8bb2-8200074af068.png)  
 
@@ -103,7 +113,21 @@ the process is
 the msu files remain in the $updatepath
 ![image](https://user-images.githubusercontent.com/8255007/34031744-164f69ca-e173-11e7-803a-d846d9571acd.png)
 
-## Create SQL Server for PaaS
+## Create SQL Server for PaaS, make sure to create SKU after 22 !
+```Powershell
+.\admin\20_deploy_sql_host.ps1
+.\admin\21_deploy-sql-provider.ps1
+# create sku
+.\admin\22_deploy-sql-provider_hosting.ps1
+```
+
+## Create MySQL Server for PaaS, make sure to create SKU after 26 !
+```Powershell
+.\admin\25_deploy-mysql-host.ps1
+.\admin\26_deploy-mysql-provider.ps1
+# creste sku
+.\admin\27_deploy-mysql-hostingserver.ps1
+```
 
 
 # user scripts
