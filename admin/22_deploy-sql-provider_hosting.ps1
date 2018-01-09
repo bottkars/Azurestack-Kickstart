@@ -14,7 +14,11 @@ param (
 $RG= "rg_sql_hosting",
 $skuName="SQL2014"
 )
-    
+if (!$Global:SubscriptionID)
+    {
+    Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+    break
+}  
 $templateuri = 'https://raw.githubusercontent.com/bottkars/AzureStack-QuickStart-Templates/patch-3/101-sqladapter-add-hosting-server/azuredeploy.json'
 
 New-AzureRmResourceGroup -Name $RG -Location local 

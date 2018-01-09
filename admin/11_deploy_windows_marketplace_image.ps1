@@ -15,6 +15,11 @@ param (
 #REQUIRES -Module AzureStack.ComputeAdmin
 #REQUIRES -RunAsAdministrator
 begin {
+    if (!$Global:SubscriptionID)
+        {
+        Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+        break
+        }    
     Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
     $Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
     $Updates = $Updates |  Sort-Object -Descending -Property Date

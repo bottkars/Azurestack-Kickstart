@@ -4,7 +4,11 @@ param(
 $adminusername = $Global:MySQLRPadmin,
 [securestring]$adminpassword = $Global:VMPassword
 )
-,
+if (!$Global:SubscriptionID)
+    {
+    Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+    break
+}
 $RG = "rg_$mysqlhost"
 $templateuri = 'https://raw.githubusercontent.com/bottkars/AzureStack-QuickStart-Templates/patch-2/mysql-standalone-server-windows/azuredeploy.json'
 try {

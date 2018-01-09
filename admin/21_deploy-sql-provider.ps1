@@ -3,6 +3,11 @@
 [securestring]$PfxPass = $Global:VMPassword,
 $SQLRPadmin = $Global:SQLRPAdmin
 )
+if (!$Global:SubscriptionID)
+    {
+    Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+    break
+}
 #Requires -runas
 Push-Location    
 $SQL_DIR = 'C:\TEMP\SQLRP'

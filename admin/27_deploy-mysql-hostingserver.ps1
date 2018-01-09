@@ -6,7 +6,11 @@ $MySQLRPadmin = $Global:MySQLRPAdmin,
 $RG = "rg_MySQLHostingserver",
 $skuName = "mysql57"
 )
-
+if (!$Global:SubscriptionID)
+    {
+    Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+    break
+}
 $fqdn = "$mysqlhost.local.cloudapp.azurestack.external"
 
 

@@ -5,6 +5,11 @@
 )
 $templateuri = 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/sql-2014-standalone/azuredeploy.json'
 # we need an Server 2016 Image , so let´s check
+if (!$Global:SubscriptionID)
+{
+Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+break
+}
 try {
     Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
         -Offer WindowsServer -Skus 2016-Datacenter `

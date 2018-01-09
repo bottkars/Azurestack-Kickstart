@@ -14,9 +14,9 @@ if (!$myWindowsPrincipal.IsInRole($adminRole))
   exit
   }
 if (!$Global:SubscriptionID)
-{
-Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
-break
+  {
+  Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+  break
 }
 if (!$Global:CloudAdminCreds)
 {

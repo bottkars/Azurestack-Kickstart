@@ -5,6 +5,11 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$plan_name = "BASE_$($(new-guid).guid)"
 )
+if (!$Global:SubscriptionID)
+{
+Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+break
+}
 if (!$Global:Service_RM_Account.Context)
     {
     Write-Warning -Message "You aree not signed in to your Azure RM Environment as Serviceadmin. Please run .\admin\99_bootstrap.ps1"
