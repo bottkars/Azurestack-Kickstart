@@ -29,4 +29,4 @@ $vmLocalAdminCreds = New-Object System.Management.Automation.PSCredential ($MySQ
   -AcceptLicense -Azcredential $Global:ServiceAdminCreds
 
 Pop-Location
-Write-Host "Please create you MYSQL SKU now from the Admin Portal befor continue ( default is `"mysql57`")"
+Write-Host -ForegroundColor Magenta "Please create your MYSQL SKU now from the Admin Portal before continue ( default is `"mysql57`")"

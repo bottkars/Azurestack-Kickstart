@@ -28,4 +28,4 @@ $PfxPass = ConvertTo-SecureString $Global:VMPassword -AsPlainText -Force
   -DefaultSSLCertificatePassword $PfxPass `
   -DependencyFilesLocalPath .\cert
 Pop-Location
-Write-Host "Please create you MYSQL SKU now from the Admin Portal befor continue ( default is `"SQL2014`")"
+Write-Host -ForegroundColor Magenta "Please create your SQL SKU now from the Admin Portal before continue ( default is `"SQL2014`")"
