@@ -100,17 +100,18 @@ then deploy ...
 
 you can create Bulk Marketplace Images by using:
 ```Powershell
-$KB = (get-content .\admin\windowsupdate.json | ConvertFrom-Json | ConvertFrom-Json) | Sort-Object  -Property Date | Select-Object KB | Where-Object KB -ne ""
+$KB = (get-content .\admin\windowsupdate.json | ConvertFrom-Json | ConvertFrom-Json) | Sort-Object -Property Date | Select-Object KB -Last 5 | Where-Object KB -ne ""
 $KB | .\admin\11_deploy_windows_marketplace_image.ps1 
 ```
-this will batch create Marketplace Items for All Windows Server 2016 KB´s listed in the included windowsupdate.json   
+this will batch create Marketplace Items for last 5 Windows Server 2016 KB´s listed in the included windowsupdate.json   
 the process is 
 - checking if SKU and Version already in Marketplace
 - eval the Steps
 - download updates if not available
 - clean up orphan vhd / cab files  
 the msu files remain in the $updatepath
-![image](https://user-images.githubusercontent.com/8255007/34031744-164f69ca-e173-11e7-803a-d846d9571acd.png)
+![image](https://user-images.githubusercontent.com/8255007/34832779-1c0dc308-f6ee-11e7-8ffd-d904b6a062c9.png)
+
 
 ## Create SQL Server for PaaS, make sure to create SKU after 22 !
 ```Powershell
