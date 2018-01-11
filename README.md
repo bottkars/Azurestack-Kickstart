@@ -173,6 +173,7 @@ we can verify the properties of the scaleset :
 DEmo Videos:
 
 Part 1:
+[![Part1](https://img.youtube.com/vi/PpLDetrMJks/0.jpg)](https://youtu.be/PpLDetrMJks "Part 1")
 https://youtu.be/PpLDetrMJks
 Part 2:
 https://youtu.be/kpOEw1ylnpU
