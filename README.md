@@ -170,7 +170,9 @@ we can verify the properties of the scaleset :
 ![image](https://user-images.githubusercontent.com/8255007/34080443-7a25f834-e33e-11e7-8923-af75dc42ae5a.png)  
 
 
+DEmo Videos:
 
-
+Part 1:
+https://youtu.be/PpLDetrMJks
 
 
