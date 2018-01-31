@@ -100,11 +100,7 @@ then deploy ...
 
 you can create Bulk Marketplace Images by using:
 ```Powershell
-<<<<<<< HEAD
-$KB = (get-content .\admin\windowsupdate.json | ConvertFrom-Json ) | Sort-Object  -Property Date | Select-Object KB | Where-Object KB -ne ""
-=======
 $KB = (get-content .\admin\windowsupdate.json | ConvertFrom-Json | ConvertFrom-Json) | Sort-Object -Property Date | Select-Object KB -Last 5 | Where-Object KB -ne ""
->>>>>>> d0b931e3f57f703d232870412a821f09d6c431a7
 $KB | .\admin\11_deploy_windows_marketplace_image.ps1 
 ```
 this will batch create Marketplace Items for last 5 Windows Server 2016 KB´s listed in the included windowsupdate.json   
