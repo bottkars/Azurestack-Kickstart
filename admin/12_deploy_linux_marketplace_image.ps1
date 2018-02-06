@@ -50,7 +50,7 @@ process
         }
     catch {
         $evalnum += 1
-        Write-Host -ForegroundColor Red "[>>]Not Found"  
+        Write-Host -ForegroundColor Red "[>>Not Found]"  
     }
 
 
