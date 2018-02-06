@@ -35,12 +35,26 @@ process
 {
 
     $Version = $Versions | where { $_.Build -Match "$Build"}
-    $ImageFile = Split-Path -Leaf $($Version.URL)
-    if (!(Test-Path (join-path $ImagePath $ImageFile) ))
+    $QCOW2_Image = Split-Path -Leaf $($Version.URL)
+    $VHD_Image = "$($QCOW2_Image.Split('.')[0]).vhd"
+    $Publisher =($Version.Version -split '-')[0] 
+    if (!(Test-Path (join-path $ImagePath $VHD_Image)))
         {
-            Write-Host "We need to Download $($version.URL)"
-            Start-BitsTransfer -Source $Version.URL -Destination $ImagePath -DisplayName $imageFile
+            if (!(Test-Path (join-path $ImagePath $QCOW2_Image) ))
+                {
+                    Write-Host "We need to Download $($version.URL)"
+                    Start-BitsTransfer -Source $Version.URL -Destination $ImagePath -DisplayName $QCOW2_Image
+                }
+                qemu-img convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
+                Add-AzsVMImage `
+                -publisher $Publisher `
+                -offer $Version.version `
+                -sku "$($Version.Version)-$($Version.Build)" `
+                -version $($Version.Date) `
+                -osType Linux `
+                -osDiskLocalPath "$ImagePath/$VHDImage"
         }
+
 }
 
 
