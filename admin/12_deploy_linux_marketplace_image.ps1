@@ -37,16 +37,23 @@ process
     $Version = $Versions | where { $_.Build -Match "$Build"}
     $QCOW2_Image = Split-Path -Leaf $($Version.URL)
     $VHD_Image = "$($QCOW2_Image.Split('.')[0]).vhd"
-    $Publisher =($Version.Version -split '-')[0] 
+    $Publisher =($Version.Version -split '-')[0]
+    Write-Host -ForegroundColor White "[==>]Checking for $VHD_Image" -NoNewline
     if (!(Test-Path (join-path $ImagePath $VHD_Image)))
         {
             if (!(Test-Path (join-path $ImagePath $QCOW2_Image) ))
                 {
-                    Write-Host "We need to Download $($version.URL)"
+                    Write-Host -ForegroundColor White "[==>]We need to Download $($version.URL)" -NoNewline
                     Start-BitsTransfer -Source $Version.URL -Destination $ImagePath -DisplayName $QCOW2_Image
                 }
+        Write-Host -ForegroundColor Green [Done]
+        Write-Host -ForegroundColor White "[==>]Creating $VHD_Image from $QCOW2_Image" -NoNewline
         .$qemuimg convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
+        Write-Host -ForegroundColor Green [Done]
         }
+    else {
+        Write-Host -ForegroundColor Green [Done]
+    }    
     Add-AzsVMImage `
     -publisher $Publisher `
     -offer $Version.version `
