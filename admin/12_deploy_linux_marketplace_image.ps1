@@ -42,10 +42,9 @@ process
     $osImageSkuVersion = $($Version.Version -split '-')[1]+'.'+$($Version.Date).Replace('.','')
     $SKU = $($Version.Version)
     Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for $SKU $osImageSkuVersion " -NoNewline
-
     $evalnum = 0
     try {
-        Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName $Publisher `
+        $AzureRMVMImage = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName $Publisher `
         -Offer $Offer -Skus $SKU `
         -Version $osImageSkuVersion -ErrorAction Stop | Out-Null
         }
@@ -73,18 +72,22 @@ process
         else {
             Write-Host -ForegroundColor Green [Done]
         } 
-        Write-Host -ForegroundColor White "[==>]Starting Image Upload of $VHD_Image for Puplisher $Publisher as offer $Offer with SKU $SKU and Version $osImageSkuVersion"
-        Add-AzsVMImage `
+        Write-Host -ForegroundColor White "[==>]Starting Image Upload of $VHD_Image for Publisher $Publisher as offer $Offer with SKU $SKU and Version $osImageSkuVersion"
+        $AzureRMVMImage = Add-AzsVMImage `
         -publisher $Publisher `
         -offer $Offer `
         -sku $SKU `
         -version $osImageSkuVersion `
         -osType Linux `
         -osDiskLocalPath "$ImagePath/$VHD_Image"
+        #$AzureRMVMImage = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName $Publisher `
+        #-Offer $Offer -Skus $SKU `
+        #-Version $osImageSkuVersion -ErrorAction Stop | Out-Null
     }
 else {
     Write-Host -ForegroundColor White "[==>]$Global:AZS_location Marketplace is already populated with $SKU $osImageSkuVersion"
-}            
+    Write-Output $AzureRMVMImage
+    }            
 }
 
 end {
