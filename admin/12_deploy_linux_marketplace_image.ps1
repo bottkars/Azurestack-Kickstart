@@ -37,7 +37,8 @@ process
     $Version = $Versions | where { $_.Build -Match "$Build"}
     $QCOW2_Image = Split-Path -Leaf $($Version.URL)
     $VHD_Image = "$($QCOW2_Image.Split('.')[0]).vhd"
-    $Publisher =($Version.Version -split '-')[0]
+    $Publisher = $($Version.Version -split '-')[0]
+    $osImageSkuVersion = $($Version.Version -split '-')[1]+'.'+$($Version.Date).Replace('.','')
     Write-Host -ForegroundColor White "[==>]Checking for $VHD_Image" -NoNewline
     if (!(Test-Path (join-path $ImagePath $VHD_Image)))
         {
@@ -58,8 +59,8 @@ process
     Add-AzsVMImage `
     -publisher $Publisher `
     -offer $Version.version `
-    -sku "$($Version.Version)-$($Version.Build)" `
-    -version $($Version.Date) `
+    -sku "$($Version.Version)" `
+    -version $osImageSkuVersion `
     -osType Linux `
     -osDiskLocalPath "$ImagePath/$VHD_Image"        
 
