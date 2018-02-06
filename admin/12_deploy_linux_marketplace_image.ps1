@@ -53,7 +53,8 @@ process
         }
     else {
         Write-Host -ForegroundColor Green [Done]
-    }    
+    } 
+    Write-Host -ForegroundColor White "[==>]Startin Image Upload for $VHD_Image"
     Add-AzsVMImage `
     -publisher $Publisher `
     -offer $Version.version `
