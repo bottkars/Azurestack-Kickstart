@@ -38,35 +38,54 @@ process
     $QCOW2_Image = Split-Path -Leaf $($Version.URL)
     $VHD_Image = "$($QCOW2_Image.Split('.')[0]).vhd"
     $Publisher = $($Version.Version -split '-')[0]
+    $Offer = ($Version.version.split('.'))[0]
     $osImageSkuVersion = $($Version.Version -split '-')[1]+'.'+$($Version.Date).Replace('.','')
-    Write-Host -ForegroundColor White "[==>]Checking for $VHD_Image" -NoNewline
-    if (!(Test-Path (join-path $ImagePath $VHD_Image)))
-        {
-            if (!(Test-Path (join-path $ImagePath $QCOW2_Image) ))
-                {
-                    Write-Host -ForegroundColor White "[==>]We need to Download $($version.URL)" -NoNewline
-                    Start-BitsTransfer -Source $Version.URL -Destination $ImagePath -DisplayName $QCOW2_Image
-                }
-        Write-Host -ForegroundColor Green [Done]
-        Write-Host -ForegroundColor White "[==>]Creating $VHD_Image from $QCOW2_Image" -NoNewline
-        .$qemuimg convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
-        Write-Host -ForegroundColor Green [Done]
+    $SKU = $($Version.Version)
+    Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for $SKU $osImageSkuVersion " -NoNewline
+
+    $evalnum = 0
+    try {
+        Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName $Publisher `
+        -Offer $Offer -Skus $SKU `
+        -Version $osImageSkuVersion -ErrorAction Stop | Out-Null
         }
-    else {
-        Write-Host -ForegroundColor Green [Done]
-    } 
-    Write-Host -ForegroundColor White "[==>]Startin Image Upload for $VHD_Image"
-    Add-AzsVMImage `
-    -publisher $Publisher `
-    -offer $Version.version `
-    -sku "$($Version.Version)" `
-    -version $osImageSkuVersion `
-    -osType Linux `
-    -osDiskLocalPath "$ImagePath/$VHD_Image"        
+    catch {
+        $evalnum += 1
+        Write-Host " >>Not Found" -NoNewline  
+    }
 
+
+    if ($evalnum -gt 0)
+        {
+        Write-Host -ForegroundColor White "[==>]Checking for $VHD_Image" -NoNewline
+        if (!(Test-Path (join-path $ImagePath $VHD_Image)))
+            {
+                if (!(Test-Path (join-path $ImagePath $QCOW2_Image) ))
+                    {
+                        Write-Host -ForegroundColor White "[==>]We need to Download $($version.URL)" -NoNewline
+                        Start-BitsTransfer -Source $Version.URL -Destination $ImagePath -DisplayName $QCOW2_Image
+                    }
+            Write-Host -ForegroundColor Green [Done]
+            Write-Host -ForegroundColor White "[==>]Creating $VHD_Image from $QCOW2_Image" -NoNewline
+            .$qemuimg convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
+            Write-Host -ForegroundColor Green [Done]
+            }
+        else {
+            Write-Host -ForegroundColor Green [Done]
+        } 
+        Write-Host -ForegroundColor White "[==>]Starting Image Upload of $VHD_Image for Puplisher $Publisher as offer $Offer with SKU $SKU and Version $osImageSkuVersion"
+        Add-AzsVMImage `
+        -publisher $Publisher `
+        -offer $Offer `
+        -sku $SKU `
+        -version $osImageSkuVersion `
+        -osType Linux `
+        -osDiskLocalPath "$ImagePath/$VHD_Image"
+    }
+else {
+    Write-Host -ForegroundColor White "[==>]$Global:AZS_location Marketplace is already populated with $SKU $osImageSkuVersion"
+}            
 }
-
-
 
 end {
 
