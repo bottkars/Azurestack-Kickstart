@@ -45,15 +45,15 @@ process
                     Write-Host "We need to Download $($version.URL)"
                     Start-BitsTransfer -Source $Version.URL -Destination $ImagePath -DisplayName $QCOW2_Image
                 }
-                .$qemuimg convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
-                Add-AzsVMImage `
-                -publisher $Publisher `
-                -offer $Version.version `
-                -sku "$($Version.Version)-$($Version.Build)" `
-                -version $($Version.Date) `
-                -osType Linux `
-                -osDiskLocalPath "$ImagePath/$VHDImage"
+        .$qemuimg convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
         }
+    Add-AzsVMImage `
+    -publisher $Publisher `
+    -offer $Version.version `
+    -sku "$($Version.Version)-$($Version.Build)" `
+    -version $($Version.Date) `
+    -osType Linux `
+    -osDiskLocalPath "$ImagePath/$VHDImage"        
 
 }
 
