@@ -39,7 +39,7 @@ process
     $VHD_Image = "$($QCOW2_Image.Split('.')[0]).vhd"
     $Publisher = $($Version.Version -split '-')[0]
     $Offer = ($Version.version.split('.'))[0]
-    $osImageSkuVersion = $($Version.Version -split '-')[1]+'.'+$($Version.Build)+'.'+$($Version.Date).Replace('.','')
+    $osImageSkuVersion = $($Version.Version -split '-')[1]+'.'+$($Version.Build)
     $SKU = $($Version.Version)
     Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for $SKU $osImageSkuVersion " -NoNewline
     $evalnum = 0
