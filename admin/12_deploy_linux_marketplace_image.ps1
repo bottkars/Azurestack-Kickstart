@@ -41,7 +41,7 @@ process
     $Offer = ($Version.version.split('.'))[0]
     $osImageSkuVersion = $($Version.Version -split '-')[1]+'.'+$($Version.Build)
     $SKU = $($Version.Version)
-    Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for $SKU $osImageSkuVersion " -NoNewline
+    Write-Host -ForegroundColor White "[==>]Checking $Global:AZS_location Marketplace for $SKU $osImageSkuVersion" -NoNewline
     $evalnum = 0
     try {
         $AzureRMVMImage = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName $Publisher `
