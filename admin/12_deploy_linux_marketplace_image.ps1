@@ -52,8 +52,6 @@ process
         $evalnum += 1
         Write-Host -ForegroundColor Red "[>>Not Found]"  
     }
-
-
     if ($evalnum -gt 0)
         {
         Write-Host -ForegroundColor White "[==>]Checking for $VHD_Image" -NoNewline
