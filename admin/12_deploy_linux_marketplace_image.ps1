@@ -53,7 +53,7 @@ process
     -sku "$($Version.Version)-$($Version.Build)" `
     -version $($Version.Date) `
     -osType Linux `
-    -osDiskLocalPath "$ImagePath/$VHDImage"        
+    -osDiskLocalPath "$ImagePath/$VHD_Image"        
 
 }
 
