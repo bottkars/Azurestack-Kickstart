@@ -42,7 +42,7 @@ process
     try {
         $AzureRMVMImage = Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName $Publisher `
         -Offer $Offer -Skus $SKU `
-        -Version $osImageSkuVersion -ErrorAction Stop | Out-Null
+        -Version $osImageSkuVersion -ErrorAction Stop 
         }
     catch {
         $evalnum += 1
@@ -78,11 +78,11 @@ process
         #-Offer $Offer -Skus $SKU `
         #-Version $osImageSkuVersion -ErrorAction Stop | Out-Null
     }
-else {
-    Write-Host -ForegroundColor Green "[ok]"
-    Write-Host -ForegroundColor White "[==>]$Global:AZS_location Marketplace is already populated with $SKU $osImageSkuVersion"
-    }
-Write-Output $AzureRMVMImage
+    else {
+        Write-Host -ForegroundColor Green "[ok]"
+        Write-Host -ForegroundColor White "[==>]$Global:AZS_location Marketplace is already populated with $SKU $osImageSkuVersion"
+        }
+    Write-Output $AzureRMVMImage
 }
 
 end {
