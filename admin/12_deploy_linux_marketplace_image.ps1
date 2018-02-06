@@ -16,8 +16,8 @@ begin {
         Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
         break
         }  
-
-if (!(Test-Path "$env:ProgramFiles\qemu\qemu-img.exe"))
+$qemuimg = "$env:ProgramFiles\qemu\qemu-img.exe"
+if (!(Test-Path $qemuimg))
     {
         Install-Script install-qemu-img
         install-qemu-img.ps1 -force
@@ -45,7 +45,7 @@ process
                     Write-Host "We need to Download $($version.URL)"
                     Start-BitsTransfer -Source $Version.URL -Destination $ImagePath -DisplayName $QCOW2_Image
                 }
-                qemu-img convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
+                .$qemuimg convert -f qcow2 -o subformat=fixed -O vpc "$ImagePath/$QCOW2_Image" "$ImagePath/$VHD_Image"
                 Add-AzsVMImage `
                 -publisher $Publisher `
                 -offer $Version.version `
