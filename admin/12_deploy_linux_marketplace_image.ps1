@@ -50,7 +50,7 @@ process
         }
     catch {
         $evalnum += 1
-        Write-Host " >>Not Found" -NoNewline  
+        Write-Host -ForegroundColor Red "[>>]Not Found"  
     }
 
 
@@ -85,6 +85,7 @@ process
         #-Version $osImageSkuVersion -ErrorAction Stop | Out-Null
     }
 else {
+    Write-Host -ForegroundColor Green "[ok]"
     Write-Host -ForegroundColor White "[==>]$Global:AZS_location Marketplace is already populated with $SKU $osImageSkuVersion"
     Write-Output $AzureRMVMImage
     }            
