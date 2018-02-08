@@ -28,7 +28,7 @@ facts:
   # NOTE: if the install node is to be migrated into an island environment,
   #       the hostname or IP address listed here should be the one in the
   #       island environment.
-  install_node: 10.0.0.6 
+  install_node: 10.0.0.4 
 
   # [Required]
   # IPs of machines that will be whitelisted in the firewall and allowed
@@ -109,7 +109,7 @@ facts:
       members:
         - 10.0.0.4
         - 10.0.0.5
-        - 10.0.0.7
+        - 10.0.0.6
       options:
         is_protected: false
         is_cold_storage_enabled: false
