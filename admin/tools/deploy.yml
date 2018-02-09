@@ -1,10 +1,12 @@
+# deploy.yml reference implementation v2.6.0
+
 # [Optional]
 # By changing the license_accepted boolean value to "true" you are
 # declaring your agreement to the terms of the license agreement
 # contained in the license.txt file included with this software
 # distribution.
 licensing:
-  license_accepted: true
+  license_accepted: false
 
 autonames:
   custom:
@@ -26,7 +28,7 @@ facts:
   # NOTE: if the install node is to be migrated into an island environment,
   #       the hostname or IP address listed here should be the one in the
   #       island environment.
-  install_node: 10.0.0.6
+  install_node: 10.0.0.4 
 
   # [Required]
   # IPs of machines that will be whitelisted in the firewall and allowed
@@ -37,8 +39,7 @@ facts:
 
   # [Required]
   # These credentials must be the same across all nodes. Ansible uses these credentials to
-  # gain initial access to each node in the deployment and set up ssh public key authentication
-.
+  # gain initial access to each node in the deployment and set up ssh public key authentication.
   # If these are not correct, the deployment will fail.
   ssh_defaults:
     # [Required]
@@ -65,14 +66,12 @@ facts:
     dns_servers:
       - 168.63.129.16
     ntp_servers:
-      - 78.46.53.8
+      - 88.198.197.205
     #
     # [Optional]
     # VFS path to source of randomness
-    # Defaults to /dev/urandom for speed considerations.  If you prefer /dev/random, put that h
-ere.
-    # If you have a /dev/srandom implementation or special entropy hardware, you may use that t
-oo
+    # Defaults to /dev/urandom for speed considerations.  If you prefer /dev/random, put that here.
+    # If you have a /dev/srandom implementation or special entropy hardware, you may use that too
     # so long as it implements a /dev/random type device.
     entropy_source: /dev/urandom
     #
@@ -110,7 +109,7 @@ oo
       members:
         - 10.0.0.4
         - 10.0.0.5
-        - 10.0.0.7
+        - 10.0.0.6
       options:
         is_protected: false
         is_cold_storage_enabled: false
@@ -131,7 +130,7 @@ oo
       members:
         - sp1
       options:
-        description: My First VDC
+        description: AzureStack VDC
 
   # [Optional]
   # Replication group defaults. Configure to your liking.
@@ -148,7 +147,7 @@ oo
       members:
         - vdc1
       options:
-        description: My First RG
+        description: AzureStack RG
         enable_rebalancing: true
         allow_all_namespaces: true
         is_full_rep: false
