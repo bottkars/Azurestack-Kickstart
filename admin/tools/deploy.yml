@@ -6,7 +6,7 @@
 # contained in the license.txt file included with this software
 # distribution.
 licensing:
-  license_accepted: false
+  license_accepted: true
 
 autonames:
   custom:
