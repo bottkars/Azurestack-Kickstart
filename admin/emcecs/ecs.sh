@@ -30,4 +30,4 @@ else
     touch /var/run/rebooting-for-updates
     chkconfig --add initafterreboot
 fi
-exit 0
+echo $?
