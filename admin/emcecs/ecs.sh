@@ -1,4 +1,4 @@
-#./bin/bash
+#!/bin/bash
 before_reboot(){
 yum install git firewalld -y
 systemctl disable rpcbind    
