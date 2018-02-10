@@ -1,6 +1,15 @@
-#! /bin/sh
+#! /bin/bash
+#
+# initafterreboot
+#
+# chkconfig: 345 90 90
+# description: Activates/Deactivates all network interfaces configured to \
+#              start at boot time.
+#
 ### BEGIN INIT INFO
-# Provides:          initafterreboot
+# Provides: $initafterreboot
+# Short-Description: Bring up/down networking
+# Description: Bring up/down networking
 ### END INIT INFO
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 case "$1" in
