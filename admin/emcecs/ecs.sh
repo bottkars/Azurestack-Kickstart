@@ -1,7 +1,6 @@
 #./bin/bash
 before_reboot(){
-yum install git pigz docker ntp firewalld -y
-yum remove *nfs* -y
+yum install git firewalld -y
 systemctl disable rpcbind    
 cp initafterreboot /etc/init.d/
 chmod +X /etc/init.d/initafterreboot
@@ -25,10 +24,10 @@ after_reboot(){
 if [ -f /var/run/rebooting-for-updates ]; then
     after_reboot
     rm /var/run/rebooting-for-updates
-    update-rc.d initafterreboot remove
+    chkconfig --remove initafterreboot
 else
     before_reboot
     touch /var/run/rebooting-for-updates
-    update-rc.d initafterreboot defaults
+    chkconfig --add initafterreboot
 fi
 exit 0
