@@ -12,7 +12,7 @@ git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdit
 cp deploy.yml /root/ECS-CommunityEdition
 cd /root/ECS-CommunityEdition
 touch /var/run/rebooting-for-updates
-./bootstrap.sh -c ../deploy.yml
+./bootstrap.sh -c ./deploy.yml
 }
 
 after_reboot(){
