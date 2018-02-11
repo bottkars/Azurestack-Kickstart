@@ -1,16 +1,16 @@
 #!/bin/bash
 before_reboot(){
-yum update -y    
-yum install git firewalld -y
+yum update -y 2>> /root/install.log   
+yum install git firewalld -y 2>> /root/install.log
 systemctl disable rpcbind    
-cp ecs.sh /root/
-chmod +X /root/ecs.sh
-chmod 755 /root/ecs.sh
-cp ecs-installer.service /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable ecs-installer.service
-git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition
-cp deploy.yml /root/ECS-CommunityEdition
+cp ecs.sh /root/ 2>> /root/install.log
+chmod +X /root/ecs.sh 2>> /root/install.log
+chmod 755 /root/ecs.sh 2>> /root/install.log
+cp ecs-installer.service /etc/systemd/system/ 2>> /root/install.log
+systemctl daemon-reload 2>> /root/install.log
+systemctl enable ecs-installer.service 2>> /root/install.log
+git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 2>> /root/install.log
+cp deploy.yml /root/ECS-CommunityEdition 2>> /root/install.log
 echo $? 2>> /root/install.log
 }
 
