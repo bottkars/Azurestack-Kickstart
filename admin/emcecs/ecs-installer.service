@@ -3,7 +3,7 @@ Description=EMC ECS Installer start
 After=docker.service
 [Service]
 Type=forking
-Restart=never
+Restart=no
 ExecStart=/root/ecs.sh
 ExecStop=
 [Install]

@@ -11,7 +11,7 @@ systemctl enable ecs-installer.service
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition
 cp deploy.yml /root/ECS-CommunityEdition
 cd /root/ECS-CommunityEdition
-touch /var/run/rebooting-for-bootstrap
+echo $?
 }
 
 after_bootstrap(){
