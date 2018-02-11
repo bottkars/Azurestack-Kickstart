@@ -1,6 +1,5 @@
 #!/bin/bash
 before_reboot(){
-yum update -y &>> /root/install.log   
 yum install git firewalld -y &>> /root/install.log
 systemctl disable rpcbind    
 cp ecs.sh /root/ &>> /root/install.log
