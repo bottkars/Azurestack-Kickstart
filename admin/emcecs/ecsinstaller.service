@@ -1,0 +1,11 @@
+[Unit]
+Description=EMC ECS Installer start
+After=docker.service
+[Service]
+Type=forking
+Restart=never
+ExecStart=/root/ecs.sh
+ExecStop=
+[Install]
+WantedBy=multiuser.target
+
