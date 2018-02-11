@@ -10,14 +10,13 @@ systemctl daemon-reload
 systemctl enable ecs-installer.service
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition
 cp deploy.yml /root/ECS-CommunityEdition
-cd /root/ECS-CommunityEdition
 echo $?
 }
 
 after_bootstrap(){
     cd /root/ECS-CommunityEdition
-    /root/bin/step1
-    /root/bin/step2
+    /root/bin/step1 2>> /root/install.log
+    /root/bin/step2 2>> /root/install.log
 }
 
 after_reboot(){
@@ -37,4 +36,4 @@ else
     touch /var/run/rebooting-for-updates
     before_reboot
 fi
-echo $?
+

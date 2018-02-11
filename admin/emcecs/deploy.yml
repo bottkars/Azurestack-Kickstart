@@ -10,9 +10,9 @@ licensing:
 
 autonames:
   custom:
-    - ecs01
-    - ecs02
-    - ecs03
+    - ecs1
+    - ecs2
+    - ecs3
 #    - ecs04
 #    - ecs05
 #    - ecs06
