@@ -1,6 +1,5 @@
 [Unit]
 Description=EMC ECS Installer start
-After=docker.service
 [Service]
 Type=forking
 Restart=no
