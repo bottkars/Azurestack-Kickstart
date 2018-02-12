@@ -186,5 +186,11 @@
     "Date": "2018.01.03",
     "Build": "14393.2007",
     "URL": "http://download.windowsupdate.com/c/msdownload/update/software/secu/2018/01/windows10.0-kb4056890-x64_1d0f5115833be3d736caeba63c97cfa42cae8c47.msu"
+},
+{
+    "KB": "KB4057142",
+    "Date": "2018.01.17",
+    "Build": "14393.2034",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2018/01/windows10.0-kb4057142-x64_0a8e8c498fbfa742048e911fa9c20bb33844c4c4.msu"
 }
 ]
