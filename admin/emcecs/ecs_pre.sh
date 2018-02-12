@@ -7,5 +7,5 @@ myreboot () {
 yum install firewalld libselinux-python -y |& tee -a /root/install.log  
 yum remove *nfs* -y |& tee -a /root/install.log  
 systemctl disable rpcbind |& tee -a /root/install.log
-myreboot & &>> /root/install.log   
+myreboot & |& tee -a /root/install.log   
 echo $?
