@@ -1,26 +1,26 @@
 #!/bin/bash
 before_reboot(){
-yum install git firewalld -y 2>> /root/install.log
+yum install git firewalld -y |& tee -a /root/install.log
 systemctl disable rpcbind    
-cp ecs.sh /root/ 2>> /root/install.log
-chmod +X /root/ecs.sh 2>> /root/install.log
-chmod 755 /root/ecs.sh 2>> /root/install.log
-cp ecs-installer.service /etc/systemd/system/ 2>> /root/install.log
-systemctl daemon-reload 2>> /root/install.log
-systemctl enable ecs-installer.service 2>> /root/install.log
-git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 2>> /root/install.log
-cp deploy.yml /root/ECS-CommunityEdition 2>> /root/install.log
-myreboot & 2>> /root/install.log
-echo $? 2>> /root/install.log
+cp ecs.sh /root/ |& tee -a /root/install.log
+chmod +X /root/ecs.sh |& tee -a /root/install.log
+chmod 755 /root/ecs.sh |& tee -a /root/install.log
+cp ecs-installer.service /etc/systemd/system/ |& tee -a /root/install.log
+systemctl daemon-reload |& tee -a /root/install.log
+systemctl enable ecs-installer.service |& tee -a /root/install.log
+git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition |& tee -a /root/install.log
+cp deploy.yml /root/ECS-CommunityEdition |& tee -a /root/install.log
+myreboot & |& tee -a /root/install.log
+echo $? |& tee -a /root/install.log
 }
 myreboot () {
-   sleep 20 2>> /root/install.log 
+   sleep 20 |& tee -a /root/install.log 
    shutdown -r now
 } 
 after_bootstrap(){
     cd /root/ECS-CommunityEdition
-    /root/bin/step1 2>> /root/install.log
-    /root/bin/step2 2>> /root/install.log
+    /root/bin/step1 |& tee -a /root/install.log
+    /root/bin/step2 |& tee -a /root/install.log
 }
 
 after_waagent(){
