@@ -14,13 +14,13 @@ myreboot &
 echo $? 
 }
 myreboot () {
-   sleep 20  
+   sleep 10  
    shutdown -r now
 } 
 after_bootstrap(){
     cd /root/ECS-CommunityEdition
-    /root/bin/step1 |& tee -a /root/install.log
-    /root/bin/step2 |& tee -a /root/install.log
+    /usr/bin/step1 |& tee -a /root/install.log
+    /usr/bin/step2 |& tee -a /root/install.log
 }
 
 after_waagent(){
