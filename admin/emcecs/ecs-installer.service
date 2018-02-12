@@ -7,4 +7,3 @@ ExecStart=/root/ecs.sh
 ExecStop=
 [Install]
 WantedBy=multiuser.target
-
