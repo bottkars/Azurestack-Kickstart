@@ -25,7 +25,7 @@ after_bootstrap(){
 
 after_waagent(){
     cd /root/ECS-CommunityEdition   
-    ./bootstrap.sh -c ./deploy.yml -y
+    ./bootstrap.sh -c ./deploy.yml -y |& tee -a /root/install.log
 }
 
 if [ -f /root/rebooting-for-bootstrap ]; then
