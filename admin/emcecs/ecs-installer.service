@@ -1,9 +1,9 @@
 [Unit]
 Description=EMC ECS Installer start
 [Service]
-Type=forking
+Type=simple
 Restart=no
-ExecStart=/root/ecs.sh &
+ExecStart=/root/ecs.sh
 ExecStop=
 [Install]
 WantedBy=multiuser.target
