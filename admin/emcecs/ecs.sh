@@ -28,16 +28,16 @@ after_waagent(){
     ./bootstrap.sh -c ./deploy.yml -y
 }
 
-if [ -f /var/run/rebooting-for-bootstrap ]; then
+if [ -f /root/rebooting-for-bootstrap ]; then
     after_bootstrap
-    rm /var/run/rebooting-for-bootstrap
+    rm /root/rebooting-for-bootstrap
     systemctl disable ecs-installer.service
-elif [ -f /var/run/rebooting-for-waagent ]; then
-    rm /var/run/rebooting-for-waagent
-    touch /var/run/rebooting-for-bootstrap
+elif [ -f /root/rebooting-for-waagent ]; then
+    rm /root/rebooting-for-waagent
+    touch /root/rebooting-for-bootstrap
     after_waagent
 else
-    touch /var/run/rebooting-for-waagent
+    touch /root/rebooting-for-waagent
     before_reboot
 fi
 
