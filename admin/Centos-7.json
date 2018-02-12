@@ -1,0 +1,34 @@
+[
+    {
+        "Version": "Centos-7.4",
+        "Date": "2017.11.28",
+        "Build": "1711",
+        "URL": "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-Azure-1711.qcow2"
+    },
+    {
+        "Version": "Centos-7.4",
+        "Date": "2017.11.01",
+        "Build": "1710",
+        "URL": "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-Azure-1710.qcow2"
+    },    
+    {
+        "Version": "Centos-7.4",
+        "Date": "2017.09.13",
+        "Build": "1708",
+        "URL": "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-Azure-1708.qcow2"
+    },    
+    {
+        "Version": "Centos-7.4",
+        "Date": "2017.08.01",
+        "Build": "1707",
+        "URL": "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-Azure-1707.qcow2"
+    },    
+    {
+        "Version": "Centos-7.4",
+        "Date": "2017.07.03",
+        "Build": "1706",
+        "URL": "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-Azure-1706.qcow2"
+    }
+]
+
+        
