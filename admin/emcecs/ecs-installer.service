@@ -5,5 +5,7 @@ Type=simple
 Restart=no
 ExecStart=/root/ecs.sh
 ExecStop=
+Wants=remote-fs.target
+After=remote-fs.target
 [Install]
-WantedBy=multiuser.target
+WantedBy=default.target

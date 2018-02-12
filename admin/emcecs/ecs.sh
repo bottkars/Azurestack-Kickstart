@@ -14,7 +14,7 @@ myreboot &
 echo $? 
 }
 myreboot () {
-   sleep 10  
+   sleep 25  
    shutdown -r now
 } 
 after_bootstrap(){
