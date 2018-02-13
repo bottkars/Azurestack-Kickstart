@@ -1,4 +1,36 @@
 #!/bin/bash
+edit_template(){
+chars=( {c..z} )
+n=$1
+for ((i=0; i<n; i++))
+do
+    disks[i]=sd${chars[i]}
+done
+disklist=$(echo "'${disks[*]}'" | tr ' ' ,)
+disklist=${disklist//","/"','"}
+echo "replacing mydisks with disklist $disklist"
+sed -i -e "s/mydisks/$disklist/g" /root/ECS-CommunityEdition/deploy.yml
+
+n=$2
+for ((i=1; i<=n; i++))
+do
+    hosts[i]=$3$i
+done
+hostlist=$(echo "'${hosts[*]}'" | tr ' ' ,)
+hostlist=${hostlist//","/"','"}
+echo "replacing myhosts with hostlist $hostlist"
+sed -i -e "s/myhosts/$hostlist/g" /root/ECS-CommunityEdition/deploy.yml
+
+n=$2
+for ((i=1; i<=n; i++))
+do
+    members[i]=10.0.0.$i
+done
+memberlist=$(echo "'${members[*]}'" | tr ' ' ,)
+memberlist=${memberlist//","/"','"}
+echo "replacing mymembers with memberlist $memberlist"
+sed -i -e "s/mymembers/$memberlist/g" /root/ECS-CommunityEdition/deploy.yml
+}
 before_reboot(){
 yum install git firewalld -y 
 systemctl disable rpcbind    
@@ -10,6 +42,7 @@ systemctl daemon-reload
 systemctl enable ecs-installer.service 
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 
 cp deploy.yml /root/ECS-CommunityEdition 
+edit_template $1 $2 $3
 myreboot & 
 echo $? 
 }

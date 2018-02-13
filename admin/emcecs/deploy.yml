@@ -9,10 +9,7 @@ licensing:
   license_accepted: true
 
 autonames:
-  custom:
-    - ecs1
-    - ecs2
-    - ecs3
+  custom: [myhosts]
 #    - ecs04
 #    - ecs05
 #    - ecs06
@@ -98,24 +95,17 @@ facts:
     is_cold_storage_enabled: false
     is_protected: false
     description: Default storage pool description
-    ecs_block_devices:
-      - /dev/sdc
-      - /dev/sdd
-
+    ecs_block_devices: [mydisks]
   # [Required]
   # Storage pool layout. You MUST have at least ONE (1) storage pool for a successful install.
   storage_pools:
     - name: sp1
-      members:
-        - 10.0.0.4
-        - 10.0.0.5
-        - 10.0.0.6
+      members: [mymembers]
       options:
         is_protected: false
         is_cold_storage_enabled: false
         description: My First SP
-        ecs_block_devices:
-          - /dev/sdc
+        ecs_block_devices: [mydisks]
 
   # [Optional]
   # VDC defaults. Configure to your liking.
