@@ -1,0 +1,43 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+    "parameters": {
+      "adminUsername": {
+        "value": "ecsadmin"
+      },
+      "adminPassword": {
+        "value": "Password123!"
+      },
+      "vmNamePrefix": {
+        "value": "ecs"
+      },
+      "osImagePublisher": {
+        "value": "OpenLogic"
+      },
+      "vmSize": {
+        "value": "Standard_D4"
+      },
+      "numberOfInstances": {
+        "value": 3
+      },
+      "dnsPrefix": {
+        "value": "ecs"
+      },
+      "dataDiskCount": {
+        "value": 3
+      },
+      "dataDiskSize": {
+        "value": 150
+      },
+      "osImageOffer": {
+        "value": "centos"
+      },
+      "osImageSKU": {
+        "value": "7.4"
+      },
+      "location": {
+        "value": "westeurope"
+      }
+    }
+}
+
