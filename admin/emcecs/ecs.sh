@@ -53,7 +53,7 @@ myreboot () {
 } 
 after_bootstrap(){
     cd /root/ECS-CommunityEdition
-    edit_template  "$(cat /root/parameters.txt)"
+    edit_template "$(cat /root/parameters.txt)"
     /usr/bin/step1 |& tee -a /root/install.log
     /usr/bin/step2 |& tee -a /root/install.log
     echo "done" |& tee -a /root/install.log
