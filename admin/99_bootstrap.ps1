@@ -166,7 +166,7 @@ $Global:UpdatePath= $Admin_Defaults.UpdatePath
 test-pathvalid $Admin_Defaults.UpdatePath
 if (!$Admin_Defaults.ImagePath)
     {
-       Write-Warning "UpdatePath is not set in $defaultsfile. Please add entry and retry" 
+       Write-Warning "ImagePath is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
 $Global:ImagePath= $Admin_Defaults.ImagePath
