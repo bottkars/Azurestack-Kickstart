@@ -23,7 +23,7 @@ if (!$Global:CloudAdminCreds)
 Write-Warning -Message "You aree not signed in to your Azure RM Environment as CloudAdmin. Please run .\admin\99_bootstrap.ps1"
 break
 }
-Import-Module D:\AzureStack-Tools\Registration\RegisterWithAzure.psm1
+Import-Module $Global:AZSTools_location\Registration\RegisterWithAzure.psm1
 Write-Host "Testing ESRC Connection"
 try {
     $ERCS_SESSION = Enter-PSSession -ComputerName $Global:PrivilegedEndpoint -ConfigurationName PrivilegedEndpoint -Credential $Global:CloudAdminCreds
