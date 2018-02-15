@@ -44,7 +44,6 @@ systemctl enable ecs-installer.service
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 
 cp deploy.yml /root/ECS-CommunityEdition 
 echo "$1 $2 $3" >> /root/parameters.txt
-edit_template $1 $2 $3
 myreboot & 
 echo $? 
 }
@@ -54,6 +53,7 @@ myreboot () {
 } 
 after_bootstrap(){
     cd /root/ECS-CommunityEdition
+    edit_template  "$(cat /root/parameters.txt)"
     /usr/bin/step1 |& tee -a /root/install.log
     /usr/bin/step2 |& tee -a /root/install.log
     echo "done" |& tee -a /root/install.log
