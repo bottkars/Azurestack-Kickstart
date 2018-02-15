@@ -1,9 +1,9 @@
 
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
-    [Parameter(ParameterSetName = "1", Mandatory = $true,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ImagePath=$Global:ImagePath,
     [Parameter(ParameterSetName = "1", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('Version')]$Distribution,
     [Parameter(ParameterSetName = "1", Mandatory = $true,Position = 1)][ValidateSet('1711','1710','1708','1707','1706')]$Build,
+    [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ImagePath=$Global:ImagePath,
     [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
 begin {
