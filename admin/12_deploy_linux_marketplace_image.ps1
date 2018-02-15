@@ -15,7 +15,7 @@ begin {
 $qemuimg = "$env:ProgramFiles\qemu\qemu-img.exe"
 if (!(Test-Path $qemuimg))
     {
-        Install-Script install-qemu-img
+        Install-Script install-qemu-img -force
         install-qemu-img.ps1 -force
     }
 switch ($Distribution)
