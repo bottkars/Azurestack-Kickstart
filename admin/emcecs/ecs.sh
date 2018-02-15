@@ -43,7 +43,7 @@ systemctl daemon-reload
 systemctl enable ecs-installer.service 
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 
 cp deploy.yml /root/ECS-CommunityEdition 
-echo "$1 $2 $3" /root/parameters.txt
+echo "$1 $2 $3" >> /root/parameters.txt
 edit_template $1 $2 $3
 myreboot & 
 echo $? 
