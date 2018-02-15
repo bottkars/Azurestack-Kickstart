@@ -651,7 +651,7 @@
     },
     {
       "apiVersion": "[variables('apiVersion')]",
-      "dependsOn": [
+      "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', concat(parameters('VMNamePrefix'), concat(parameters('numberOfInstances'),'/extensions/configurenode')))]"
       ],
       "location": "[parameters('location')]",
       "name": "[concat(parameters('VMNamePrefix'), '1', '/installecs')]",
