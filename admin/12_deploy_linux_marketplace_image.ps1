@@ -11,7 +11,7 @@ begin {
         {
         Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
         break
-        }  
+        }
 $qemuimg = "$env:ProgramFiles\qemu\qemu-img.exe"
 if (!(Test-Path $qemuimg))
     {

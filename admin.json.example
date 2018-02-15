@@ -10,13 +10,14 @@
 "PrivilegedEndpoint": "azs-ercs01.azurestack.local",
 "serviceuser": "masadmin",
 "cloudadmin": "cloudadmin",
-"AZSTools_Location": "D:\\AzureStack-Tools",
+"AZSTools_Location": "C:\\AzureStack-Tools",
 "AzureRMProfile": "2017-03-09-profile",
 "AzureSTackModuleVersion": "1.2.11",
 "SQLRPadmin": "SQLRPadmin",
 "MySQLRPadmin": "MySQLRPadmin",
 "SQLHost": "SQLHost1",
 "MySQLHost": "MySQLHost1",
-"ISOpath": "D:\\ISO",
-"Updatepath": "D:\\Updates"
+"ISOpath": "C:\\ISO",
+"Updatepath": "C:\\Updates"
+"Imagepath": "C:\\Image"
 }

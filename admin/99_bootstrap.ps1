@@ -2,6 +2,29 @@
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$Defaultsfile="$HOME/admin.json"
 )
+function test-pathvalid 
+{
+param (
+    $path
+    )
+if (!(test-path $path))
+    {
+        try {
+            $NewPath = New-Item -ItemType Directory -Path $path -Force -ErrorAction Stop
+        }
+        catch 			
+        [System.Management.Automation.DriveNotfoundException] 
+            {
+                write-Host "Drive $(split-path -qualifier $path) was not found"
+                Break
+            }
+        catch {
+            Write-Warning "error creating Path $path "
+            Break
+        }
+    }
+
+}
 if (!(Test-Path $Defaultsfile))
 {
     Write-Warning "$Defaultsfile file does not exist.please copy from admin.json.example"
@@ -133,19 +156,21 @@ if (!$Admin_Defaults.ISOPath)
        Break 
     }
 $Global:ISOPath = $Admin_Defaults.ISOpath
-
+test-pathvalid $Admin_Defaults.ISOpath
 if (!$Admin_Defaults.UpdatePath)
     {
        Write-Warning "UpdatePath is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
 $Global:UpdatePath= $Admin_Defaults.UpdatePath
-
-
-
-
-
-
+test-pathvalid $Admin_Defaults.UpdatePath
+if (!$Admin_Defaults.ImagePath)
+    {
+       Write-Warning "UpdatePath is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:ImagePath= $Admin_Defaults.ImagePath
+test-pathvalid $Admin_Defaults.ImagePath
 
 
 #########
