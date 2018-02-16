@@ -83,6 +83,16 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    -u|--ECSUSER)
+    ECSUSER="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -s|--ECSPASSWORD)
+    ECSPASSWORD="$2"
+    shift # past argument
+    shift # past value
+    ;;
     -p|--NODEPREFIX)
     NODEPREFIX="$2"
     shift # past argument
@@ -98,6 +108,8 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 echo DISKNUM = "${DISKNUM}" >> /root/install.log
 echo NODENUM     = "${NODENUM}" >> /root/install.log
 echo NODEPREFIX   = "${NODEPREFIX}" >> /root/install.log
+echo ECSUSER   = "${ECSUSER}" >> /root/install.log
+echo ECSPASSWORD   = "${ECSPASSWORD}" >> /root/install.log
 if [[ -n $1 ]]; then
     echo "Last line of file specified as non-opt/last argument:"
     tail -1 "$1"
