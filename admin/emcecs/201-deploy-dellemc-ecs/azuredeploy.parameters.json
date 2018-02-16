@@ -12,7 +12,7 @@
         "value": "ecs"
       },
       "osImagePublisher": {
-        "value": "OpenLogic"
+        "value": "Centos"
       },
       "vmSize": {
         "value": "Standard_D4"
@@ -30,13 +30,10 @@
         "value": 150
       },
       "osImageOffer": {
-        "value": "centos"
+        "value": "Centos-7"
       },
       "osImageSKU": {
-        "value": "7.4"
-      },
-      "location": {
-        "value": "westeurope"
+        "value": "Centos-7.4"
       }
     }
 }

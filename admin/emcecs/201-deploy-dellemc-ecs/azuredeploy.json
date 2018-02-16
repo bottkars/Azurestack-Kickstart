@@ -47,14 +47,10 @@
     "dataDiskSize": {
       "type": "int",
       "defaultValue": 150,
-      "allowedValues": [
-        150,
-        500,
-        750,
-        1000
-      ],
+      "minValue": 150,
+      "maxValue": 1023,
       "metadata": {
-        "description": "Size of the Data Disk"
+        "description": "Size of the Data Disk in GB"
       }
     },
     "vmNamePrefix": {
@@ -66,18 +62,14 @@
     },
     "vmSize": {
       "allowedValues": [
-        "Standard_A1",
-        "Standard_A2",
-        "Standard_A3",
         "Standard_A4",
-        "Standard_D1",
-        "Standard_D2",
-        "Standard_D3",
-        "Standard_D4"
+        "Standard_A5",
+        "Standard_D4",
+        "Standard_D5"
       ],
       "defaultValue": "Standard_A1",
       "metadata": {
-        "description": "This is the size of your VM"
+        "description": "This is the size of your ECS Nodes. Minimum is A/D4"
       },
       "type": "string"
     },
@@ -85,30 +77,30 @@
       "type": "string",
       "defaultValue": "ecs",
       "metadata": {
-        "description": "dns name prefix"
+        "description": "dns name prefix. this is the external dns prefix to reach your ECS via the loadbalancer"
       }
     },
     "osImagePublisher": {
       "type": "string",
-      "defaultValue": "Centos",
+      "defaultValue": "OpenLogic",
       "allowedValues": [
         "Centos",
         "OpenLogic"
       ],
         "metadata":   {
-          "description": "Maps to the publisher in the Azure Platform Image Repository manifest file."
+          "description": "The Image Publisher, use Openlogic for default Marketplace"
         }
     },
     "osImageOffer": {
       "type": "string",
-      "defaultValue": "Centos-7",
+      "defaultValue": "centos",
       "allowedValues": [
         "Centos-7",
-        "centos"
+        "CentOS"
       ],
-        "metadata" : {
-          "description": "Maps to the Offer in the Azure Stack Platform Image Repository manifest file."
-        }
+      "metadata": {
+        "description": "The Image Offer, use centos for default Marketplace"
+      }
     },
     "osImageSKU": {
       "type": "string",
@@ -118,14 +110,7 @@
         "7.4"
       ],
       "metadata": {
-        "description": "The Linux version for the VM. This will pick a fully patched image of this given Centos"
-      }
-    },
-    "location": {
-      "type": "string",
-      "defaultValue": "local",
-      "metadata": {
-        "description": "The location to deploy the Template in"
+        "description": "The Linux version for the VM. Use 7.4 for default Marketplace"
       }
     }
   },
@@ -634,7 +619,7 @@
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('VMNamePrefix'), copyIndex(2)))]"
       ],
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "name": "[concat(parameters('VMNamePrefix'), copyIndex(2), '/configurenode')]",
       "properties": {
         "autoUpgradeMinorVersion": true,
@@ -651,31 +636,29 @@
     },
     {
       "apiVersion": "[variables('apiVersion')]",
-      "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', concat(parameters('VMNamePrefix'), concat(parameters('numberOfInstances'),'/extensions/configurenode')))]"
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('VMNamePrefix'), concat(parameters('numberOfInstances'),'/extensions/configurenode')))]"
       ],
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "name": "[concat(parameters('VMNamePrefix'), '1', '/installecs')]",
       "properties": {
         "autoUpgradeMinorVersion": true,
         "publisher": "Microsoft.OSTCExtensions",
         "settings": {
           "enableInternalDNSCheck": "false",
-          "commandToExecute": "[concat ('./ecs.sh ',string(parameters('dataDiskCount')), ' ', string(parameters('numberOfInstances')),' ',string(parameters('VMNamePrefix')))]",
-          "fileUris": [
-            "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/ecs_pre.sh",
-            "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/deploy.yml",
-            "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/ecs.sh",
-            "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/ecs-installer.service"
-          ]
+          "commandToExecute": "[concat('bash ecs.sh --DISKNUM ',parameters('dataDiskCount'),' --NODENUM ',parameters('numberOfInstances'),' --NODEPREFIX ',parameters('VMNamePrefix'),' --ECSUSER ',parameters('adminUsername'),' --ECSPASSWORD ',parameters('adminPassword'))]",
+            "fileUris": [
+              "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/ecs_pre.sh",
+              "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/deploy.yml",
+              "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/ecs.sh",
+              "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/emcecs/ecs-installer.service"
+            ]
+          },
+          "type": "CustomScriptForLinux",
+          "typeHandlerVersion": "1.4"
         },
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.4"
-      },
       "type": "Microsoft.Compute/virtualMachines/extensions"
     }
-
-
-
   ],
   "outputs": { }
 }
