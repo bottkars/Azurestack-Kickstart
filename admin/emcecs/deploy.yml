@@ -41,14 +41,14 @@ facts:
   ssh_defaults:
     # [Required]
     # Username to use when logging in to nodes
-    ssh_username: ecsadmin
+    ssh_username: ECSUSER
     # [Required]
     # Password to use with SSH login
     # *** Set to same value as ssh_username to enable SSH public key authentication ***
-    ssh_password: Password123!
+    ssh_password: ECSPASSWORD
     # [Required when enabling SSH public key authentication]
     # Password to give to sudo when gaining root access.
-    ansible_become_pass: Password123!
+    ansible_become_pass: ECSPASSWORD
     # [Required]
     # Select the type of crypto to use when dealing with ssh public key
     # authentication. Valid values here are:

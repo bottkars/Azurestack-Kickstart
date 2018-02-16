@@ -34,6 +34,11 @@ memberlist="$(echo "'${members[*]}'" | tr ' ' ,)"
 memberlist=${memberlist//","/"','"}
 echo "replacing mymembers with memberlist $memberlist" >> /root/install.log
 sed -i -e 's/mymembers/'"$memberlist"'/g' /root/ECS-CommunityEdition/deploy.yml
+echo "replacing ECSUSER with  $4" >> /root/install.log
+sed -i -e 's/ECSUSER/'"$4"'/g' /root/ECS-CommunityEdition/deploy.yml
+echo "replacing ECSPASSWORD with  $5" >> /root/install.log
+sed -i -e 's/ECSPASSWORD/'"$5"'/g' /root/ECS-CommunityEdition/deploy.yml
+
 }
 before_reboot(){
 yum install git firewalld -y 
@@ -125,7 +130,7 @@ elif [ -f /root/rebooting-for-waagent ]; then
     after_waagent
 else
     touch /root/rebooting-for-waagent
-    echo "$DISKNUM $NODENUM $NODEPREFIX" >> /root/parameters.txt
-    before_reboot $DISKNUM $NODENUM $NODEPREFIX
+    echo "$DISKNUM $NODENUM $NODEPREFIX $ECSUSER $ECSPASSWORD" >> /root/parameters.txt
+    before_reboot $DISKNUM $NODENUM $NODEPREFIX $ECSUSER $ECSPASSWORD
 fi
 
