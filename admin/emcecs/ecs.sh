@@ -43,7 +43,7 @@ systemctl daemon-reload
 systemctl enable ecs-installer.service 
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 
 cp deploy.yml /root/ECS-CommunityEdition 
-echo "$1 $2 $3" >> /root/parameters.txt
+echo "$1 $2 $3" >> /root/parameters1.txt
 myreboot & 
 echo $? 
 }
@@ -64,6 +64,42 @@ after_waagent(){
     ./bootstrap.sh -c ./deploy.yml -y |& tee -a /root/install.log
 }
 
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -d|--DISKNUM)
+    DISKNUM="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -n|--NODENUM)
+    NODENUM="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -p|--NODEPREFIX)
+    NODEPREFIX="$2"
+    shift # past argument
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+echo DISKNUM = "${DISKNUM}" >> /root/install.log
+echo NODENUM     = "${NODENUM}" >> /root/install.log
+echo NODEPREFIX   = "${NODEPREFIX}" >> /root/install.log
+if [[ -n $1 ]]; then
+    echo "Last line of file specified as non-opt/last argument:"
+    tail -1 "$1"
+fi
+
 if [ -f /root/rebooting-for-bootstrap ]; then
     after_bootstrap
     rm /root/rebooting-for-bootstrap
@@ -74,6 +110,7 @@ elif [ -f /root/rebooting-for-waagent ]; then
     after_waagent
 else
     touch /root/rebooting-for-waagent
-    before_reboot
+    echo "$DISKNUM $NODENUM $NODEPREFIX" >> /root/parameters.txt
+    before_reboot $DISKNUM $NODENUM $NODEPREFIX
 fi
 
