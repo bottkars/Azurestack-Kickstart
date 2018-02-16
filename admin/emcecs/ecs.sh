@@ -8,7 +8,7 @@ do
     disks[i]="\/dev\/sd${chars[i]}"
 done
 disklist="$(echo "'${disks[*]}'" | tr ' ' ,)"
-disklist="${disklist//","/"','"}"
+disklist=${disklist//","/"','"}
 echo "replacing mydisks with disklist $disklist" >> /root/install.log
 sed -i -e 's/mydisks/'"$disklist"'/g' /root/ECS-CommunityEdition/deploy.yml
 
@@ -20,7 +20,7 @@ do
     hosts[i]=$3$i
 done
 hostlist="$(echo "'${hosts[*]}'" | tr ' ' ,)"
-hostlist="${hostlist//","/"','"}"
+hostlist=${hostlist//","/"','"}
 echo "replacing myhosts with hostlist $hostlist" >> /root/install.log
 sed -i -e 's/myhosts/'"$hostlist"'/g' /root/ECS-CommunityEdition/deploy.yml
 
@@ -31,7 +31,7 @@ do
     members[i]=10.0.0.$i
 done
 memberlist="$(echo "'${members[*]}'" | tr ' ' ,)"
-memberlist="${memberlist//","/"','"}"
+memberlist=${memberlist//","/"','"}
 echo "replacing mymembers with memberlist $memberlist" >> /root/install.log
 sed -i -e 's/mymembers/'"$memberlist"'/g' /root/ECS-CommunityEdition/deploy.yml
 }
