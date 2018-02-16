@@ -1,6 +1,6 @@
 #!/bin/bash
 edit_template(){
-
+# this creates an ansible list for disks in forma ['/dev/sdc',...]
 chars=( {c..z} )
 n=$1
 for ((i=0; i<n; i++))
@@ -12,6 +12,8 @@ disklist="${disklist//","/"','"}"
 echo "replacing mydisks with disklist $disklist" >> /root/install.log
 sed -i -e 's/mydisks/'"$disklist"'/g' /root/ECS-CommunityEdition/deploy.yml
 
+
+# this creates an ansible list for nodes in formar ['ecs1',...]
 n=$2
 for ((i=1; i<=n; i++))
 do
@@ -22,6 +24,7 @@ hostlist="${hostlist//","/"','"}"
 echo "replacing myhosts with hostlist $hostlist" >> /root/install.log
 sed -i -e 's/myhosts/'"$hostlist"'/g' /root/ECS-CommunityEdition/deploy.yml
 
+# this creates an ansible list for members in format ['10.0.0',...]
 n=$2
 for ((i=4; i<=n+3; i++))
 do
@@ -43,7 +46,8 @@ systemctl daemon-reload
 systemctl enable ecs-installer.service 
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 
 cp deploy.yml /root/ECS-CommunityEdition 
-echo "$1 $2 $3" >> /root/parameters1.txt
+edit_template $1 $2 $3
+echo "$1 $2 $3" >> /root/parameters.txt
 myreboot & 
 echo $? 
 }
@@ -53,7 +57,6 @@ myreboot () {
 } 
 after_bootstrap(){
     cd /root/ECS-CommunityEdition
-    edit_template "$(cat /root/parameters.txt)"
     /usr/bin/step1 |& tee -a /root/install.log
     /usr/bin/step2 |& tee -a /root/install.log
     echo "done" |& tee -a /root/install.log
