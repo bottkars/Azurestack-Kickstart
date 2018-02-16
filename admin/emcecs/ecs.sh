@@ -51,8 +51,8 @@ systemctl daemon-reload
 systemctl enable ecs-installer.service 
 git clone https://github.com/emcecs/ecs-communityedition /root/ECS-CommunityEdition 
 cp deploy.yml /root/ECS-CommunityEdition 
-edit_template $1 $2 $3
-echo "$1 $2 $3" >> /root/parameters.txt
+edit_template $1 $2 $3 $4 $5
+echo "$1 $2 $3 $4 $5" >> /root/parameters.txt
 myreboot & 
 echo $? 
 }
@@ -110,11 +110,11 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-echo DISKNUM = "${DISKNUM}" >> /root/install.log
-echo NODENUM     = "${NODENUM}" >> /root/install.log
-echo NODEPREFIX   = "${NODEPREFIX}" >> /root/install.log
-echo ECSUSER   = "${ECSUSER}" >> /root/install.log
-echo ECSPASSWORD   = "${ECSPASSWORD}" >> /root/install.log
+echo "DISKNUM = ${DISKNUM}" >> /root/install.log
+echo "NODENUM     = ${NODENUM}" >> /root/install.log
+echo "NODEPREFIX   = ${NODEPREFIX}" >> /root/install.log
+echo "ECSUSER   = ${ECSUSER}" >> /root/install.log
+echo "ECSPASSWORD   = ${ECSPASSWORD}" >> /root/install.log
 if [[ -n $1 ]]; then
     echo "Last line of file specified as non-opt/last argument:"
     tail -1 "$1"
