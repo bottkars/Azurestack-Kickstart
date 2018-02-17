@@ -29,7 +29,6 @@ $Request = Invoke-WebRequest -MaximumRedirection 0 -UseBasicParsing $URI -ErrorA
 $Outfile = split-path -Leaf $Request.Headers.Location
 Invoke-WebRequest -OutFile "$Home/Downloads/$($outfile)" -Uri $Request.Headers.Location
 Unblock-File "$Home/Downloads/$Outfile"
-Start-Process -FilePath "$Home/Downloads/$Outfile" -ArgumentList "--layout $Home/Downloads/vs2017offline --add Microsoft.VisualStudio.Workload.Azure --add Component.GitHub.VisualStudio --includeOptional  --lang $lang" -wait -PassThru
-Start-Process -FilePath "$Home/Downloads/vs2017offline\$Outfile" -ArgumentList "--add Microsoft.VisualStudio.Workload.Azure --add Component.GitHub.VisualStudio --includeOptional --wait --norestart" -Wait -PassThru
-
-
+$LayoutAdd = "--add Microsoft.VisualStudio.Workload.Azure --add Component.GitHub.VisualStudio --add Microsoft.VisualStudio.ComponentGroup.Azure.ResourceManager.Tools;includeRecommended --includeOptional"
+Start-Process -FilePath "$Home/Downloads/$Outfile" -ArgumentList "--layout $Home/Downloads/vs2017offline $LayoutAdd  --lang $lang" -wait -PassThru
+Start-Process -FilePath "$Home/Downloads/vs2017offline\$Outfile" -ArgumentList "$LayoutAdd --wait --norestart" -Wait -PassThru
