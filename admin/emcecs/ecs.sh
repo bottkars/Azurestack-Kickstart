@@ -41,7 +41,9 @@ sed -i -e 's/ECSPASSWORD/'"$5"'/g' /root/ECS-CommunityEdition/deploy.yml
 
 }
 before_reboot(){
-yum install git firewalld -y 
+yum install git firewalld -y
+#for openlogic
+sed -i -e 's/#GatewayPorts no/GatewayPorts yes/g' /etc/ssh/sshd_config
 systemctl disable rpcbind    
 cp ecs.sh /root/ 
 chmod +X /root/ecs.sh 
