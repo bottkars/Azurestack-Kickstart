@@ -9,6 +9,7 @@ do
 done
 disklist="$(echo "'${disks[*]}'" | tr ' ' ,)"
 disklist=${disklist//","/"','"}
+echo "start customizing ECS at $(date)" |& tee -a /root/install.log
 echo "replacing mydisks with disklist $disklist" >> /root/install.log
 sed -i -e 's/mydisks/'"$disklist"'/g' /root/ECS-CommunityEdition/deploy.yml
 
@@ -66,7 +67,7 @@ after_bootstrap(){
     cd /root/ECS-CommunityEdition
     /usr/bin/step1 |& tee -a /root/install.log
     /usr/bin/step2 |& tee -a /root/install.log
-    echo "done" |& tee -a /root/install.log
+    echo "finished customizing at $(date)" |& tee -a /root/install.log
 }
 
 after_waagent(){
