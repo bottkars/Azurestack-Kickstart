@@ -192,5 +192,11 @@
     "Date": "2018.01.17",
     "Build": "14393.2034",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2018/01/windows10.0-kb4057142-x64_0a8e8c498fbfa742048e911fa9c20bb33844c4c4.msu"
+},
+{
+    "KB": "KB4074590",
+    "Date": "2018.02.13",
+    "Build": "KB4074590",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2018/02/windows10.0-kb4074590-x64_44a8151ce3f68ca2ca8c30ef30e1d0626300d1ea.msu"
 }
 ]
