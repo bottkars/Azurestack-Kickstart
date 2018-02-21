@@ -8,7 +8,10 @@ param (
 'KB4022715','KB4023680','KB4019472','KB4015217','KB4016635','KB4015438','KB4013429',
 'KB4010672','KB3216755','KB3213986','KB3206632','KB3201845','KB3194798','KB3200970',
 'KB3197954',
-'KB4056890')]$KB,
+'KB4056890',
+'KB4057142',
+'KB4074590'
+)]$KB,
 [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
 #REQUIRES -Module AzureStack.Connect
