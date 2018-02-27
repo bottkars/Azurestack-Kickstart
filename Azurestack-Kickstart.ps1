@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 1.7
+.VERSION 1.8
 
 .GUID a6511736-a96f-4c6f-a8f2-2f4f877627c0
 
@@ -51,27 +51,10 @@ param ([Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][Vali
 )]$LanguageTag = "en-US",
 [switch]$noutils
 )
-function enable-unsecuressl
-{
-    Add-Type -TypeDefinition @"
-	    using System.Net;
-	    using System.Security.Cryptography.X509Certificates;
-	    public class TrustAllCertsPolicy : ICertificatePolicy {
-	        public bool CheckValidationResult(
-	            ServicePoint srvPoint, X509Certificate certificate,
-	            WebRequest request, int certificateProblem) {
-	            return true;
-	        }
-	    }
-"@
-[System.Net.ServicePointManager]::CertificatePolicy = New-Object -TypeName TrustAllCertsPolicy
-
-}
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12 
 $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
-
 $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
- 
 # Check to see if we are currently running "as Administrator"
 if (!$myWindowsPrincipal.IsInRole($adminRole))
   {
@@ -102,7 +85,7 @@ Write-Host -ForegroundColor Green "[Done]"
 
 if (!$noutils.IsPresent)
 {
-enable-unsecuressl  
+
 $Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
 foreach ($Util in $Utils)
   {
