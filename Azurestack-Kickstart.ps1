@@ -86,7 +86,7 @@ Write-Host -ForegroundColor Green "[Done]"
 if (!$noutils.IsPresent)
 {
 
-$Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts")
+$Utils = ("install-chrome","install-gitscm","Create-AZSportalsshortcuts",'install-qemu-img')
 foreach ($Util in $Utils)
   {
   Write-Host -ForegroundColor White -NoNewline  "[==>]Installing $util"    
