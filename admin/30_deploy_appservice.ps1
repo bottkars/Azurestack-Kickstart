@@ -16,7 +16,7 @@ $myLocation = $Global:AZS_Location,
 $PrivilegedEndpoint = $Global:PrivilegedEndpoint,
 [switch]$NoFileserverDeployment,
 [switch]$NoOfflineDownload,
-$Offlinepath = "D:\AppService"
+$Offlinepath = "$Home\Downloads\AppService"
 )
 if (!$Global:SubscriptionID)
     {
