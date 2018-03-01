@@ -98,7 +98,7 @@ switch ($PsCmdlet.ParameterSetName)
                 $date = $date.Insert(6,'.')
                 $date = $date.Insert(4,'.')
                 write-host "using version $date"
-                Start-BitsTransfer -Source $version.URL -Destination $ImagePath
+                Start-BitsTransfer -Source $Versions.URL -Destination $ImagePath
             }
     }  
 
