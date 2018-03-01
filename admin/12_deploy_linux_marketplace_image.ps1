@@ -3,8 +3,8 @@
 param (
     [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('cver')]$CentosDistribution,
     [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('1711','1710','1708','1707','1706')]$CentosBuild,
-    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('uver')]$UbuntuDistribution,
-    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('1711','1710','1708','1707','1706')]$UbuntuBuild,
+    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('xenial')][alias('uver')]$UbuntuDistribution,
+    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('16.04-LTS')]$UbuntuBuild,
 
     [Parameter(Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ImagePath=$Global:ImagePath,
     [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
@@ -33,7 +33,7 @@ switch ($PsCmdlet.ParameterSetName)
     {
         'ubuntu'
             {
-                $Versions = (get-content "$PSScriptRoot/Centos-7.json" | ConvertFrom-Json)
+                $Versions = (get-content "$PSScriptRoot/Cubuntu.json" | ConvertFrom-Json)
                 $build = $UbuntuBuild
                 $Distribution = $UbuntuDistribution
 

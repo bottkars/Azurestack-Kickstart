@@ -1,6 +1,6 @@
 [
     {
-        "Version": "https://cloud-images.ubuntu.com/xenial/current/",
+        "Version": "Xenial",
         "Date": "2017.11.28",
         "Build": "https://cloud-images.ubuntu.com/xenial/current/",
         "URL": "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.vhd.zip"
