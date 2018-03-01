@@ -31,7 +31,7 @@ switch ($PsCmdlet.ParameterSetName)
             }
         'ubuntu'
             {
-                $Versions = (get-content "$PSScriptRoot/Cubuntu.json" | ConvertFrom-Json)
+                $Versions = (get-content "$PSScriptRoot/Ubuntu.json" | ConvertFrom-Json)
                 $build = $UbuntuBuild
                 $Distribution = $UbuntuDistribution
 
