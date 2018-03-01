@@ -1,9 +1,9 @@
 
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
-    [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('Version')]$CentosDistribution,
+    [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('cver')]$CentosDistribution,
     [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('1711','1710','1708','1707','1706')]$CentosBuild,
-    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('Version')]$UbuntuDistribution,
+    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('uver')]$UbuntuDistribution,
     [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('1711','1710','1708','1707','1706')]$UbuntuBuild,
 
     [Parameter(Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ImagePath=$Global:ImagePath,
