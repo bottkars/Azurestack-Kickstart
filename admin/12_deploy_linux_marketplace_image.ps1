@@ -29,8 +29,6 @@ switch ($PsCmdlet.ParameterSetName)
                 $build = $CentosBuild
                 $Distribution = $CentosDistribution
             }
-    }
-    {
         'ubuntu'
             {
                 $Versions = (get-content "$PSScriptRoot/Cubuntu.json" | ConvertFrom-Json)
@@ -89,7 +87,6 @@ switch ($PsCmdlet.ParameterSetName)
                     } 
                 }
             }
-
         'ubuntu'
             {
                 Write-Host "Analyzing Content ... "
