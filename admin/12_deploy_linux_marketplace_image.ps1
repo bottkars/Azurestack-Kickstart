@@ -101,12 +101,33 @@ switch ($PsCmdlet.ParameterSetName)
                     {
                         $release = $version.release
                     }    
-                $release = $release.Insert(6,'.')
-                $release = $release.Insert(4,'.')
                 write-host "using release $release as SKU Version"
-                Start-BitsTransfer -Source $Version.URL -Destination $ImagePath
                 $File = Join-Path $ImagePath (Split-Path -Leaf $version.URL)
-                Expand-Archive -Path $File -DestinationPath $ImagePath
+                if (!(Test-Path $file))
+                    {
+                    Start-BitsTransfer -Source $Version.URL -Destination $ImagePath
+                    }
+
+                try {
+                    Expand-Archive -Path $File -DestinationPath $ImagePath
+                }
+                catch {
+                    Write-Host "Error extracting $file"
+                    Break
+                }
+                if ($version.release -match "http")
+                    {
+                        Write-Host "Daily Build, deleting Download"
+                        Remove-Item $File -Force
+                    }
+                $evalnum ++
+                $Offer_version = $version.Version -replace "-"," "
+                $VHD_Image = split-path -leaf ($file -replace ".zip")
+                $Publisher = "Canonical"
+                $Offer = "Ubuntu Server $Offer_version"
+                $sku = $version.Version
+                $osImageSkuVersion = "$(($version.Version).Substring(0,5)).$($Release.Substring(0,8))"
+
             }
     }  
 
