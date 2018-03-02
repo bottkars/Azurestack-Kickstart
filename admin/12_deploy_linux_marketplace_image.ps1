@@ -3,8 +3,7 @@
 param (
     [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('cver')]$CentosDistribution,
     [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('1711','1710','1708','1707','1706')]$CentosBuild,
-    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('xenial')][alias('uver')]$UbuntuDistribution,
-    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('16.04-LTS')]$UbuntuBuild,
+    [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('16.04-LTS','18.04-LTS','14.04.05-LTS')][alias('uver')]$UbuntuVersion,
 
     [Parameter(Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ImagePath=$Global:ImagePath,
     [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
@@ -32,7 +31,8 @@ switch ($PsCmdlet.ParameterSetName)
         'ubuntu'
             {
                 $Versions = (get-content "$PSScriptRoot/Ubuntu.json" | ConvertFrom-Json)
-                $build = $UbuntuBuild
+                $version = $versions | where {$_.Version -match $UbuntuDistribution}
+                $build = $Version.Release
                 $Distribution = $UbuntuDistribution
 
             }
@@ -90,15 +90,24 @@ switch ($PsCmdlet.ParameterSetName)
         'ubuntu'
             {
                 Write-Host "Analyzing Content ... "
-                $result = Invoke-WebRequest -Uri $versions.Build
-                $title = $result.ParsedHtml.title
-                Write-Host "found $title"
-                $my = ($title -split "\[")[1]
-                $date = $my -replace $my[-1]
-                $date = $date.Insert(6,'.')
-                $date = $date.Insert(4,'.')
-                write-host "using version $date"
+                if ($version.release -match "http")
+                    {
+                        $result = Invoke-WebRequest -Uri $version.release
+                        $title = $result.ParsedHtml.title
+                        Write-Host "found $title"
+                        $my = ($title -split "\[")[1]
+                        $release = $my -replace $my[-1]
+                    }
+                else
+                    {
+                        $release = $version.release
+                    }    
+                $release = $release.Insert(6,'.')
+                $release = $release.Insert(4,'.')
+                write-host "using release $release as SKU Version"
                 Start-BitsTransfer -Source $Versions.URL -Destination $ImagePath
+                $File = Join-Path $ImagePath (Split-Path -Leaf $version.URL)
+                Expand-Archive -Path $File -DestinationPath $ImagePath
             }
     }  
 
