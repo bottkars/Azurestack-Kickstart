@@ -110,13 +110,13 @@ switch ($PsCmdlet.ParameterSetName)
                 }
                 if (!(test-path $VHD_Image_path))    
                 {
-                    if (!(Test-Path $file))
+                    if (!(Test-Path $File))
                         {
                         Start-BitsTransfer -Source $Version.URL -Destination $ImagePath
                         }    
                     try {
                         Write-Host "Extracting $File"
-                        Expand-Archive -LiteralPath $File -DestinationPath $ImagePath
+                        Expand-Archive -LiteralPath $File -DestinationPath $ImagePath -Verbose
                     }
                     catch {
                         Write-Host "Error extracting $file"
