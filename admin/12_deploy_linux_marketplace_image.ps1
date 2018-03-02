@@ -104,7 +104,7 @@ switch ($PsCmdlet.ParameterSetName)
                 $release = $release.Insert(6,'.')
                 $release = $release.Insert(4,'.')
                 write-host "using release $release as SKU Version"
-                Start-BitsTransfer -Source $Versions.URL -Destination $ImagePath
+                Start-BitsTransfer -Source $Version.URL -Destination $ImagePath
                 $File = Join-Path $ImagePath (Split-Path -Leaf $version.URL)
                 Expand-Archive -Path $File -DestinationPath $ImagePath
             }
