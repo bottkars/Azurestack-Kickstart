@@ -128,11 +128,10 @@ switch ($PsCmdlet.ParameterSetName)
 
                 $VHD_Image = Split-Path -Leaf $VHD_Image_path    
                 $evalnum ++
-                $Offer_version = $version.Version -replace "-"," "
                 $Publisher = "Canonical"
-                $Offer = "Ubuntu Server $Offer_version"
                 $sku = $version.Version
-                $osImageSkuVersion = "$(($version.Version).Substring(0,5)).$($Release.Substring(0,8))"
+                $Offer = "Ubuntu_$sku"
+                $osImageSkuVersion = "$($sku.Substring(0,5)).$($Release.Substring(0,8))"
             }
     }  
     if ($evalnum -gt 0)
