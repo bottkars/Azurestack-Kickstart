@@ -101,7 +101,7 @@ switch ($PsCmdlet.ParameterSetName)
                     }    
                 write-host "using release $release as SKU Version"
                 $File = Join-Path $ImagePath $(Split-Path -Leaf $version.URL)
-                $VHD_Image_path = split-path -leaf ($File -replace ".zip")
+                $VHD_Image_path = $File -replace ".zip"
                 if ($version.release -match "http")
                 {
                     Write-Host "Daily Build, deleting old Download"
