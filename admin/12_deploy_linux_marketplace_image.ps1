@@ -109,7 +109,7 @@ switch ($PsCmdlet.ParameterSetName)
 
                 try {
                     Write-Host "Extracting $File"
-                    Expand-Archive -Path $File -DestinationPath $ImagePath
+                    Expand-Archive -LiteralPath $File -DestinationPath $ImagePath
                 }
                 catch {
                     Write-Host "Error extracting $file"
