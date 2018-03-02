@@ -4,7 +4,6 @@ param (
     [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('Centos-7.4')][alias('cver')]$CentosDistribution,
     [Parameter(ParameterSetName = "centos", Mandatory = $true,Position = 1)][ValidateSet('1711','1710','1708','1707','1706')]$CentosBuild,
     [Parameter(ParameterSetName = "ubuntu", Mandatory = $true,Position = 1)][ValidateSet('16.04-LTS','18.04-LTS','14.04.05-LTS')][alias('uver')]$UbuntuVersion,
-
     [Parameter(Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ImagePath=$Global:ImagePath,
     [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
@@ -109,7 +108,7 @@ switch ($PsCmdlet.ParameterSetName)
                     }
 
                 try {
-                    Expand-Archive -Path $File -DestinationPath $VHD_Image
+                    Expand-Archive -Path $File -DestinationPath $ImagePath
                 }
                 catch {
                     Write-Host "Error extracting $file"
