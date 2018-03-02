@@ -33,7 +33,6 @@ switch ($PsCmdlet.ParameterSetName)
                 $Versions = (get-content "$PSScriptRoot/Ubuntu.json" | ConvertFrom-Json)
                 $version = $versions | where {$_.Version -match $UbuntuVersion}
                 $build = $Version.Release
-
             }
     }    
 
@@ -103,13 +102,14 @@ switch ($PsCmdlet.ParameterSetName)
                     }    
                 write-host "using release $release as SKU Version"
                 $File = Join-Path $ImagePath (Split-Path -Leaf $version.URL)
+                $VHD_Image = split-path -leaf ($file -replace ".zip")
                 if (!(Test-Path $file))
                     {
                     Start-BitsTransfer -Source $Version.URL -Destination $ImagePath
                     }
 
                 try {
-                    Expand-Archive -Path $File -DestinationPath $ImagePath
+                    Expand-Archive -Path $File -DestinationPath $VHD_Image
                 }
                 catch {
                     Write-Host "Error extracting $file"
@@ -122,15 +122,12 @@ switch ($PsCmdlet.ParameterSetName)
                     }
                 $evalnum ++
                 $Offer_version = $version.Version -replace "-"," "
-                $VHD_Image = split-path -leaf ($file -replace ".zip")
                 $Publisher = "Canonical"
                 $Offer = "Ubuntu Server $Offer_version"
                 $sku = $version.Version
                 $osImageSkuVersion = "$(($version.Version).Substring(0,5)).$($Release.Substring(0,8))"
-
             }
     }  
-
     if ($evalnum -gt 0)
         {   
         Write-Host -ForegroundColor White "[==>]Starting Image Upload of $VHD_Image for Publisher $Publisher as offer $Offer with SKU $SKU and Version $osImageSkuVersion"
