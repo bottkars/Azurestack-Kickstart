@@ -116,7 +116,7 @@ switch ($PsCmdlet.ParameterSetName)
                         }    
                     try {
                         Write-Host "Extracting $File"
-                        $vhd_fileinfo = Expand-Archive -LiteralPath $File -DestinationPath $ImagePath -Verbose
+                        $vhd_fileinfo = Expand-Archive -LiteralPath $File -DestinationPath $ImagePath -Force
                         $VHD_Image_path = $vhd_fileinfo.Fullname
                     }
                     catch {
