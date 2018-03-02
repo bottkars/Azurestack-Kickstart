@@ -32,6 +32,7 @@ switch ($PsCmdlet.ParameterSetName)
                 $Versions = (get-content "$PSScriptRoot/Ubuntu.json" | ConvertFrom-Json)
                 $version = $versions | where {$_.Version -match $UbuntuVersion}
                 $build = $Version.Release
+                add-type -AssemblyName "system.io.compression.filesystem"
             }
     }    
 
@@ -117,7 +118,7 @@ switch ($PsCmdlet.ParameterSetName)
                     try {
                         Write-Host "Extracting $File"
                         $vhd_fileinfo = Expand-Archive -LiteralPath $File -DestinationPath $ImagePath -Force
-                        $VHD_Image_path = $vhd_fileinfo.Fullname
+                        $VHD_Image_path = [System.IO.Compression.zipfile]::OpenRead("$File").entries.name
                     }
                     catch {
                         Write-Host "Error extracting $file"
