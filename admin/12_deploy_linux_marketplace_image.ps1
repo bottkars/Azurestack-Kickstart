@@ -102,12 +102,18 @@ switch ($PsCmdlet.ParameterSetName)
                 write-host "using release $release as SKU Version"
                 $File = Join-Path $ImagePath $(Split-Path -Leaf $version.URL)
                 $VHD_Image_path = split-path -leaf ($file -replace ".zip")
-                if (!(Test-Path $file))
-                    {
-                    Start-BitsTransfer -Source $Version.URL -Destination $ImagePath
-                    }
+                if ($version.release -match "http")
+                {
+                    Write-Host "Daily Build, deleting old Download"
+                    Remove-Item $File -Force -ErrorAction SilentlyContinue
+                    Remove-Item $VHD_Image_path -Force -ErrorAction SilentlyContinue
+                }
                 if (!(test-path $VHD_Image_path))    
-                {    
+                {
+                    if (!(Test-Path $file))
+                        {
+                        Start-BitsTransfer -Source $Version.URL -Destination $ImagePath
+                        }    
                     try {
                         Write-Host "Extracting $File"
                         Expand-Archive -LiteralPath $File -DestinationPath $ImagePath
@@ -117,11 +123,7 @@ switch ($PsCmdlet.ParameterSetName)
                         Break
                     }
                 }
-                if ($version.release -match "http")
-                    {
-                        Write-Host "Daily Build, deleting Download"
-                        Remove-Item $File -Force
-                    }
+
                 $VHD_Image = Split-Path -Leaf $VHD_Image    
                 $evalnum ++
                 $Offer_version = $version.Version -replace "-"," "
