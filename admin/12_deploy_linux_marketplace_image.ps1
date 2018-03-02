@@ -31,9 +31,8 @@ switch ($PsCmdlet.ParameterSetName)
         'ubuntu'
             {
                 $Versions = (get-content "$PSScriptRoot/Ubuntu.json" | ConvertFrom-Json)
-                $version = $versions | where {$_.Version -match $UbuntuDistribution}
+                $version = $versions | where {$_.Version -match $UbuntuVersion}
                 $build = $Version.Release
-                $Distribution = $UbuntuDistribution
 
             }
     }    
