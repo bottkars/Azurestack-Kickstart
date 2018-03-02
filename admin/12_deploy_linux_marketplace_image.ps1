@@ -100,7 +100,7 @@ switch ($PsCmdlet.ParameterSetName)
                         $release = $version.release
                     }    
                 write-host "using release $release as SKU Version"
-                $File = Join-Path $ImagePath (Split-Path -Leaf $version.URL)
+                $File = Join-Path $ImagePath $(Split-Path -Leaf $version.URL)
                 $VHD_Image = split-path -leaf ($file -replace ".zip")
                 if (!(Test-Path $file))
                     {
@@ -108,6 +108,7 @@ switch ($PsCmdlet.ParameterSetName)
                     }
 
                 try {
+                    Write-Host "Extracting $File"
                     Expand-Archive -Path $File -DestinationPath $ImagePath
                 }
                 catch {
