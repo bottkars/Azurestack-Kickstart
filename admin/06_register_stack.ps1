@@ -54,4 +54,5 @@ $AZSregistration = Add-AzsRegistration `
     -BillingModel Development
 
     Write-Host -ForegroundColor Green [Done]
+.$PSScriptRoot/99_bootstrap.ps1    
     
