@@ -17,8 +17,8 @@ $fqdn = "$mysqlhost.local.cloudapp.azurestack.external"
 New-AzureRmResourceGroup -Name $RG -Location local 
 
 New-AzureRmResourceGroupDeployment -Name MySQLHostingserver_Deploy -ResourceGroupName $RG `
-    -TemplateUri 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/101-mysqladapter-add-hosting-server/azuredeploy.json' `
-    -HostingServerName $fqdn `
+    -TemplateUri 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/101-mysqladapter-add-hosting-server/azuredeploy.json' `
+    -hostingServerName $fqdn `
 -password $MySQLRPPassword `
 -username $MySQLRPadmin `
 -Mode Incremental `

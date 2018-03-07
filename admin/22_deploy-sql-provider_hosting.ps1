@@ -19,7 +19,7 @@ if (!$Global:SubscriptionID)
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
 }  
-$templateuri = 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/101-sqladapter-add-hosting-server/azuredeploy.json'
+$templateuri = 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/101-sqladapter-add-hosting-server/azuredeploy.json'
 
 New-AzureRmResourceGroup -Name $RG -Location local 
 New-AzureRmResourceGroupDeployment -Name "$($RG)_DEPLOY" -ResourceGroupName $RG `
