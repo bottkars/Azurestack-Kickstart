@@ -1,4 +1,27 @@
 ﻿
+$resourceGroup = 'OpsMANAGER'
+$location = $GLOBAL:AZS_Location
+$storageaccount = 'opsmanstorageaccount'
+$storageType = 'Standard_LRS'
+$containername = 'opsman-image'
+$localPath = "$HOME\Downloads\ops-manager-2.0-build.263.vhd"
+$imageName = 'OPSManager'
+$vhdName = 'image.vhd'
+New-AzureRmResourceGroup -Name $resourceGroup -Location $location
+New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
+    $storageAccount -Location $location `
+    -Type $storageType 
+$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $containername + '/' + $vhdName)
+Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
+    -LocalFilePath $localPath
+
+
+
+
+
+
+
+    
 <#
 $TenantID = Get-AzsDirectoryTenantId -AADTenantName $TenantName -EnvironmentName "AzureStackAdmin"
 

@@ -4,6 +4,7 @@
   "parameters": {
     "storageAccountName": {
       "type": "string",
+      "defaultValue": "opsmanstorageaccount",
       "metadata": {
         "description": "Name of storage account created with Azure CLI"
       }
@@ -97,7 +98,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(variables('boshExtraStorageAccountName'), '1')]",
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
       "properties": {
         "accountType": "Standard_LRS"
@@ -106,7 +107,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(variables('boshExtraStorageAccountName'), '2')]",
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
       "properties": {
         "accountType": "Standard_LRS"
@@ -115,7 +116,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(variables('boshExtraStorageAccountName'), '3')]",
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
       "properties": {
         "accountType": "Standard_LRS"
@@ -124,7 +125,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(variables('boshExtraStorageAccountName'), '4')]",
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
       "properties": {
         "accountType": "Standard_LRS"
@@ -133,14 +134,14 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(variables('boshExtraStorageAccountName'), '5')]",
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
       "properties": {
         "accountType": "Standard_LRS"
       }
     },
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "opsman-ip",
       "location": "[variables('location')]",
@@ -152,12 +153,12 @@
       }
     },
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "pcf-lb-ip",
       "location": "[variables('location')]",
       "properties": {
-        "publicIPAllocationMethod": "static"
+        "publicIPAllocationMethod": "Static"
       }
     },
     {
@@ -249,7 +250,7 @@
       }
     },
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
       "location": "[variables('location')]",
@@ -372,7 +373,7 @@
       }
     },
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('opsManNicName')]",
       "location": "[variables('location')]",
@@ -399,7 +400,7 @@
       }
     },
     {
-      "apiversion": "[variables('api-version')]",
+      "apiversion": "2016-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('opsManVMName')]",
       "location": "[variables('location')]",
