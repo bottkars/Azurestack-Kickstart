@@ -3,7 +3,7 @@ $opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/op
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorageaccount',
-$containername = 'opsman-image'
+$containername = 'vhds'
 )
 
 $vhdName = 'image.vhd'
@@ -11,7 +11,7 @@ $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
 $localPath = "$HOME\Downloads\$file"
 
-if (!(Test-Path -leaf $localPath))
+if (!(Test-Path $localPath))
     {
     Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager     
     }
