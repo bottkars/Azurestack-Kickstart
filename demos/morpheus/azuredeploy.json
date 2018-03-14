@@ -4,7 +4,7 @@
   "parameters": {
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "morheusstorageaccount",
+      "defaultValue": "morpheusstorageaccount",
       "metadata": {
         "description": "Name of storage account created with Azure CLI"
       }
@@ -45,7 +45,7 @@
     }
   },
   "variables": {
-    "VMName": "morpeus",
+    "VMName": "morpheus",
     "FQDNPrefix": "[concat('morpheus-',uniquestring(resourceGroup().id, deployment().name))]",
     "location": "[parameters('location')]",
     "vmStorageAccountContainerName": "vhds",
@@ -53,7 +53,7 @@
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "addressPrefix": "10.0.0.0/16",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-    "subnet1Name": "morpeus",
+    "subnet1Name": "morpheus",
     "subnet1Prefix": "10.0.0.0/24",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/', variables('subnet1Name'))]",
     "subnet1NSG": "morpheus-nsg",
@@ -86,7 +86,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "morpeus-public-ip",
+      "name": "morpheus-public-ip",
       "location": "[variables('location')]",
       "properties": {
         "publicIPAllocationMethod": "Static"
@@ -102,7 +102,7 @@
           {
             "name": "allow-ssh-to-morpheus",
             "properties": {
-              "description": "Allow Inbound SSH To Morheus",
+              "description": "Allow Inbound SSH To morpheus",
               "protocol": "*",
               "sourcePortRange": "*",
               "destinationPortRange": "22",
