@@ -1,6 +1,6 @@
 ﻿param(
-$image = "c:\images\CentOS-7-x86_64-Azure-1711.vhd",    
-$resourceGroup = 'morheus',
+$image = "c:\image\CentOS-7-x86_64-Azure-1711.vhd",    
+$resourceGroup = 'morpheus',
 $location = $GLOBAL:AZS_Location,
 $storageaccount = 'morpheusstorageaccount',
 $image_containername = 'morheus-image'

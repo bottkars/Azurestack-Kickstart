@@ -45,7 +45,7 @@
     }
   },
   "variables": {
-    "VMName": "morpeus-ops-man",
+    "VMName": "morpeus",
     "FQDNPrefix": "[concat('morpheus-',uniquestring(resourceGroup().id, deployment().name))]",
     "location": "[parameters('location')]",
     "vmStorageAccountContainerName": "vhds",
@@ -56,9 +56,8 @@
     "subnet1Name": "morpeus",
     "subnet1Prefix": "10.0.0.0/24",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/', variables('subnet1Name'))]",
-    "subnet1NSG": "opsmgr-nsg",
+    "subnet1NSG": "morpheus-nsg",
     "morpheusNicName": "[variables('VMName')]",
-    "morpheusPrivateIPAddress": "10.0.0.4",
     "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
     "diagnosticsStorageAccountType": "Standard_LRS"
   },
@@ -108,7 +107,7 @@
               "sourcePortRange": "*",
               "destinationPortRange": "22",
               "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "[concat(variables('morpheusPrivateIPAddress'), '/32')]",
+              "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 1200,
               "direction": "Inbound"
@@ -122,7 +121,7 @@
               "sourcePortRange": "*",
               "destinationPortRange": "80",
               "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "[concat(variables('morpheusPrivateIPAddress'), '/32')]",
+              "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 1300,
               "direction": "Inbound"
@@ -136,7 +135,7 @@
               "sourcePortRange": "*",
               "destinationPortRange": "443",
               "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "[concat(variables('morpheusPrivateIPAddress'), '/32')]",
+              "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 1400,
               "direction": "Inbound"
@@ -212,8 +211,8 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[variables('morpheusPrivateIPAddress')]",
+              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAddress": "*",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses','morpheus-ip')]"
               },
