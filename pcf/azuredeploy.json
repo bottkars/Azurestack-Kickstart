@@ -66,7 +66,6 @@
     }
   },
   "variables": {
-    "api-version": "2016-01-01",
     "boshExtraStorageAccountName": "[concat('xtrastrg',uniquestring(resourceGroup().id, deployment().name))]",
     "opsManVMName": "pcf-ops-man",
     "opsManFQDNPrefix": "[concat('pcf-opsman-',uniquestring(resourceGroup().id, deployment().name))]",
@@ -77,7 +76,7 @@
     "xstorageid2": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'2'))]",
     "xstorageid3": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'3'))]",
     "xstorageid4": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'4'))]",
-    "xstorageid5": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'5'))]",    
+    "xstorageid5": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'5'))]",
     "virtualNetworkName": "pcf-net",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "addressPrefix": "10.0.0.0/16",
@@ -92,7 +91,9 @@
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/pcf-fe-ip')]",
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/pcf-vms')]",
-    "lbProbeID": "[concat(variables('lbID'),'/probes/tcp80')]"
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcp80')]",
+    "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
+    "diagnosticsStorageAccountType": "Standard_LRS"
   },
   "resources": [
     {
@@ -141,6 +142,15 @@
       }
     },
     {
+      "name": "[variables('diagnosticsStorageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "accountType": "[variables('diagnosticsStorageAccountType')]"
+      }
+    },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "opsman-ip",
@@ -168,84 +178,87 @@
       "location": "[variables('location')]",
       "properties": {
         "securityRules": [
-            {
-              "name": "allow-ssh-to-opsman",
-              "properties": {
-                "description": "Allow Inbound SSH To Ops Manager",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "22",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
-                "access": "Allow",
-                "priority": 1200,
-                "direction": "Inbound"
-              }
-            }, {
-              "name": "allow-http-to-opsman",
-              "properties": {
-                "description": "Allow Inbound HTTP To Ops Manager",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "80",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
-                "access": "Allow",
-                "priority": 1300,
-                "direction": "Inbound"
-              }
-            }, {
-              "name": "allow-https-to-opsman",
-              "properties": {
-                "description": "Allow Inbound HTTPS To Ops Manager",
-                "protocol": "*",
-                "sourcePortRange": "*",
-                "destinationPortRange": "443",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
-                "access": "Allow",
-                "priority": 1400,
-                "direction": "Inbound"
+          {
+            "name": "allow-ssh-to-opsman",
+            "properties": {
+              "description": "Allow Inbound SSH To Ops Manager",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
+              "access": "Allow",
+              "priority": 1200,
+              "direction": "Inbound"
             }
-          }, {
-              "name": "allow-http",
-              "properties": {
-                "protocol": "Tcp",
-                "sourcePortRange": "*",
-                "destinationPortRange": "80",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1500,
-                "direction": "Inbound"
-              }
-            },
-            {
-              "name": "allow-https",
-              "properties": {
-                "protocol": "Tcp",
-                "sourcePortRange": "*",
-                "destinationPortRange": "443",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1600,
-                "direction": "Inbound"
-                }
-            },
-            {
-              "name": "allow-diego-ssh",
-              "properties": {
-                "protocol": "Tcp",
-                "sourcePortRange": "*",
-                "destinationPortRange": "2222",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1700,
-                "direction": "Inbound"
-                }
+          },
+          {
+            "name": "allow-http-to-opsman",
+            "properties": {
+              "description": "Allow Inbound HTTP To Ops Manager",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
+              "access": "Allow",
+              "priority": 1300,
+              "direction": "Inbound"
             }
+          },
+          {
+            "name": "allow-https-to-opsman",
+            "properties": {
+              "description": "Allow Inbound HTTPS To Ops Manager",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
+              "access": "Allow",
+              "priority": 1400,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "allow-http",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1500,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "allow-https",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1600,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "allow-diego-ssh",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "2222",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1700,
+              "direction": "Inbound"
+            }
+          }
         ]
       }
     },
@@ -268,8 +281,8 @@
             "name": "[variables('subnet1Name')]",
             "properties": {
               "addressPrefix": "[variables('subnet1Prefix')]",
-              "networkSecurityGroup":{
-                  "id":"[resourceId('Microsoft.Network/networkSecurityGroups', variables('subnet1NSG'))]"
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('subnet1NSG'))]"
               }
             }
           }
@@ -417,10 +430,12 @@
           "linuxConfiguration": {
             "disablePasswordAuthentication": "true",
             "ssh": {
-              "publicKeys": [{
-                "path": "[variables('sshKeyPath')]",
-                "keyData": "[parameters('adminSSHKey')]"
-              }]
+              "publicKeys": [
+                {
+                  "path": "[variables('sshKeyPath')]",
+                  "keyData": "[parameters('adminSSHKey')]"
+                }
+              ]
             }
           }
         },
@@ -445,17 +460,23 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('opsManNicName'))]"
             }
           ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": "true",
+            "storageUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageName')),providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob)]"
+          }
         }
       }
     }
   ],
   "outputs": {
     "OpsMan-FQDN": {
-      "type" : "string",
+      "type": "string",
       "value": "[reference('opsman-ip').dnsSettings.fqdn]"
     },
     "Extra Storage Account Prefix": {
-      "type" : "string",
+      "type": "string",
       "value": "[variables('boshExtraStorageAccountName')]"
     }
   }
