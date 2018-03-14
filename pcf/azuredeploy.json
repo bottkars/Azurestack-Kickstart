@@ -11,7 +11,7 @@
     },
     "storageEndpoint": {
       "type": "string",
-      "defaultValue": "local.azurestack.external",
+      "defaultValue": "blob.local.azurestack.external",
       "metadata": {
         "description": "Domain prefix for storaged based on the chosen Azure cloud i.e. Commercial, Germany, etc."
       }
@@ -451,7 +451,7 @@
               "uri": "[concat('http://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/',variables('vmStorageAccountContainerName'),'/',variables('opsManVMName'),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
-            "diskSizeGB": 128
+            "diskSizeGB": 127
           }
         },
         "networkProfile": {
