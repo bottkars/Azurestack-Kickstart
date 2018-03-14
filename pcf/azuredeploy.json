@@ -156,7 +156,7 @@
       "name": "opsman-ip",
       "location": "[variables('location')]",
       "properties": {
-        "publicIPAllocationMethod": "dynamic",
+        "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
           "domainNameLabel": "[variables('opsManFQDNPrefix')]"
         }
@@ -376,7 +376,7 @@
           {
             "name": "tcp80",
             "properties": {
-              "protocol": "tcp",
+              "protocol": "Tcp",
               "port": 80,
               "intervalInSeconds": 5,
               "numberOfProbes": 2
@@ -413,7 +413,7 @@
       }
     },
     {
-      "apiversion": "2016-03-30",
+      "apiVersion": "2016-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('opsManVMName')]",
       "location": "[variables('location')]",
@@ -428,7 +428,7 @@
           "computerName": "[variables('opsManVMName')]",
           "adminUsername": "[parameters('adminUsername')]",
           "linuxConfiguration": {
-            "disablePasswordAuthentication": "true",
+            "disablePasswordAuthentication": "True",
             "ssh": {
               "publicKeys": [
                 {
