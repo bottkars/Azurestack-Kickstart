@@ -22,7 +22,7 @@ Set-Culture $Locale | Out-Null
 Set-WinSystemLocale $Locale | Out-Null
 Set-WinUserLanguageList -LanguageList $Locale -Force | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
-$AZDCredential = Get-Credential -UserName "Azurestack\Administrator" -Message "Enter AD Credentials for AzureStackAdmin"
+$AZDCredential = Get-Credential -UserName "Azurestack\AzurestackAdmin" -Message "Enter AD Credentials for AzureStackAdmin"
 $AZSvms = get-vm -Name AZS*
 $scriptblock = {
 $env:COMPUTERNAME    
