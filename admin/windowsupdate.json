@@ -204,5 +204,11 @@
     "Date": "2018.02.22",
     "Build": "14393.2097",
     "URL": "http://download.windowsupdate.com/c/msdownload/update/software/updt/2018/02/windows10.0-kb4077525-x64_c12a49a72b532c0403d400c6d637265dc0a1a9cd.msu"
+},
+{
+    "KB": "KB4088787",
+    "Date": "2018.03.13",
+    "Build": "14393.2125",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/secu/2018/03/windows10.0-kb4088787-x64_76e9d6684e0a004f51ea7373e4ea6217193c1b5e.msu"
 }
 ]
