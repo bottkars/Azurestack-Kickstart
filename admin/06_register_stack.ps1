@@ -38,7 +38,7 @@ Exit-PSSession
 
 Write-Host -ForegroundColor  Yellow "You now have to log in with your Subscription Owner $Global:SubscriptionOwner"
 Pause
-$SubscriptionOwnerContext = Login-AzureRmAccount -Environment "AzureCloud" -Subscription $Global:SubscriptionID
+$SubscriptionOwnerContext = Login-AzureRmAccount -Environment "AzureCloud" -SubscriptionId $Global:SubscriptionID
 Write-Host -ForegroundColor White -NoNewline "[==>]Selecting $($SubscriptionOwnerContext.Context.Subscription) "
 Select-AzureRmSubscription -SubscriptionId $Global:SubscriptionID
 Write-Host -ForegroundColor Green [Done]
