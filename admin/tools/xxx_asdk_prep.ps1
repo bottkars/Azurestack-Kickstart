@@ -16,7 +16,6 @@ param ([Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][Vali
 Write-Host -ForegroundColor White -NoNewline  "[==>]Disabling Windows Update"    
 Start-Process "sc" -ArgumentList "config wuauserv start=disabled" -Wait -NoNewWindow
 Write-Host -ForegroundColor Green "[Done]"
-
 Write-Host -ForegroundColor Gray "[==>]setting language to $LanguageTag"
 $Locale = $LanguageTag -replace "_","-"
 Set-Culture $Locale | Out-Null
