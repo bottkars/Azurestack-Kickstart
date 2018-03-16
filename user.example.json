@@ -1,7 +1,6 @@
 {
 "DNSDomain" :"azurestack.external",
 "Domain": "azurestack",
-"location": "local",
 "VMuser": "azureuser",
 "VMPassword": "Password123!",
 "TenantName": "contoso.onmicrosoft.com",

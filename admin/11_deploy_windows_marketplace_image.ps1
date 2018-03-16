@@ -1,4 +1,4 @@
-﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
+﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ISOPath=$Global:ISOPath,
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 2)][ValidateScript({ Test-Path -Path $_ })]$UpdatePath=$Global:UpdatePath,

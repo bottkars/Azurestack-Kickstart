@@ -18,6 +18,6 @@
 "SQLHost": "SQLHost1",
 "MySQLHost": "MySQLHost1",
 "ISOpath": "C:\\ISO",
-"Updatepath": "C:\\Updates"
+"Updatepath": "C:\\Updates",
 "Imagepath": "C:\\Image"
 }
