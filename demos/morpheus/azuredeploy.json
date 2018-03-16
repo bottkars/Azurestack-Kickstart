@@ -140,32 +140,6 @@
               "priority": 1400,
               "direction": "Inbound"
             }
-          },
-          {
-            "name": "allow-http",
-            "properties": {
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "80",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 1500,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "allow-https",
-            "properties": {
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "443",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 1600,
-              "direction": "Inbound"
-            }
           }
         ]
       }
