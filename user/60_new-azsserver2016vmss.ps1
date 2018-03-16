@@ -1,4 +1,4 @@
-[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-dsc")]
+[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param(
 [string][ValidateSet("Standard_A1","Standard_A2","Standard_A3")]$vmSku= "Standard_A1",
 [string]$vmssName= "vmsswin$(get-random(99))", 
