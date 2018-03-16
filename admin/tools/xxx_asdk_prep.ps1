@@ -33,4 +33,3 @@ Get-Service -Name wuauserv | fl StartType,Status,PSremote
 foreach ($vm in $AZSvms) {
 Invoke-Command -VMName $vm.name -ScriptBlock $scriptblock -Credential $AZDCredential
 }
-sc.exe config wuauserv start=disabled
