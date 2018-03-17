@@ -10,14 +10,14 @@ $RG_NAME ="$App_Name"
 $Hosting_plan_name = "$($App_Name)_plan"
 
 $parameters = @{}
-$parameters.Add(“appname”,$App_Name)
-$parameters.Add(“hostingPlanName”,$Hosting_plan_name)
-$parameters.Add(“hostingEnvironment”,"")
+$parameters.Add("appname",$App_Name)
+$parameters.Add("hostingPlanName",$Hosting_plan_name)
+$parameters.Add("hostingEnvironment","")
 $parameters.Add("subscriptionId",$Subscription_ID)
-$parameters.Add(“location”,$Location)
-$parameters.Add(“workerSize”,"0")
-$parameters.Add(“skuCode”,"D1")
-$parameters.Add(“sku”,"shared")
+$parameters.Add("location",$Location)
+$parameters.Add("workerSize","0")
+$parameters.Add("skuCode","D1")
+$parameters.Add("sku","shared")
 $parameters.Add("serverFarmResourceGroup",$App_Name)
 $Provider = "Microsoft.Web"
 if ((Get-AzureRmResourceProvider -ProviderNamespace $Provider).RegistrationState[-1] -ne "Registered")

@@ -24,6 +24,10 @@ $urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_
 Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
     -LocalFilePath $localPath
 
+$parameters = @{}
+$parameters.Add("AdminPassword",$Global:VMPassword)
+New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
+
 
 
 
