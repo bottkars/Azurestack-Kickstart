@@ -16,6 +16,13 @@
         "description": "Domain prefix for storaged based on the chosen Azure cloud i.e. Commercial, Germany, etc."
       }
     },
+    "opsManFQDNPrefix": {
+      "type": "string",
+      "defaultValue": "pcf-opsman",
+      "metadata": {
+        "description": "Domain prefix for opsman."
+      }
+    },
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_DS2_v2",
@@ -30,10 +37,10 @@
         "description": "User name for the Virtual Machine."
       }
     },
-    "adminSSHKey": {
+    "adminPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "Public SSH key to add to admin user."
+        "description": "Password for admin user."
       }
     },
     "tenantID": {
@@ -68,7 +75,6 @@
   "variables": {
     "boshExtraStorageAccountName": "[concat('xtrastrg',uniquestring(resourceGroup().id, deployment().name))]",
     "opsManVMName": "pcf-ops-man",
-    "opsManFQDNPrefix": "[concat('pcf-opsman-',uniquestring(resourceGroup().id, deployment().name))]",
     "location": "[parameters('location')]",
     "vmStorageAccountContainerName": "vhds",
     "storageid": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
@@ -158,7 +164,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[variables('opsManFQDNPrefix')]"
+          "domainNameLabel": "[parameters('opsManFQDNPrefix')]"
         }
       }
     },
@@ -427,15 +433,9 @@
         "osProfile": {
           "computerName": "[variables('opsManVMName')]",
           "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
           "linuxConfiguration": {
-            "disablePasswordAuthentication": "True",
-            "ssh": {
-              "publicKeys": [
-                {
-                  "path": "[variables('sshKeyPath')]",
-                  "keyData": "[parameters('adminSSHKey')]"
-                }
-              ]
+            "disablePasswordAuthentication": "False"
             }
           }
         },
