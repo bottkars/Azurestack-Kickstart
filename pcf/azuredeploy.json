@@ -437,7 +437,6 @@
           "linuxConfiguration": {
             "disablePasswordAuthentication": "False"
             }
-          }
         },
         "storageProfile": {
           "osDisk": {
@@ -468,6 +467,7 @@
           }
         }
       }
+    }
   ],
   "outputs": {
     "OpsMan-FQDN": {
