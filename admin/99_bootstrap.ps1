@@ -208,10 +208,10 @@ Write-Host -ForegroundColor Green [Done]
 
 # Sign in to your environment
 
-Write-Host "Please login now with serviceaccount once"
-$test = Login-AzureRmAccount `
-    -EnvironmentName "AzureStackAdmin" `
-    -TenantId $Global:TenantID
+#Write-Host "Please login now with serviceaccount once"
+#$test = Login-AzureRmAccount `
+#    -EnvironmentName "AzureStackAdmin" `
+#    -TenantId $Global:TenantID
 
 try {
  Write-Verbose "using Tenant ID $($Global:TenantID)"

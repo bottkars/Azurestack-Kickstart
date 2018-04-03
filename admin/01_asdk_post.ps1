@@ -12,7 +12,6 @@ param ([Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)][Vali
 'sw-KE','sv-FI','sv-SE','syr-SY','ta-IN','tt-RU','te-IN','th-TH','tr-TR','uk-UA','ur-PK','Cy-uz-UZ','Lt-uz-UZ','vi-VN'
 )]$LanguageTag = "en-US"
 )
-
 Write-Host -ForegroundColor White -NoNewline  "[==>]Disabling Windows Update"    
 Start-Process "sc" -ArgumentList "config wuauserv start=disabled" -Wait -NoNewWindow
 Write-Host -ForegroundColor Green "[Done]"
@@ -32,3 +31,4 @@ Get-Service -Name wuauserv | fl StartType,Status,PSremote
 foreach ($vm in $AZSvms) {
 Invoke-Command -VMName $vm.name -ScriptBlock $scriptblock -Credential $AZDCredential
 }
+Set-ADDefaultDomainPasswordPolicy -MaxPasswordAge 180.00:00:00 -Identity azurestack.local
