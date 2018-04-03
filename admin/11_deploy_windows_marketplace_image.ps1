@@ -12,7 +12,9 @@ param (
 'KB4057142',
 'KB4074590',
 'KB4077525',
-'KB4088787'
+'KB4088787',
+'KB4088889',
+'KB4096309'
 )]$KB,
 [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
