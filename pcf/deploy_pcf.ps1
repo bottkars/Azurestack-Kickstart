@@ -53,11 +53,17 @@ New-AzsTenantSubscription -DisplayName "Azure PCF Subscription" -Owner "Karsten 
 
 <# register provider network storage fevault, compute "!!!!!! 
 
+login ui
+
+
+uaac target https://pcf-opsman.local.cloudapp.azurestack.external/uaa
+uaac token owner get
+
 
 token="$(uaac context | awk '/^ *access_token\: *([a-zA-Z0-9.\/+\-_]+) *$/ {print $2}' -)"
 curl -H "Authorization: bearer $token" "$@"
 
-curl "https://opsmngr.local.cloudapp.azurestack.external/api/v0/vm_types" \
+curl "https://pcf-opsman.local.cloudapp.azurestack.external/api/v0/vm_types" \
     -X GET \
     -H "Authorization: bearer $token" \
     --insecure
@@ -65,7 +71,7 @@ curl "https://opsmngr.local.cloudapp.azurestack.external/api/v0/vm_types" \
 
 
 
-curl -k https://opsmngr.local.cloudapp.azurestack.external/api/v0/vm_types -X \
+curl -k https://pcf-opsman.local.cloudapp.azurestack.external/api/v0/vm_types -X \
 PUT -H "Authorization: bearer $token" -H \
 "Content-Type: application/json" -d '{"vm_types":[
 {"name":"Standard_DS1_v2","ram":3584,"cpu":1,"ephemeral_disk":51200},
