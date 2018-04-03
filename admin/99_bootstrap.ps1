@@ -202,7 +202,7 @@ Write-Host -ForegroundColor Green [Done]
 
 # Get the Active Directory tenantId that is used to deploy Azure Stack
   $Global:TenantID = Get-AzsDirectoryTenantId `
-    -AADTenantName $TenantName `
+    -AADTenantName $Global:TenantName `
     -EnvironmentName "AzureStackAdmin"
 
 # Sign in to your environment
