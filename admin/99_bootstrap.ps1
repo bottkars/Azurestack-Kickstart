@@ -209,8 +209,8 @@ Write-Host -ForegroundColor Green [Done]
 
 
 try {
-
- $Servive_RM_Account = Login-AzureRmAccount `
+ Write-Verbose "using Tenat ID $($Global:TenantID)"
+ $Service_RM_Account = Login-AzureRmAccount `
     -EnvironmentName "AzureStackAdmin" `
     -TenantId $Global:TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
 }
