@@ -212,7 +212,7 @@ try {
 
  $Servive_RM_Account = Login-AzureRmAccount `
     -EnvironmentName "AzureStackAdmin" `
-    -TenantId $TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
+    -TenantId $Global:TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
 }
 catch  {
     write-host "could not login AzureRMAccount $($Global:ServiceAdmin), maybe wrong pasword ? "
