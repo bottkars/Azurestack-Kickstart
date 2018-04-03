@@ -176,6 +176,7 @@ test-pathvalid $Admin_Defaults.ImagePath
 #########
 if (!$Global:ServiceAdminCreds)
     {
+        Write-Verbose "using "
     $ServiceAdminCreds = Get-Credential -UserName $GLobal:serviceAdmin -Message "Enter Azure ServiceAdmin Password"
     }
 if (!$Global:CloudAdminCreds)
@@ -207,9 +208,13 @@ Write-Host -ForegroundColor Green [Done]
 
 # Sign in to your environment
 
+Write-Host "Please login now with servivceaccount once"
+Login-AzureRmAccount `
+    -EnvironmentName "AzureStackAdmin" `
+    -TenantId $Global:TenantID
 
 try {
- Write-Verbose "using Tenat ID $($Global:TenantID)"
+ Write-Verbose "using Tenant ID $($Global:TenantID)"
  $Service_RM_Account = Login-AzureRmAccount `
     -EnvironmentName "AzureStackAdmin" `
     -TenantId $Global:TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
