@@ -208,8 +208,8 @@ Write-Host -ForegroundColor Green [Done]
 
 # Sign in to your environment
 
-Write-Host "Please login now with servivceaccount once"
-Login-AzureRmAccount `
+Write-Host "Please login now with serviceaccount once"
+$test = Login-AzureRmAccount `
     -EnvironmentName "AzureStackAdmin" `
     -TenantId $Global:TenantID
 
@@ -224,4 +224,4 @@ catch  {
     Break	
 }
 $Global:ServiceAdminCreds = $ServiceAdminCreds
-$Global:Service_RM_Account = $Servive_RM_Account
+$Global:Service_RM_Account = $Service_RM_Account
