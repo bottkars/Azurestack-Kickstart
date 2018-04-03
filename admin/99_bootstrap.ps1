@@ -83,7 +83,7 @@ if (!$Admin_Defaults.serviceuser)
        Write-Warning "serviceuser is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
-$Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
+$Global:ServiceAdmin = $Admin_Defaults.serviceuser
 if (!$Admin_Defaults.AZSTools_Location)
     {
        Write-Warning "AZSTools_Location is not set in $defaultsfile. Please add entry and retry" 
