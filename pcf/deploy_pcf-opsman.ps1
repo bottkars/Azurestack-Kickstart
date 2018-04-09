@@ -1,5 +1,5 @@
 ﻿param(
-$opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.0-build.263.vhd",
+$opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.212.vhd",
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorageaccount',
