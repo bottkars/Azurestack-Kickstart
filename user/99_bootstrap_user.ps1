@@ -123,8 +123,8 @@ if (!$noconnect.IsPresent)
       $azsuser_RM_Account = Login-AzureRmAccount `
       -EnvironmentName "AzureStackUser" `
       -TenantId $Global:TenantID `
-      -Credential $azsuser_credentials `
-      -ErrorAction SilentlyContinue
+      -Credential $azsuser_credentials -Verbose
+     # -ErrorAction SilentlyContinue
         }
     catch {
       Write-Host "Could not Login with $($Global:azsuser)
