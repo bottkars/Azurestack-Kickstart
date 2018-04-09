@@ -81,7 +81,7 @@ $Global:VMPassword = $User_Defaults.VMPassword | ConvertTo-SecureString -AsPlain
 
 if (!$azsuser_credentials)
     {
-    $azsuser_credentials = Get-Credential -Message "Enter Azure User Password for $global:azsuser" -UserName $global:azsuseraccount
+    $azsuser_credentials = Get-Credential -Message "Enter Azure User Password for $global:azsuser" -UserName $global:azsuser
     }
 Import-Module AzureRM.AzureStackAdmin
 Import-Module "$global:AZS_MODULES_ROOT\Connect\AzureStack.Connect.psm1"
@@ -118,7 +118,7 @@ if (!$noconnect.IsPresent)
       -AADTenantName "$Global:TenantName" `
       -EnvironmentName "AzureStackUser" 
     Write-Host -ForegroundColor Green "[Done]"
-    Write-Host -ForegroundColor White "[==>]Performin Login for $($Global:azsuseraccount )" -NoNewline  
+    Write-Host -ForegroundColor White "[==>]Performin Login for $($Global:azsuser )" -NoNewline  
     try {
       $azsuser_RM_Account = Login-AzureRmAccount `
       -EnvironmentName "AzureStackUser" `
@@ -132,7 +132,6 @@ if (!$noconnect.IsPresent)
       break      
     }
     Write-Host -ForegroundColor Green "[Done]"
-
     $global:azsuser_credentials  = $azsuser_credentials
     $Global:azsuser_RM_Account = $azsuser_RM_Account
     }
