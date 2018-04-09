@@ -55,7 +55,7 @@ if (!$User_Defaults.tenantname)
        Break 
     }
 $Global:TenantName = $User_Defaults.TenantName
-$global:azsuseraccount = "$Global:azsuser@$Global:TenantName"
+$global:azsuseraccount = "$Global:azsuser"
 
 if (!$User_Defaults.AZSTools_Location)
     {

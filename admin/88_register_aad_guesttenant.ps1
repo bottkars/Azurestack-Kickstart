@@ -18,3 +18,4 @@ Register-AzSGuestDirectoryTenant -AdminResourceManagerEndpoint $adminARMEndpoint
 Register-AzSWithMyDirectoryTenant `
  -TenantResourceManagerEndpoint $tenantARMEndpoint `
  -DirectoryTenantName $guestDirectoryTenantName `
+ 
