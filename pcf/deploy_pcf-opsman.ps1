@@ -15,11 +15,14 @@ if (!(Test-Path $localPath))
     {
     Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager     
     }
-
-foreach ($provider in ('Microsoft.Compute','Microsoft.Network','Microsoft.Vault','ÄMicrosoft.Storage'))
+if (!RegisterProividers)
     {
-        Get-AzureRmResourceProvider -ProviderNamespace $provider | Register-AzureRmResourceProvider
+        foreach ($provider in ('Microsoft.Compute','Microsoft.Network','Microsoft.KeyVault','Microsoft.Storage'))
+        {
+            Get-AzureRmResourceProvider -ProviderNamespace $provider | Register-AzureRmResourceProvider
+        } 
     }
+
 
 New-AzureRmResourceGroup -Name $resourceGroup -Location $location
 New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `

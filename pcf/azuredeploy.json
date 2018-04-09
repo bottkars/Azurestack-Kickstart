@@ -433,7 +433,6 @@
         "osProfile": {
           "computerName": "[variables('opsManVMName')]",
           "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]",
           "linuxConfiguration": {
             "disablePasswordAuthentication": "True",
             "ssh": {
