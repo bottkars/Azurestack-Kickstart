@@ -16,6 +16,11 @@ if (!(Test-Path $localPath))
     Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager     
     }
 
+foreach ($provider in ('Microsoft.Compute','Microsoft.Network','Microsoft.Vault','ÄMicrosoft.Storage'))
+    {
+        Get-AzureRmResourceProvider -ProviderNamespace $provider | Register-AzureRmResourceProvider
+    }
+
 New-AzureRmResourceGroup -Name $resourceGroup -Location $location
 New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
     $storageAccount -Location $location `
@@ -25,7 +30,7 @@ Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImag
     -LocalFilePath $localPath
 
 $parameters = @{}
-$parameters.Add("AdminPassword",$Global:VMPassword)
+# $parameters.Add("SSHKeyData",$Global:VMPassword)
 New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
 
 
