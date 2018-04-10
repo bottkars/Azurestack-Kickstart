@@ -44,28 +44,27 @@ New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resource
 
     
 <#
-$TenantID = Get-AzsDirectoryTenantId -AADTenantName $TenantName -EnvironmentName "AzureStackAdmin"
-
-Login-AzureRmAccount -EnvironmentName "AzureStackAdmin" -TenantId $TenantID
-$ComputeQuota = New-AzsComputeQuota -Name best-compute -Location local -VirtualMachineCount 5000
-$NetworkQuota = New-AzsNetworkQuota -Name best-network -Location local -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
-$StorageQuota = New-AzsStorageQuota -Name best-storage -Location local -NumberOfStorageAccounts 300 -CapacityInGB 50000 -SkipCertificateValidation
-## create a plan
-$PCF_PLAN = New-AzsPlan -Name best-plan -DisplayName "best-plan for pcf" -ResourceGroupName "pcf-plan-rg" -QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
-$Offer = New-AzsOffer -Name best-offer -DisplayName "Offer for PCF" -State Public -BasePlanIds $PCF_PLAN.Id -ArmLocation local -ResourceGroupName "pfc-offer-rg"
-New-AzsTenantSubscription -DisplayName "Azure PCF Subscription" -Owner "Karsten Bott" -OfferId $Offer.Id 
-
-#$opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-$($ops_mgr_version).vhd"
-#Start-BitsTransfer -Source $opsmanager_uri -Destination C:\Temp #>
+create a key
+ssh-keygen -t rsa -f opsman -C ubuntu
+ ssh -i opsman ubuntu@pcf-opsman.local.cloudapp.azurestack.external
 
 
-<# register provider network storage fevault, compute "!!!!!! 
+
+<# register provider network storage keyvault, compute "!!!!!! 
 
 login ui
 
 
-uaac target https://pcf-opsman.local.cloudapp.azurestack.external/uaa
+
+https://docs.pivotal.io/pivotalcf/2-1/customizing/ops-man-api.html
+uaac target https://pcf-opsman.local.cloudapp.azurestack.external/uaa --skip-ssl-validation
 uaac token owner get
+
+$ uaac token owner get
+Client ID: opsman
+Client secret: [Leave Blank]
+User name: OPS-MAN-USERNAME
+Password: OPS-MAN-PASSWORD
 
 
 token="$(uaac context | awk '/^ *access_token\: *([a-zA-Z0-9.\/+\-_]+) *$/ {print $2}' -)"

@@ -9,7 +9,7 @@ param (
 'SharedWorkerTierScaleSet',
 'SmallWorkerTierScaleSet'
 )]$WorkerTier,
-[int][ValidateRange(1,10)]$scale,
+[int][ValidateRange(0,10)]$scale,
 [string]$ResourceGroup = "Appservice.local"
 )
 $rmvms = Get-AzureRmVmss -ResourceGroupName $ResourceGroup -VMScaleSetName $WorkerTier
