@@ -130,7 +130,7 @@ switch ($PsCmdlet.ParameterSetName)
                 $evalnum ++
                 $Publisher = "Canonical"
                 $sku = $version.Version
-                $Offer = "Ubuntu_$sku"
+                $Offer = "UbuntuServer"
                 $osImageSkuVersion = "$($sku.Substring(0,5)).$($Release.Substring(0,8))"
             }
     }  
