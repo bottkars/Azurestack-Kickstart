@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 2.1
+.VERSION 2.2
 
 .GUID a6511736-a96f-4c6f-a8f2-2f4f877627c0
 
@@ -51,7 +51,7 @@ if (!$myWindowsPrincipal.IsInRole($adminRole))
     {
         $arguments = "-noutils"
     }
-  $arguments = "$arguments -LanguageTag $LanguageTag"  
+  $arguments = "$arguments"  
   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell"
   $newProcess.Arguments = "-noexit $PSScriptRoot/$($myinvocation.MyCommand) $arguments" 
   Write-Host $newProcess.Arguments
