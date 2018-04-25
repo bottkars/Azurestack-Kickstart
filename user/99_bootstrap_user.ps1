@@ -141,5 +141,6 @@ if (!$noconnect.IsPresent)
     $Global:azsuser_RM_Account = $azsuser_RM_Account
     $azsuser_rm_account.context
     }
+$host.ui.RawUI.WindowTitle = "Logged in with  $($Global:azsuser_RM_Account.context.account) as $($Global:azsuser_RM_Account.context.environment) "    
 
 
