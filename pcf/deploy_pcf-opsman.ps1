@@ -1,9 +1,12 @@
 ﻿param(
-$opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.212.vhd",
+    [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]
+    [ValidateSet('https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.212.vhd',
+    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.214.vhd')]$opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.214.vhd",
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorageaccount',
-$image_containername = 'opsman-image'
+$image_containername = 'opsman-image',
+[switch]$RegisterProviders
 )
 
 $vhdName = 'image.vhd'
@@ -15,7 +18,7 @@ if (!(Test-Path $localPath))
     {
     Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager     
     }
-if (!RegisterProividers)
+if ($RegisterProividers.isPresent)
     {
         foreach ($provider in ('Microsoft.Compute','Microsoft.Network','Microsoft.KeyVault','Microsoft.Storage'))
         {
