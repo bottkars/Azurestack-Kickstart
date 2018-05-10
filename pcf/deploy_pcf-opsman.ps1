@@ -7,7 +7,8 @@ $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorageaccount',
 $image_containername = 'opsman-image',
 [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
-[switch]$RegisterProviders
+[switch]$RegisterProviders,
+[switch]$OpsmanUpdate
 )
 
 $vhdName = 'image.vhd'
@@ -27,19 +28,33 @@ if ($RegisterProividers.isPresent)
         } 
     }
 
+if (!$OpsmanUpdate)
+ {
+    New-AzureRmResourceGroup -Name $resourceGroup -Location $location
+    New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
+        $storageAccount -Location $location `
+        -Type $storageType 
 
-New-AzureRmResourceGroup -Name $resourceGroup -Location $location
-New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
-    $storageAccount -Location $location `
-    -Type $storageType 
+ }
+
 $urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $image_containername + '/' + $vhdName)
 Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
     -LocalFilePath $localPath
 
 $parameters = @{}
 $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
-New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
 
+
+if (!$OpsmanUpdate)
+ {
+    New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
+ 
+
+ }
+ else {
+    New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
+ 
+ }
 
 
 
