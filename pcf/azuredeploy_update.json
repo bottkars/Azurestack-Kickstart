@@ -122,8 +122,7 @@
       "name": "[variables('opsManNicName')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', 'opsman-ip')]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', 'opsman-ip')]"
       ],
       "properties": {
         "ipConfigurations": [
