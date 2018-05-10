@@ -6,6 +6,7 @@ $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorageaccount',
 $image_containername = 'opsman-image',
+[Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
 [switch]$RegisterProviders
 )
 
@@ -36,7 +37,7 @@ Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImag
     -LocalFilePath $localPath
 
 $parameters = @{}
-# $parameters.Add("SSHKeyData",$Global:VMPassword)
+$parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
 New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
 
 
