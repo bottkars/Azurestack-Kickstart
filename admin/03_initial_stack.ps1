@@ -44,8 +44,8 @@ $Global:VMPassword = $Admin_Defaults.VMPassword
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
-$Global:Admin_Defaults.AzureRmProfile = $Admin_Defaults.AzureRmProfile
-$Global:Admin_Defaults.AzureSTackModuleVersion = $Admin_Defaults.AzureSTackModuleVersion
+$Global:AzureRmProfile = $Admin_Defaults.AzureRmProfile
+$Global:AzureSTackModuleVersion = $Admin_Defaults.AzureSTackModuleVersion
 
    
 Set-PSRepository `
@@ -139,6 +139,12 @@ Write-Host -ForegroundColor Green "[Done]"
   
 Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline
 git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-2 --single-branch $Global:AZSTools_location
+Write-Host -ForegroundColor Green "[Done]"
+
+
+
+Write-Host "[==>]Loading AzureRM.AzureStackAdmin" -ForegroundColor White -NoNewline
+Import-Module "$($Global:AZSTools_location)/Connect/AzureRM.AzureStackAdmin.psm1"
 Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Loading AzureStack.Connect" -ForegroundColor White -NoNewline
