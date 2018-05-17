@@ -123,14 +123,14 @@ Remove-Item $Global:AZSTools_location -Force -Recurse -ErrorAction SilentlyConti
 
 Write-Host "[==>]" -ForegroundColor White -NoNewline
 Use-AzureRmProfile `
-  -Profile "$($Admin_Defaults.AzureRmProfile)" `
+  -Profile "$($Global:Admin_Defaults.AzureRmProfile)" `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue
 Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Installing Module Azurestack Connect" -ForegroundColor White -NoNewline
 Install-Module `
   -Name AzureStack `
-  -MinimumVersion "$($Admin_Defaults.AzureSTackModuleVersion)" `
+  -MinimumVersion "$($Global:Admin_Defaults.AzureSTackModuleVersion)" `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   
