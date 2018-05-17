@@ -1,6 +1,6 @@
-﻿#requires -module AzureStack.ServiceAdmin
-#requires -module AzureStack.ComputeAdmin
-#requires -module AzureRM.AzureStackStorage
+﻿#requires -module Azs.ServiceAdmin
+#requires -module Azs.ComputeAdmin
+#requires -module Azs.Storage.Admin
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$plan_name = "BASE_$($(new-guid).guid)"
