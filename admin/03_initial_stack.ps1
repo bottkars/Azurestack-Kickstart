@@ -44,6 +44,9 @@ $Global:VMPassword = $Admin_Defaults.VMPassword
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
+$Global:Admin_Defaults.AzureRmProfile = $Admin_Defaults.AzureRmProfile
+$Global:Admin_Defaults.AzureSTackModuleVersion = $Admin_Defaults.AzureSTackModuleVersion
+
    
 Set-PSRepository `
   -Name "PSGallery" `
@@ -123,14 +126,14 @@ Remove-Item $Global:AZSTools_location -Force -Recurse -ErrorAction SilentlyConti
 
 Write-Host "[==>]" -ForegroundColor White -NoNewline
 Use-AzureRmProfile `
-  -Profile "$($Global:Admin_Defaults.AzureRmProfile)" `
+  -Profile "$($Global:AzureRmProfile)" `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue
 Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Installing Module Azurestack Connect" -ForegroundColor White -NoNewline
 Install-Module `
   -Name AzureStack `
-  -MinimumVersion "$($Global:Admin_Defaults.AzureSTackModuleVersion)" `
+  -MinimumVersion "$($Global:AzureSTackModuleVersion)" `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   

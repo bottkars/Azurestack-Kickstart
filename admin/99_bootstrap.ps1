@@ -143,12 +143,28 @@ if (!$Admin_Defaults.SQLHost)
     }
 
 $Global:SQLhost = $Admin_Defaults.SQLHost
+
 if (!$Admin_Defaults.MySQLHost)
     {
        Write-Warning "MySQLHost is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
 $Global:MySQLHost = $Admin_Defaults.MySQLHost
+
+
+if (!$Admin_Defaults.AzureRMProfile)
+    {
+       Write-Warning "AzureRMProfile is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:AzureRMProfile = $Admin_Defaults.AzureRMProfile
+
+if (!$Admin_Defaults.AzureSTackModuleVersion)
+    {
+       Write-Warning "AzureSTackModuleVersion is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:AzureSTackModuleVersion = $Admin_Defaults.AzureSTackModuleVersion
 
 if (!$Admin_Defaults.ISOPath)
     {
