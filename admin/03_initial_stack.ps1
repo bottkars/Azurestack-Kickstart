@@ -82,14 +82,14 @@ if ($Azurestack_modules)
   {
     Write-Host "[==>]Removing old Azurestack Modules" -NoNewline
     $azurestack_modules | Remove-Module
-    Remove-item $($Azurestack_modules.ModuleBase) -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-item $($Azurestack_modules.ModuleBase) -Force -Recurse # -ErrorAction SilentlyContinue
     Write-Host -ForegroundColor Green "[Done]"
     }
 #Remove-Item "$HOME/Documents/WindowsPowerShell/Modules/Azure*" -Recurse -ErrorAction SilentlyContinue | Out-Null
 # Uninstall any existing Azure PowerShell modules. To uninstall, close all the active PowerShell sessions, and then run the following command:
 Write-Host "[==>]Checking for old Azure Powershell Modules" 
 
-foreach ($modules in ("AzureRM.*","Azure.*"))
+foreach ($modules in ("AzureRM.*","Azure.*","AZS.*"))
     {
   $My_Modules = Get-Module -ListAvailable $modules
   Write-Host -ForegroundColor Green "[Done]"
@@ -130,10 +130,10 @@ Use-AzureRmProfile `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue
 Write-Host -ForegroundColor Green "[Done]"
 
-Write-Host "[==>]Installing Module Azurestack Connect" -ForegroundColor White -NoNewline
+Write-Host "[==>]Installing Module Azurestack" -ForegroundColor White -NoNewline
 Install-Module `
   -Name AzureStack `
-  -MinimumVersion "$($Global:AzureSTackModuleVersion)" `
+  -MinimumVersion $($Global:AzureSTackModuleVersion) `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   
