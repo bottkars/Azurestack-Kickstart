@@ -1,4 +1,4 @@
-﻿#requires -module Azs.ServiceAdmin
+﻿#//Azs.ServiceAdmin
 #requires -module Azs.ComputeAdmin
 #requires -module Azs.Storage.Admin
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
