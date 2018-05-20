@@ -17,12 +17,11 @@ if (!$Global:Service_RM_Account.Context)
     }
 $name = $plan_name
 $rg_name = "plans_and_offers"
-if (!$RG = Get-AzureRmResourceGroup -Name $rg_name -Location local)
+if (!($RG = Get-AzureRmResourceGroup -Name $rg_name -Location local))
     {
     Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"        
-    New-AzureRmResourceGroup -Name $rg_name -Location local
+    $TG = New-AzureRmResourceGroup -Name $rg_name -Location local
     Write-Host -ForegroundColor Green [Done]
-  
     }
 
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_compute"
