@@ -17,6 +17,11 @@ if (!$Global:Service_RM_Account.Context)
     }
 $name = $plan_name
 $rg_name = "plans_and_offers"
+if (!$RG = Get-AzureRmResourceGroup -Name $rg_name -Location local)
+    {
+    New-AzureRmResourceGroup -Name $rg_name -Location local   
+    }
+
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_compute"
 $ComputeQuota = New-AzsComputeQuota -Name "$($name)_compute" -Location local # -VirtualMachineCount 5000
 Write-Host -ForegroundColor Green [Done]
