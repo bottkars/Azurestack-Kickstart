@@ -242,4 +242,4 @@ catch  {
 $Global:ServiceAdminCreds = $ServiceAdminCreds
 $Global:Service_RM_Account = $Service_RM_Account
 
-$host.ui.RawUI.WindowTitle = "Logged in with  $($Global:Service_RM_Account.context.account) as $($Global:azsuser_RM_Account.context.environment) "    
+$host.ui.RawUI.WindowTitle = "Logged in with  $($Global:Service_RM_Account.context.account) as $($Global:AZS_RM_Environment.Name) "    
