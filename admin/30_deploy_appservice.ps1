@@ -23,6 +23,12 @@ if (!$Global:SubscriptionID)
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
 }
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscription")
+  {
+  Write-Host "Setting Environment to Metering Subscription"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
+
 #Requires -Runas
 Push-Location
 Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
