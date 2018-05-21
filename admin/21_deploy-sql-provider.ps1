@@ -9,6 +9,13 @@ if (!$Global:SubscriptionID)
     break
 }
 #Requires -runas
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscription")
+  {
+  Write-Host "Setting Environment to Metering Subscription"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
+
+
 Push-Location    
 $SQL_DIR = 'C:\TEMP\SQLRP'
 Remove-Item $SQL_DIR -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
