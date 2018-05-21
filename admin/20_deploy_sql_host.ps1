@@ -21,7 +21,7 @@ catch {
 }
 if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Consumption Subscription")
   {
-  Write-Host "Setting Environment to Metering Subscription"
+  Write-Host "Setting Environment to Consumption Subscription"
   Select-AzureRmSubscription -Subscription $Subscription  
   }
 Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
