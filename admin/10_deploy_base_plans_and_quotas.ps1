@@ -49,7 +49,7 @@ $Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -BasePla
 Write-Host -ForegroundColor Green [Done]
 
 Write-Host -ForegroundColor White -NoNewline "Creating Subscription $($name) Subsription"
-$SubScription =  New-AzsUserSubscription -DisplayName "$name Subscription" -Owner "Azurestack Admin" -OfferId $Offer.Id 
+$SubScription =  New-AzsUserSubscription -DisplayName "$name Subscription" -Owner $global:ServiceAdmin -OfferId $Offer.Id 
 Write-Host -ForegroundColor Green [Done]
 
 Write-Output $SubScription
