@@ -44,7 +44,8 @@ Write-Host -ForegroundColor Green [Done]
 
 
 Write-Host -ForegroundColor White -NoNewline "Creating $($name)_Offer"
-$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -State Public -BasePlanIds $PLAN.Id -ArmLocation local -ResourceGroupName $rg_name
+$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -BasePlanIds $PLAN.Id -ArmLocation local -ResourceGroupName $rg_name
+# -State Public
 Write-Host -ForegroundColor Green [Done]
 
 Write-Host -ForegroundColor White -NoNewline "Creating Subscription $($name) Subsription"
