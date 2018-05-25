@@ -19,7 +19,8 @@ if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscrip
 Push-Location    
 $SQL_DIR = 'C:\TEMP\SQLRP'
 Remove-Item $SQL_DIR -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
-$Uri = "https://aka.ms/azurestacksqlrp"
+$Uri = "https://aka.ms/azurestacksqlrp1804"
+#$Uri = "https://aka.ms/azurestacksqlrp"
 New-Item -ItemType Directory $SQL_DIR -Force | Out-Null
 Set-Location $SQL_DIR
 $SQL_RP_URI = (Invoke-WebRequest -UseBasicParsing -MaximumRedirection 0 $Uri -ErrorAction SilentlyContinue).links.href
