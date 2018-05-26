@@ -11,6 +11,12 @@ if (!$Global:SubscriptionID)
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
 }
+
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscription")
+  {
+  Write-Host "Setting Environment to Metering Subscription"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
 $fqdn = "$mysqlhost.local.cloudapp.azurestack.external"
 
 

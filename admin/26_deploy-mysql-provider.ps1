@@ -13,7 +13,11 @@ if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscrip
   Write-Host "Setting Environment to Metering Subscription"
   Select-AzureRmSubscription -Subscription $Subscription  
   }
-
+  if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscription")
+  {
+  Write-Host "Setting Environment to Metering Subscription"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
 push-location
 $MYSQL_DIR = "C:\Temp\MySQL"
 Remove-Item $MYSQL_DIR -Force -Recurse -ErrorAction SilentlyContinue -Confirm:$false | out-null
