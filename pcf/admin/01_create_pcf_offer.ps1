@@ -14,7 +14,7 @@ $ComputeQuota = New-AzsComputeQuota -Name best-compute `
 $NetworkQuota = New-AzsNetworkQuota -Name best-network `
  -Location local -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 `
  -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
-if (!$StorageQuota = Get-AzsStorageQuota -Name best-storage)
+if (!($StorageQuota = Get-AzsStorageQuota -Name best-storage))
     {
         $StorageQuota = New-AzsStorageQuota -Name best-storage -Location local `
         -NumberOfStorageAccounts 300 -CapacityInGB 50000
