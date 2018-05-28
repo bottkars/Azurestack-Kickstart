@@ -4,7 +4,7 @@
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$offer = "PCF_Offer",
-$plan = "PCF_PLAN"
+$plan = "PCF_PLAN",
 $rg_name = "plans_and_offers",
 $owner = $Global:Service_RM_Account.Context.Account.Id 
 )
