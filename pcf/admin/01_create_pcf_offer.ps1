@@ -60,7 +60,7 @@ try {
     }
     catch {
     
-          Write-Host "$($offer)_plan not found in $rg_name, creating now"
+          Write-Host "$plan not found in $rg_name, creating now"
           $PCF_PLAN = New-AzsPlan -Name $plan -DisplayName "Offer for PCF" `
     	    -ResourceGroupName $rg_name `
             -QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
