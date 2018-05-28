@@ -1,7 +1,9 @@
 # Azurestack-Kickstart
 
-This repo is a Collection of scripts to run after AzureStack ASDK Installations 
+Azurestack Kickstart is an automation to AzureStack ASDK ( and Integrated Systems )
+It is an automated Process to do initial Configurations, Management Tasks and deployments.
 The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
+# The Current Version assumes AzureSTack 1804 and will deploy AzureRM  1.2.11 and AzureStack Tools 1.3.0
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
 ## ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY OLD TOOLS AND NOT TESTED
