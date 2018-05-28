@@ -6,8 +6,8 @@ param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$offer = "PCF_Offer",
 $plan = "PCF_PLAN",
 $rg_name = "plans_and_offers",
-$owner = $Global:Service_RM_Account.Context.Account.Id,
-$SubscriptionID = $Global:SubscriptionID 
+$owner = $Global:Service_RM_Account.Context.Account.Id
+#$SubscriptionID = $Global:SubscriptionID 
 )
 if (!$Global:SubscriptionID)
 {
@@ -70,5 +70,5 @@ try {
 
 $AZSOffer = New-AzsOffer -Name $offer -DisplayName "Offer for PCF / Cloud Foundry" `
  -BasePlanIds $PCF_PLAN.Id -State Private -ArmLocation local -ResourceGroupName $rg_name
-New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $owner -OfferId $AZSOffer.Id -SubscriptionId $SubscriptionID
+New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $owner -OfferId $AZSOffer.Id #-SubscriptionId $SubscriptionID
 Write-Output $AZSOffer
