@@ -1,30 +1,71 @@
+#//Azs.ServiceAdmin
+#requires -module Azs.Compute.Admin
+#requires -module Azs.Storage.Admin
+[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
+param (
+[Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$offer = "PCF_Offer",
 $rg_name = "plans_and_offers"
+)
+if (!$Global:SubscriptionID)
+{
+Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
+break
+}
+if (!$Global:Service_RM_Account.Context)
+    {
+    Write-Warning -Message "You are not signed in to your Azure RM Environment as Serviceadmin. Please run .\admin\99_bootstrap.ps1"
+    break
+    }
+
 if (!($RG = Get-AzureRmResourceGroup -Name $rg_name -Location local))
     {
     Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"        
-    $TG = New-AzureRmResourceGroup -Name $rg_name -Location local
+    $RG = New-AzureRmResourceGroup -Name $rg_name -Location local
     Write-Host -ForegroundColor Green [Done]
     }
 
+try {
+    $AZSOffer = Get-AzsManagedOffer -Name $offer -ResourceGroupName $rg_name -ErrorAction SilentlyContinue
+}
+catch {
 
-$ComputeQuota = New-AzsComputeQuota -Name best-compute `
- -Location local -VirtualMachineCount 5000 `
- -AvailabilitySetCount 20 -CoresLimit 100 -VmScaleSetCount 20
-
-$NetworkQuota = New-AzsNetworkQuota -Name best-network `
- -Location local -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 `
- -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
-if (!($StorageQuota = Get-AzsStorageQuota -Name best-storage))
+      Write-Host "$Offer not found in $rg_name, we need to create it"
+}
+if  ($AZSOffer)
     {
-        $StorageQuota = New-AzsStorageQuota -Name best-storage -Location local `
-        -NumberOfStorageAccounts 300 -CapacityInGB 50000
+        Write-Host "Offer with name $offer already exists in $rg_name"
+        break
     }
- 
 
-## create a plan
-$PCF_PLAN = New-AzsPlan -Name PCF-Plan -DisplayName "plan for pcf /cf" `
--ResourceGroupName $rg_name `
--QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
-$Offer = New-AzsOffer -Name PCF-Offer -DisplayName "Offer for PCF / Cloud Foundry" `
+$ComputeQuota = New-AzsComputeQuota -Name pcf-compute `
+    -Location local -VirtualMachineCount 5000 `
+    -AvailabilitySetCount 20 -CoresLimit 100 -VmScaleSetCount 20
+   
+$NetworkQuota = New-AzsNetworkQuota -Name pcf-network `
+    -Location local -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 `
+    -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
+
+    if (!($StorageQuota = Get-AzsStorageQuota -Name pcf-storage))
+       {
+           $StorageQuota = New-AzsStorageQuota -Name pcf-storage -Location local `
+           -NumberOfStorageAccounts 300 -CapacityInGB 50000
+       }
+    
+       
+
+try {
+    $PCF_PLAN = Get-AZSPlan -Name "$($offer)_plan" -ResourceGroupName $rg_name -ErrorAction SilentlyContinue
+    }
+    catch {
+    
+          Write-Host "$($offer)_plan not found in $rg_name, creating now"
+          $PCF_PLAN = New-AzsPlan -Name PCF-Plan -DisplayName "plan for pcf /cf" `
+    	    -ResourceGroupName $rg_name `
+            -QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
+    }
+
+
+$AZSOffer = New-AzsOffer -Name $offer -DisplayName "Offer for PCF / Cloud Foundry" `
  -BasePlanIds $PCF_PLAN.Id -State Private -ArmLocation local -ResourceGroupName $rg_name
 New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $Global:Service_RM_Account.Context.Account.Id -OfferId $Offer.Id 
+Write-Output $AZSOffer
