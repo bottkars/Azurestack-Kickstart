@@ -67,5 +67,5 @@ try {
 
 $AZSOffer = New-AzsOffer -Name $offer -DisplayName "Offer for PCF / Cloud Foundry" `
  -BasePlanIds $PCF_PLAN.Id -State Private -ArmLocation local -ResourceGroupName $rg_name
-New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $Global:Service_RM_Account.Context.Account.Id -OfferId $Offer.Id 
+New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $Global:Service_RM_Account.Context.Account.Id -OfferId $AZSOffer.Id 
 Write-Output $AZSOffer
