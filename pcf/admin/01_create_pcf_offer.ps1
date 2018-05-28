@@ -4,6 +4,7 @@
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$offer = "PCF_Offer",
+$plan = "PCF_PLAN"
 $rg_name = "plans_and_offers",
 $owner = $Global:Service_RM_Account.Context.Account.Id 
 )
@@ -55,12 +56,12 @@ $NetworkQuota = New-AzsNetworkQuota -Name pcf-network `
        
 
 try {
-    $PCF_PLAN = Get-AZSPlan -Name "$($offer)_plan" -ResourceGroupName $rg_name -ErrorAction SilentlyContinue
+    $PCF_PLAN = Get-AZSPlan -Name $plan -ResourceGroupName $rg_name -ErrorAction SilentlyContinue
     }
     catch {
     
           Write-Host "$($offer)_plan not found in $rg_name, creating now"
-          $PCF_PLAN = New-AzsPlan -Name "$($offer)_plan" -DisplayName "Offer for PCF" `
+          $PCF_PLAN = New-AzsPlan -Name $plan -DisplayName "Offer for PCF" `
     	    -ResourceGroupName $rg_name `
             -QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
     }
