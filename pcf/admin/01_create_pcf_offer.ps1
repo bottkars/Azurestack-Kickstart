@@ -25,6 +25,6 @@ if (!($StorageQuota = Get-AzsStorageQuota -Name best-storage))
 $PCF_PLAN = New-AzsPlan -Name PCF-Plan -DisplayName "plan for pcf /cf" `
 -ResourceGroupName $rg_name `
 -QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
-$Offer = New-AzsOffer -Name best-offer -DisplayName "Offer for PCF / Cloud Foundry" `
+$Offer = New-AzsOffer -Name PCF-Offer -DisplayName "Offer for PCF / Cloud Foundry" `
  -BasePlanIds $PCF_PLAN.Id -State Private -ArmLocation local -ResourceGroupName $rg_name
 New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $Global:Service_RM_Account.Context.Account.Id -OfferId $Offer.Id 
