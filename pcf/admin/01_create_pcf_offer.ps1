@@ -4,7 +4,8 @@
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$offer = "PCF_Offer",
-$rg_name = "plans_and_offers"
+$rg_name = "plans_and_offers",
+$owner = $Global:Service_RM_Account.Context.Account.Id 
 )
 if (!$Global:SubscriptionID)
 {
@@ -67,5 +68,5 @@ try {
 
 $AZSOffer = New-AzsOffer -Name $offer -DisplayName "Offer for PCF / Cloud Foundry" `
  -BasePlanIds $PCF_PLAN.Id -State Private -ArmLocation local -ResourceGroupName $rg_name
-New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $Global:Service_RM_Account.Context.Account.Id -OfferId $AZSOffer.Id 
+New-AzsUserSubscription -DisplayName "Azure PCF Subscription" -Owner $owner -OfferId $AZSOffer.Id 
 Write-Output $AZSOffer
