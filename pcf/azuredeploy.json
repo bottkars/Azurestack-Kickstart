@@ -425,7 +425,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "OpsManNic",
+      "name": "[variables('opsManNicName')]",
       "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkSecurityGroups/', 'AllowWebAndSSH')]"
