@@ -186,7 +186,10 @@
               "direction": "Inbound"
             },
             "name": "Allow-HTTPS"
-          },
+          }
+        ]
+      }
+    },        
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkSecurityGroups",
