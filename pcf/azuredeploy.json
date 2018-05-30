@@ -43,28 +43,7 @@
         "description": "Password for admin user."
       }
     },
-    "tenantID": {
-      "type": "string",
-      "defaultValue": "TENANT-ID",
-      "metadata": {
-        "description": "ID of the tenant. See https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md"
-      }
-    },
-    "clientID": {
-      "type": "string",
-      "defaultValue": "CLIENT-ID",
-      "metadata": {
-        "description": "ID of the client. See https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md"
-      }
-    },
-    "clientSecret": {
-      "type": "securestring",
-      "defaultValue": "CLIENT-SECRET",
-      "metadata": {
-        "description": "secret of the client. See https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md"
-      }
-    },
-    "location": {
+"location": {
       "type": "string",
       "defaultValue": "local",
       "metadata": {
@@ -85,12 +64,7 @@
     "xstorageid5": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'5'))]",
     "virtualNetworkName": "pcf-net",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "addressPrefix": "10.0.0.0/16",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-    "subnet1Name": "pcf",
-    "subnet1Prefix": "10.0.0.0/24",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/', variables('subnet1Name'))]",
-    "subnet1NSG": "opsmgr-nsg",
+    "pcfVNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "opsManNicName": "[variables('opsManVMName')]",
     "opsManPrivateIPAddress": "10.0.0.4",
     "lbName": "pcf-lb",
@@ -99,7 +73,8 @@
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/pcf-vms')]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcp80')]",
     "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
-    "diagnosticsStorageAccountType": "Standard_LRS"
+    "diagnosticsStorageAccountType": "Standard_LRS",
+    "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]"
   },
   "resources": [
     {
@@ -178,9 +153,44 @@
       }
     },
     {
+      "name": "AllowWeb",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "properties": {
+              "description": "Allow Inbound HTTP",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1100,
+              "direction": "Inbound"
+            },
+            "name": "Allow-HTTP"
+          },
+          {
+            "properties": {
+              "description": "Allow Inbound HTTPS",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            },
+            "name": "Allow-HTTPS"
+          },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('subnet1NSG')]",
+      "name": "AllowWebAndSSH",
       "location": "[variables('location')]",
       "properties": {
         "securityRules": [
@@ -274,25 +284,43 @@
       "name": "[variables('virtualNetworkName')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('subnet1NSG'))]"
+        "[concat('Microsoft.Network/networkSecurityGroups', '/', 'AllowWebAndSSH')]"
       ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "[variables('addressPrefix')]"
+            "10.0.0.0/16"
           ]
         },
         "subnets": [
           {
-            "name": "[variables('subnet1Name')]",
+            "name": "Management",
             "properties": {
-              "addressPrefix": "[variables('subnet1Prefix')]",
+              "addressPrefix": "10.0.4.0/22",
               "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('subnet1NSG'))]"
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'AllowWebAndSSH')]"
+              }
+            }
+          },
+          {
+            "name": "Services",
+            "properties": {
+              "addressPrefix": "10.0.8.0/22",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'AllowWeb')]"
+              }
+            }
+          },
+          {
+            "name": "Deployment",
+            "properties": {
+              "addressPrefix": "10.0.12.0/22",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'AllowWeb')]"
               }
             }
           }
-        ]
+        ]        
       }
     },
     {
@@ -403,15 +431,15 @@
       "properties": {
         "ipConfigurations": [
           {
-            "name": "ipconfig1",
+            "name": "OpsManIPConfig",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[variables('opsManPrivateIPAddress')]",
+              "privateIPAddress": "10.0.4.4",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses','opsman-ip')]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses','OpsManPublicIP')]"
               },
               "subnet": {
-                "id": "[variables('subnet1Ref')]"
+                "id": "[reference(concat('Microsoft.Network/virtualNetworks/', 'PCF')).subnets[0].id]"
               }
             }
           }
