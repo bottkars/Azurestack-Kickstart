@@ -62,7 +62,7 @@
     "xstorageid3": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'3'))]",
     "xstorageid4": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'4'))]",
     "xstorageid5": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'5'))]",
-    "virtualNetworkName": "pcf-net",
+    "virtualNetworkName": "PCF",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "pcfVNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "opsManNicName": "[variables('opsManVMName')]",
