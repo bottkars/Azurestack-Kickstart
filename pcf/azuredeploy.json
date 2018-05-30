@@ -134,7 +134,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "opsman-ip",
+      "name": "opsmanpublicip",
       "location": "[variables('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
