@@ -89,8 +89,6 @@ Password: OPS-MAN-PASSWORD
 
 
 token="$(uaac context | awk '/^ *access_token\: *([a-zA-Z0-9.\/+\-_]+) *$/ {print $2}' -)"
-curl -H "Authorization: bearer $token" "$@"
-
 curl "https://pcf-opsman.local.cloudapp.azurestack.external/api/v0/vm_types" \
     -X GET \
     -H "Authorization: bearer $token" \

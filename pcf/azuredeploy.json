@@ -18,7 +18,7 @@
     },
     "opsManFQDNPrefix": {
       "type": "string",
-      "defaultValue": "pcf-opsman",
+      "defaultValue": "pcfopsman",
       "metadata": {
         "description": "Domain prefix for opsman."
       }
