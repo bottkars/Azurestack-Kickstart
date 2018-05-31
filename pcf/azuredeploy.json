@@ -66,7 +66,7 @@
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "pcfVNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "opsManNicName": "OPSMANNIC",
-    "opsManPrivateIPAddress": "10.0.0.4",
+    "opsManPrivateIPAddress": "10.0.4.4",
     "lbName": "pcf-lb",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/pcf-fe-ip')]",
