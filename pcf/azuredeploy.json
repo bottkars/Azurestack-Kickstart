@@ -466,7 +466,6 @@
         "osProfile": {
           "computerName": "[variables('opsManVMName')]",
           "adminUsername": "[parameters('adminUsername')]",
-          "customData": "[base64(parameters('sshKeyData'))]",
           "linuxConfiguration": {
             "disablePasswordAuthentication": "True",
             "ssh": {
