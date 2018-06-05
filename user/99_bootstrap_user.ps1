@@ -83,7 +83,6 @@ if (!$azsuser_credentials)
     {
     $azsuser_credentials = Get-Credential -Message "Enter Azure User Password for $global:azsuser" -UserName $global:azsuser
     }
-Import-Module AzureRM.AzureStackAdmin
 Import-Module "$global:AZS_MODULES_ROOT\Connect\AzureStack.Connect.psm1"
 if (!$User_Defaults.StackIP)
     {

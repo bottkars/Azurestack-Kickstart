@@ -51,13 +51,27 @@ $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
 if (!$OpsmanUpdate)
  {
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
- 
+    $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
+    $MyStorageaccount | Set-AzureRmCurrentStorageAccount
+    New-AzureStorageContainer -Name stemcell
+    New-AzureStorageContainer -Name bosh
+    New-AzureStorageTable -Name stemcells
+    $Storageaccounts = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match Xtra
+    foreach ($Mystorageaccount in $Storageaccounts)
+        {
+        $MyStorageaccount | Set-AzureRmCurrentStorageAccount
+        New-AzureStorageContainer -Name stemcell
+        New-AzureStorageContainer -Name bosh
+    }
 
  }
  else {
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json -TemplateParameterObject $parameters
  
  }
+
+
+// create storage containers
 
 
 
