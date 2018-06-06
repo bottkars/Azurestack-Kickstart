@@ -7,6 +7,7 @@ function test-pathvalid
 param (
     $path
     )
+ 
 if (!(test-path $path))
     {
         try {
@@ -90,6 +91,26 @@ if (!$Admin_Defaults.AZSTools_Location)
        Break 
     }
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
+
+if (!$Admin_Defaults.consumptionSubscription)
+    {
+    Write-Warning "consumptionSubscription is not set in $defaultsfile. Using Default Provider Subscription" 
+    $Global:consumptionSubscription = "Default Provider Subscription"
+    }
+else {
+    $Global:consumptionSubscription = $Admin_Defaults.consumptionSubscription
+}
+
+
+if (!$Admin_Defaults.meteringSubscription)
+    {
+       Write-Warning "meteringSubscription is not set in $defaultsfile. Using Default Provider Subscription" 
+       $Global:meteringSubscription = "Default Provider Subscription"
+    }
+else {
+        $Global:meteringSubscription = $Admin_Defaults.meteringSubscription
+    }   
+
 if (!$Admin_Defaults.subscriptionID)
     {
        Write-Warning "subscriptionID is not set in $defaultsfile. Please add entry and retry" 
