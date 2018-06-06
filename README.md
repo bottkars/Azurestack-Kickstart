@@ -140,7 +140,7 @@ the msu files remain in the $updatepath
 
 there is a pcf deployment module for opsmanager including a deployment template.
 
-follow [PCF](/pcf/README.MD) for further instructions
+follow [PCF Deployment using Kickstart Template](/pcf/README.md) for further instructions
 
 
 
