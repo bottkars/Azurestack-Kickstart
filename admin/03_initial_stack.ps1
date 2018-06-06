@@ -138,7 +138,7 @@ Install-Module `
 Write-Host -ForegroundColor Green "[Done]"
   
 Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline
-git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-3 --single-branch $Global:AZSTools_location
+git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-4 --single-branch $Global:AZSTools_location
 Write-Host -ForegroundColor Green "[Done]"
 
 
