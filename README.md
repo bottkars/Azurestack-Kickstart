@@ -25,6 +25,7 @@ the command will run itsself in elevated Mode and will:
 Once finished, CD into Azurestack-Kickstart.
 create an admin.json file in your Homedirectory ( copy the admin.json.example fro the root of the distro as reference)
 
+# New: honoring future use of metering and consumption subscription
 
 ## example admin.json
 ```json
@@ -49,6 +50,9 @@ create an admin.json file in your Homedirectory ( copy the admin.json.example fr
 "MySQLHost": "MySQLHost1",
 "ISOpath": "D:\\ISO",
 "Updatepath": "D:\\Updates"
+"consumptionSubscription": "Default Provider Subscription",
+"meteringSubscription": "Default Provider Subscription"
+}
 }
 ```
 
@@ -130,6 +134,17 @@ the msu files remain in the $updatepath
 # creste sku
 .\admin\27_deploy-mysql-hostingserver.ps1
 ```
+
+
+#PCF Deployment
+
+there is a pcf deployment module for opsmanager including a deployment template.
+
+follow [PCF](/pcf/README.MD) for further instructions
+
+
+
+
 
 
 # user scripts
