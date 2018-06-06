@@ -12,9 +12,9 @@ if (!$Global:SubscriptionID)
     break
 }
 
-if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscription")
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:meteringSubscription)
   {
-  Write-Host "Setting Environment to Metering Subscription"
+  Write-Host "Setting Environment to $($Global:meteringSubscription)"
   Select-AzureRmSubscription -Subscription $Subscription  
   }
 $fqdn = "$mysqlhost.local.cloudapp.azurestack.external"

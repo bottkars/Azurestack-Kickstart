@@ -10,9 +10,9 @@ if (!$Global:SubscriptionID)
     break
 }
 
-if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Consumption Subscription")
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:consumptionSubscription)
   {
-  Write-Host "Setting Environment to Metering Subscription"
+  Write-Host "Setting Environment to $($Global:consumptionSubscription)"
   Select-AzureRmSubscription -Subscription $Subscription  
   }
 $RG = "rg_$mysqlhost"

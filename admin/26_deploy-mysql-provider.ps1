@@ -8,14 +8,9 @@ if (!$Global:SubscriptionID)
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
 }
-if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscription")
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:meteringSubscription)
   {
-  Write-Host "Setting Environment to Metering Subscription"
-  Select-AzureRmSubscription -Subscription $Subscription  
-  }
-  if ($Subscription = Get-AzureRmSubscription -SubscriptionName "Metering Subscription")
-  {
-  Write-Host "Setting Environment to Metering Subscription"
+  Write-Host "Setting Environment to $($Global:meteringSubscription)"
   Select-AzureRmSubscription -Subscription $Subscription  
   }
 push-location

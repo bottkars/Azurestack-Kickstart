@@ -18,7 +18,12 @@ if (!$Global:SubscriptionID)
     {
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
-}  
+}
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:meteringSubscription)
+  {
+  Write-Host "Setting Environment to $($Global:meteringSubscription)"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  } 
 $templateuri = 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/101-sqladapter-add-hosting-server/azuredeploy.json'
 
 New-AzureRmResourceGroup -Name $RG -Location local 

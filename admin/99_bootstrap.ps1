@@ -94,7 +94,7 @@ $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
 
 if (!$Admin_Defaults.consumptionSubscription)
     {
-    Write-Warning "consumptionSubscription is not set in $defaultsfile. Using Default Provider Subscription" 
+    Write-Warning "consumptionSubscription is not set in $defaultsfile, you may want to add. Using Default Provider Subscription" 
     $Global:consumptionSubscription = "Default Provider Subscription"
     }
 else {
@@ -104,7 +104,7 @@ else {
 
 if (!$Admin_Defaults.meteringSubscription)
     {
-       Write-Warning "meteringSubscription is not set in $defaultsfile. Using Default Provider Subscription" 
+       Write-Warning "meteringSubscription is not set in $defaultsfile, you may want to add for future use. Using Default Provider Subscription" 
        $Global:meteringSubscription = "Default Provider Subscription"
     }
 else {
