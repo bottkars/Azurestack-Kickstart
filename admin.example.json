@@ -19,5 +19,7 @@
 "MySQLHost": "MySQLHost1",
 "ISOpath": "C:\\ISO",
 "Updatepath": "C:\\Updates",
-"Imagepath": "C:\\Image"
+"Imagepath": "C:\\Image",
+"consumptionSubscription": "Default Provider Subscription",
+"meteringSubscription": "Default Provider Subscription"
 }
