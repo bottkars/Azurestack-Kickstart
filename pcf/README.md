@@ -30,17 +30,15 @@ Resource Group Name
 can't be blank
 
 BOSH Storage Account Name
-can't be blank
-
+*opsmanstorageaccount*
 Cloud Storage Type
- Use Managed Disks
-Storage Account Type
 
- Use Storage Accounts
+*Use Storage Accounts*
+ 
 Deployments Storage Account Name
-
+*see from ressource group, start end end with an asterix*
 Default Security Group
-
+*AllowWebAndSSH*
 SSH Public Key  
 can't be blank
 
@@ -56,13 +54,13 @@ Tenant Management Resource Endpoint
 ```
 
 Domain
-
+*local.azurestack.external*
 Authentication
-
+*AzureAD*
 Azure Stack Endpoint Prefix
 
 Azure Stack CA Certificate
 
 ```
-(get-azurermcontext).Environment.ActiveDirectoryServiceEndpointResourceId
+.\admin\tools\export_root_cert.ps1
 ```
