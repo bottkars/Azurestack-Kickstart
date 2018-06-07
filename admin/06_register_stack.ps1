@@ -53,18 +53,18 @@ Write-Host -ForegroundColor White -NoNewline "[==>]registering AzureRMProvider"
 Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack  
 Write-Host -ForegroundColor Green [Done]
 Select-AzureRmSubscription -SubscriptionId $Global:subscriptionID
-$Azurermccontext = Get-AzureRmContext
+$Azurermcontext = Get-AzureRmContext
 Write-Host -ForegroundColor White "Registering Azure Stack with $($SubscriptionOwnerContext.Context.Tenant.TenantId)" -NoNewline
 $AZSregistration = Set-AzsRegistration `
     -PrivilegedEndpointCredential $Global:CloudAdminCreds `
-    -AzureContext $Azurermccontext
-    -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
-    -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
+    -AzureContext $Azurermcontext `
+    -PrivilegedEndpoint $Global:PrivilegedEndpoint `
     -BillingModel Development `
     -ResourceGroupLocation $ResourceGroupLocation `
-    -ResourceGroupName $ResourceGroupName
-    -MarketplaceSyndicationEnabled
+    -ResourceGroupName $ResourceGroupName `
+    -MarketplaceSyndicationEnabled `
     -UsageReportingEnabled
+#    -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
 
     Write-Host -ForegroundColor Green [Done]
 .$PSScriptRoot/99_bootstrap.ps1    
