@@ -8,10 +8,10 @@ It Downloads the OpsManager Image and Creates the OpsManager Instance
 For more information, see the [Launching an Ops Manager Director Instance with an ARM Template](https://docs.pivotal.io/pivotalcf/customizing/azure-arm-template.html) topic.
 
 
-#Deploying Opsman
+#Deploying Opsman 
 
 
-#Filling in Configuration
+# Filling in Configuration  
 
 
 Subscription ID
@@ -41,15 +41,15 @@ Deployments Storage Account Name
 
 Default Security Group
 
-SSH Public Key
+SSH Public Key  
 can't be blank
 
 SSH Private Key
-can't be blank
+can't be blank  
 
-*Azure Environment*
+Azure Environment
 
- Azure Stack
+*Azure Stack*  
 Tenant Management Resource Endpoint
 ```
 (get-azurermcontext).Environment.ActiveDirectoryServiceEndpointResourceId
