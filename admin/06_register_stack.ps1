@@ -53,7 +53,7 @@ Write-Host -ForegroundColor White -NoNewline "[==>]registering AzureRMProvider"
 Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack  
 Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White "Registering Azure Stack with $($SubscriptionOwnerContext.Context.Tenant.TenantId)" -NoNewline
-$AZSregistration = Add-AzsRegistration `
+$AZSregistration = Set-AzsRegistration `
     -CloudAdminCredential $Global:CloudAdminCreds `
     -AzureSubscriptionId $SubscriptionOwnerContext.Context.Subscription `
     -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
