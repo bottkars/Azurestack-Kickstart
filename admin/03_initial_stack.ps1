@@ -143,9 +143,9 @@ Write-Host -ForegroundColor Green "[Done]"
 
 
 
-Write-Host "[==>]Loading AzureRM.AzureStackAdmin" -ForegroundColor White -NoNewline
-Import-Module "$($Global:AZSTools_location)/Connect/AzureRM.AzureStackAdmin.psm1"
-Write-Host -ForegroundColor Green "[Done]"
+#Write-Host "[==>]Loading AzureRM.AzureStackAdmin" -ForegroundColor White -NoNewline
+#Import-Module "$($Global:AZSTools_location)/Connect/AzureRM.AzureStackAdmin.psm1"
+#Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Loading AzureStack.Connect" -ForegroundColor White -NoNewline
 Import-Module "$($Global:AZSTools_location)/Connect/AzureStack.Connect.psm1"
