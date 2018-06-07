@@ -221,7 +221,8 @@ if (!$Global:CloudAdminCreds)
     $Global:CloudAdminCreds = Get-Credential -UserName $CloudAdmin -Message "Enter Azure CloudAdmin Password for $Cloudadmin" 
     }
 #"$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1",
-$Modules = "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1"
+$Modules = (
+    "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1",
     "$($Global:AZSTools_location)\serviceAdmin\AzureStack.ServiceAdmin.psm1",
     "$($Global:AZSTools_location)\ComputeAdmin\AzureStack.ComputeAdmin.psm1")
 foreach ($module in $Modules)
