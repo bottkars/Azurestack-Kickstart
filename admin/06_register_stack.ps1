@@ -1,4 +1,12 @@
-﻿$myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+﻿CmdletBinding()]
+
+    param(
+        [Parameter(Mandatory = $false)]
+        [String] $ResourceGroupName = 'azurestack',
+        [Parameter(Mandatory = $false)]
+        [String] $ResourceGroupLocation = 'westcentralus'
+)        
+$myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
 
 $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
@@ -7,7 +15,7 @@ $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
 if (!$myWindowsPrincipal.IsInRole($adminRole))
   {
   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
-  $newProcess.Arguments = "-noexit $PSScriptRoot/99_bootstrap.ps1;$PSScriptRoot/$($myinvocation.MyCommand)" 
+  $newProcess.Arguments = "-noexit $PSScriptRoot/99_bootstrap.ps1;$PSScriptRoot/$($myinvocation.MyCommand) -ResourceGroupLocation $ResourceGroupLocation -ResourceGroupName $ResourceGroupName" 
   Write-Host $newProcess.Arguments
   $newProcess.Verb = "runas"
   [System.Diagnostics.Process]::Start($newProcess) 
@@ -51,7 +59,9 @@ $AZSregistration = Add-AzsRegistration `
     -AzureSubscriptionId $SubscriptionOwnerContext.Context.Subscription `
     -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
     -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
-    -BillingModel Development
+    -BillingModel Development `
+    -ResourceGroupLocation $ResourceGroupLocation `
+    -ResourceGroupName $ResourceGroupName
 
     Write-Host -ForegroundColor Green [Done]
 .$PSScriptRoot/99_bootstrap.ps1    
