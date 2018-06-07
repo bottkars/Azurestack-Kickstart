@@ -1,6 +1,5 @@
-﻿CmdletBinding()]
-
-    param(
+﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
+param (
         [Parameter(Mandatory = $false)]
         [String] $ResourceGroupName = 'azurestack',
         [Parameter(Mandatory = $false)]
