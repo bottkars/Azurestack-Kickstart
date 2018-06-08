@@ -49,7 +49,15 @@
       "metadata": {
         "description": "location where you want to deploy resources"
       }
-    }
+    },
+    "dnsZoneName": {
+      "type": "String",
+      "defaultValue": "pcf.local.azurestack.external",
+      "metadata": {
+          "description": "The name of the DNS zone."
+      }
+    }  
+
   },
   "variables": {
     "boshExtraStorageAccountName": "[concat('xtrastrg',uniquestring(resourceGroup().id, deployment().name))]",
@@ -142,6 +150,13 @@
           "domainNameLabel": "[parameters('opsManFQDNPrefix')]"
         }
       }
+    },
+    {
+        "type": "Microsoft.Network/dnszones",
+        "name": "[parameters('dnsZoneName')]",
+        "apiVersion": "2016-04-01",
+        "location": "global",
+        "properties": {}
     },
     {
       "apiVersion": "2015-06-15",

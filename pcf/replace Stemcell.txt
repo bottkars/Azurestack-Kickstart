@@ -1,5 +1,18 @@
+once we hit:
 
-azuerstack fix for 1804
+
+Starting registry... Finished (00:00:00)
+Uploading stemcell 'bosh-azure-hyperv-ubuntu-trusty-go_agent/3541.25'... Failed (00:00:02)
+Stopping registry... Finished (00:00:00)
+Cleaning up rendered CPI jobs... Finished (00:00:00)
+
+
+creating stemcell (bosh-azure-hyperv-ubuntu-trusty-go_agent 3541.25):
+  CPI 'create_stemcell' method responded with error: CmdError{"type":"Unknown","message":"undefined method `[]' for nil:NilClass","ok_to_retry":false}
+Exit code 1
+===== 2018-06-07 18:24:19 UTC Finished "/usr/local/bin/bosh --no-color --non-interactive --tty create-env /var/tempest/workspaces/default/deployments/bosh.yml"; Duration: 25s; Exit Status: 1
+Exited with 1.
+azuerstack fix for 1804/1805
 using latest stemcell from bosh.io: 
 
 stemcell:
@@ -21,7 +34,7 @@ sudo -u tempest-web ./decrypt /var/tempest/workspaces/default/installation.yml /
 (On already configuresd System also: )
 sudo -u tempest-web ./decrypt /var/tempest/workspaces/default/actual-installation.yml /tmp/actual-installation.yml
 
-edit filees using above stemcell info´s
+edit filees using above stemcell infoï¿½s
 
 encrypt files:
 sudo -u tempest-web RAILS_ENV=production /home/tempest-web/tempest/web/scripts/encrypt /tmp/installation.yml /var/tempest/workspaces/default/installation.yml
@@ -29,7 +42,7 @@ sudo -u tempest-web RAILS_ENV=production /home/tempest-web/tempest/web/scripts/e
 sudo -u tempest-web RAILS_ENV=production /home/tempest-web/tempest/web/scripts/encrypt /tmp/actual-installation.yml /var/tempest/workspaces/default/actual-installation.yml
 
 
-load the stemcell from bos.io
+load the stemcell from bosh.io
 cd /var/tempest/stemcells
 sudo wget https://s3.amazonaws.com/bosh-core-stemcells/azure/bosh-stemcell-3586.16-azure-hyperv-ubuntu-trusty-go_agent.tgz
 
