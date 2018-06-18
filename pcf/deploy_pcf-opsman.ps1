@@ -51,6 +51,7 @@ $parameters = @{}
 $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
 $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
 $parameters.Add("dnsZoneName",$dnsZoneName)
+$parameters.Add("storageAccountName",$storageaccount)
 
 
 if (!$OpsmanUpdate)
