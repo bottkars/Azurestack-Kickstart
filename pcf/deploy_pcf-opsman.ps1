@@ -16,7 +16,7 @@ $dnsZoneName = "pcfpas.local.azurestack.external",
 [switch]$OpsmanUpdate
 )
 $storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z]',''
-$storageaccount = $Storageaccount.subString(0,[System.Math]::Min(24, $storageaccount.Length))
+$storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
 $vhdName = 'image.vhd'
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
