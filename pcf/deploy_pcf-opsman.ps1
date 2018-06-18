@@ -10,6 +10,8 @@ $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorage',
 $image_containername = 'opsman-image',
 [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
+$opsManFQDNPrefix = "pcfopsman",
+$dnsZoneName = "pcfpas.local.azurestack.external",
 [switch]$RegisterProviders,
 [switch]$OpsmanUpdate
 )
@@ -46,6 +48,8 @@ Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImag
 
 $parameters = @{}
 $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
+$parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
+$parameters.Add("dnsZoneName",$dnsZoneName)
 
 
 if (!$OpsmanUpdate)

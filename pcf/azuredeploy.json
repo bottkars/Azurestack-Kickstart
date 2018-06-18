@@ -52,7 +52,7 @@
     },
     "dnsZoneName": {
       "type": "String",
-      "defaultValue": "pcf.local.azurestack.external",
+      "defaultValue": "pcfpas.local.azurestack.external",
       "metadata": {
           "description": "The name of the DNS zone."
       }
