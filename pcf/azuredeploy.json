@@ -74,7 +74,11 @@
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "pcfVNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "opsManNicName": "OPSMANNIC",
-    "opsManPrivateIPAddress": "10.0.4.4",
+    "addressSpace": "10.10.0.0/16",
+    "ManagementaddressPrefix": "10.10.4.0/22",
+    "ServicesaddressPrefix": "10.10.8.0/22",
+    "DeploymentaddressPrefix": "10.10.12.0/22",
+    "opsManPrivateIPAddress": "10.10.4.4",
     "lbName": "pcf-lb",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/pcf-fe-ip')]",
@@ -307,14 +311,14 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.0.0.0/16"
+            "[variables('addressSpace')]"
           ]
         },
         "subnets": [
           {
             "name": "Management",
             "properties": {
-              "addressPrefix": "10.0.4.0/22",
+              "addressPrefix": "[variables('ManagementaddressPrefix')]",
               "networkSecurityGroup": {
                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'AllowWebAndSSH')]"
               }
@@ -323,7 +327,7 @@
           {
             "name": "Services",
             "properties": {
-              "addressPrefix": "10.0.8.0/22",
+              "addressPrefix": "[variables('ServicesaddressPrefix')]",
               "networkSecurityGroup": {
                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'AllowWeb')]"
               }
@@ -332,7 +336,7 @@
           {
             "name": "Deployment",
             "properties": {
-              "addressPrefix": "10.0.12.0/22",
+              "addressPrefix": "[variables('DeploymentaddressPrefix')]",
               "networkSecurityGroup": {
                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'AllowWeb')]"
               }
