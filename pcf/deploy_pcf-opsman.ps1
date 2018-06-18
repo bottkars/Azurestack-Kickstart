@@ -15,7 +15,8 @@ $dnsZoneName = "pcfpas.local.azurestack.external",
 [switch]$RegisterProviders,
 [switch]$OpsmanUpdate
 )
-$storageaccount = "$($resourceGroup)_$($Storageaccount)"
+$storageaccount = ($resourceGroup+$Storageaccount)
+$storageaccount = $Storageaccount.subString(0,[System.Math]::Min(24, $storageaccount.Length))
 $vhdName = 'image.vhd'
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
@@ -25,7 +26,7 @@ if (!(Test-Path $localPath))
     {
     Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager     
     }
-if ($RegisterProividers.isPresent)
+if ($RegisterProviders.isPresent)
     {
         foreach ($provider in ('Microsoft.Compute','Microsoft.Network','Microsoft.KeyVault','Microsoft.Storage'))
         {
