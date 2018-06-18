@@ -7,13 +7,13 @@
     $opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd",
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
-$storageaccount = 'opsmanstorageaccount',
+$storageaccount = 'opsmanstorage',
 $image_containername = 'opsman-image',
 [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
 [switch]$RegisterProviders,
 [switch]$OpsmanUpdate
 )
-
+$storageaccount = "$($resourceGroup)_$($Storageaccount)"
 $vhdName = 'image.vhd'
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
