@@ -10,7 +10,7 @@ $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorage',
 $image_containername = 'opsman-image',
 [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
-$opsManFQDNPrefix = "pcfopsman",
+$opsManFQDNPrefix = "pcfopsman1",
 $dnsZoneName = "pcfpas.local.azurestack.external",
 [switch]$RegisterProviders,
 [switch]$OpsmanUpdate
