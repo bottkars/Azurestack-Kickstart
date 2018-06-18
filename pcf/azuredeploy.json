@@ -458,7 +458,7 @@
             "name": "OpsManIPConfig",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "10.0.4.4",
+              "privateIPAddress": "[variables('opsManPrivateIPAddress')]",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses','OpsManPublicIP')]"
               },
