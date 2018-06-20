@@ -107,6 +107,7 @@
     "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
     "diagnosticsStorageAccountType": "Standard_LRS",
     "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]",
+    "publicIPRef": "[concat('Microsoft.Network/publicIPAddresses','OpsManPublicIP')]",
     "OpsManPublicIPName": "[concat('OpsManPublicIP', parameters('deploymentcolor'))]"
 
   },
@@ -140,7 +141,7 @@
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[variables('opsManPrivateIPAddress')]",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('OpsManPublicIPName'))]"
+                "id": "[variables('publicIPRef')]"
               },
               "subnet": {
                 "id": "[variables('mgmtSubnetRef')]"
