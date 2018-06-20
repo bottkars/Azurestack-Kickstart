@@ -23,6 +23,19 @@
         "description": "Domain prefix for opsman."
       }
     },
+    "opsManVHD": {
+      "type": "string",
+      "metadata": {
+        "description": "Opsman VHD Name"
+      }
+    },   
+    "deploymentcolor": {
+      "type": "string",
+      "defaultValue": "green",
+      "metadata": {
+        "description": "select the opsman deployment color"
+      }
+    },      
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_DS2_v2",
@@ -51,7 +64,7 @@
       }
     },
     "dnsZoneName": {
-      "type": "String",
+      "type": "string",
       "defaultValue": "pcfpas.local.azurestack.external",
       "metadata": {
           "description": "The name of the DNS zone."
@@ -73,12 +86,12 @@
     "virtualNetworkName": "PCF",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "pcfVNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-    "opsManNicName": "OPSMANNIC",
+    "opsManNicName": "[concat('OPSMANNIC_',parameters('deploymentcolor'))]",
     "addressSpace": "10.10.0.0/16",
     "ManagementaddressPrefix": "10.10.4.0/22",
     "ServicesaddressPrefix": "10.10.8.0/22",
     "DeploymentaddressPrefix": "10.10.12.0/22",
-    "opsManPrivateIPAddress": "10.10.4.4",
+    "opsManPrivateIPAddress": "[if(equals(parameters('deploymentcolor'),'green'), '10.10.4.4', '10.10.4.5')]",
     "lbName": "pcf-lb",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/pcf-fe-ip')]",
@@ -86,7 +99,10 @@
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcp80')]",
     "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
     "diagnosticsStorageAccountType": "Standard_LRS",
-    "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]"
+    "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]",
+    "publicIPRef": "[concat('Microsoft.Network/publicIPAddresses/',variables('OpsManPublicIPName'))]",
+    "OpsManPublicIPName": "[concat('OpsManPublicIP_', parameters('deploymentcolor'))]",
+    "OpsManIPConfigName": "[concat('OpsManIPConfig_', parameters('deploymentcolor'))]"
   },
   "resources": [
     {
@@ -146,7 +162,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "OpsManPublicIP",
+      "name": "[variables('OpsManPublicIPName')]",
       "location": "[variables('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
@@ -455,15 +471,15 @@
         },
         "ipConfigurations": [
           {
-            "name": "OpsManIPConfig",
+            "name": "[variables('OpsManIPConfigName')]",
             "properties": {
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[variables('opsManPrivateIPAddress')]",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses','OpsManPublicIP')]"
+                "id": "[resourceID('Microsoft.Network/publicIPAddresses/',variables('OpsManPublicIPName'))]"
               },
               "subnet": {
-                "id": "[reference(concat('Microsoft.Network/virtualNetworks/', 'PCF')).subnets[0].id]"
+                "id": "[variables('mgmtSubnetRef')]"
               }
             }
           }
@@ -503,7 +519,7 @@
             "name": "osdisk",
             "createOption": "FromImage",
             "image": {
-              "uri": "[concat('https://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/opsman-image/image.vhd')]"
+              "uri": "[concat('https://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/opsman-image/',parameters('opsManVHD'))]"
             },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/',variables('vmStorageAccountContainerName'),'/',variables('opsManVMName'),'-osdisk.vhd')]"
@@ -529,10 +545,14 @@
     }
   ],
   "outputs": {
-    "OpsMan-FQDN": {
-      "type": "string",
-      "value": "[reference('OpsManPublicIP').dnsSettings.fqdn]"
-    },
+    "fqdn": {
+      "value": "[reference(variables('OpsManPublicIPName')).dnsSettings.fqdn]",
+      "type": "string"
+  },
+  "ipaddress": {
+      "value": "[reference(variables('OpsManPublicIPName')).ipConfiguration]",
+      "type": "string"
+  },
     "Extra Storage Account Prefix": {
       "type": "string",
       "value": "[variables('boshExtraStorageAccountName')]"

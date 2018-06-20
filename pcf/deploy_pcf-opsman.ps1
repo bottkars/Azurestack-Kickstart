@@ -60,6 +60,7 @@ $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
 $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
 $parameters.Add("storageAccountName",$storageaccount)
 $parameters.Add("opsManVHD",$opsManVHD)
+$parameters.Add("deploymentcolor",$deploymentcolor)
 
 if (!$OpsmanUpdate)
  {
@@ -80,7 +81,6 @@ if (!$OpsmanUpdate)
 
  }
  else {
-    $parameters.Add("deploymentcolor",$deploymentcolor )
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json -TemplateParameterObject $parameters
  
  }
