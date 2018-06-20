@@ -106,7 +106,8 @@
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcp80')]",
     "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
     "diagnosticsStorageAccountType": "Standard_LRS",
-    "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]"
+    "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]",
+    "OpsManPublicIPName": "[concat('OpsManPublicIP', parameters('deploymentcolor'))]"
 
   },
   "resources": [
@@ -114,7 +115,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "opsman-ip",
+      "name": "[variables('opsmannicname')]",
       "location": "[variables('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
@@ -123,14 +124,25 @@
         }
       }
     },
-
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('OpsManPublicIPName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('opsManFQDNPrefix')]"
+        }
+      }
+    },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('opsManNicName')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', 'opsman-ip')]"
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('OpsManPublicIPName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -211,7 +223,7 @@
   "outputs": {
     "OpsMan-FQDN": {
       "type": "string",
-      "value": "[reference('opsman-ip').dnsSettings.fqdn]"
+      "value": "[reference('OpsManPublicIPName').dnsSettings.fqdn]"
     },
     "Extra Storage Account Prefix": {
       "type": "string",

@@ -463,7 +463,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses','OpsManPublicIP')]"
               },
               "subnet": {
-                "id": "[reference(concat('Microsoft.Network/virtualNetworks/', 'PCF')).subnets[0].id]"
+                "id": "[variables('mgmtSubnetRef')]"
               }
             }
           }
