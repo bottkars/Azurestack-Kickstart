@@ -479,7 +479,7 @@
                 "id": "[resourceID('Microsoft.Network/publicIPAddresses/',variables('OpsManPublicIPName'))]"
               },
               "subnet": {
-                "id": "[variables('mgmtSubnetRef')]"
+                "id": "[reference(concat('Microsoft.Network/virtualNetworks/',variables('virtualNetworkName'))).subnets[0].id]"
               }
             }
           }
