@@ -20,7 +20,7 @@ $dnsZoneName = "pcfpas.local.azurestack.external",
 $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
 $storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
 $storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
-$vhdName = "image$($deploymentcolor).vhd"
+$vhdName = Split-Path -Leaf $opsmanager_uri
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
 $localPath = "$HOME\Downloads\$file"
@@ -54,7 +54,7 @@ $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
 $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
 $parameters.Add("dnsZoneName",$dnsZoneName)
 $parameters.Add("storageAccountName",$storageaccount)
-
+$parameters.Add("storageAccountName",$storageaccount)
 
 if (!$OpsmanUpdate)
  {
