@@ -81,7 +81,7 @@
   },
   "variables": {
     "boshExtraStorageAccountName": "[concat('xtrastrg',uniquestring(resourceGroup().id, deployment().name))]",
-    "opsManVMName": "pcf-ops-man",
+    "opsManVMName": "[parameters('opsManFQDNPrefix')]",
     "location": "[parameters('location')]",
     "vmStorageAccountContainerName": "vhds",
     "storageid": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",

@@ -43,7 +43,6 @@ if (!$OpsmanUpdate)
     New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
         $storageAccount -Location $location `
         -Type $storageType 
-
  }
 
 $urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $image_containername + '/' + $vhdName)
