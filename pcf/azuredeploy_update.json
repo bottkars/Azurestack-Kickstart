@@ -210,10 +210,14 @@
     }
   ],
   "outputs": {
-    "OpsMan-FQDN": {
-      "type": "string",
-      "value": "[reference(variables('OpsManIPConfigName')).dnsSettings.fqdn]"
-    },
+    "fqdn": {
+      "value": "[reference(variables('OpsManPublicIPName')).dnsSettings.fqdn]",
+      "type": "string"
+  },
+  "ipaddress": {
+      "value": "[reference(variables('OpsManPublicIPName')).ipAddress]",
+      "type": "string"
+  },
     "Extra Storage Account Prefix": {
       "type": "string",
       "value": "[variables('boshExtraStorageAccountName')]"
