@@ -221,7 +221,7 @@
       "type": "string"
   },
   "ipaddress": {
-      "value": "[reference(variables('OpsManPublicIPName')).ipAddress]",
+      "value": "[reference(variables('OpsManPublicIPName')).ipConfiguration]",
       "type": "string"
   },
     "Extra Storage Account Prefix": {

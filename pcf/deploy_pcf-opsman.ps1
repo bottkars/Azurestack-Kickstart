@@ -46,8 +46,14 @@ if (!$OpsmanUpdate)
  }
 
 $urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $image_containername + '/' + $opsManVHD)
+try{
 Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
-    -LocalFilePath $localPath
+    -LocalFilePath $localPath -ErrorAction SilentlyContinue    
+}
+catch{ Write-Warning "Image already exists for $opsManVHD, not overwriting "
+
+}
+
 
 $parameters = @{}
 $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
