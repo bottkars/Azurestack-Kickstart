@@ -105,7 +105,9 @@
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/pcf-vms')]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcp80')]",
     "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
-    "diagnosticsStorageAccountType": "Standard_LRS"
+    "diagnosticsStorageAccountType": "Standard_LRS",
+    "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]"
+
   },
   "resources": [
 
@@ -141,7 +143,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses','OpsManPublicIP')]"
               },
               "subnet": {
-                "id": "[reference(concat('Microsoft.Network/virtualNetworks/', 'PCF')).subnets[0].id]"
+                "id": "[variables('mgmtSubnetRef')]"
               }
             }
           }
