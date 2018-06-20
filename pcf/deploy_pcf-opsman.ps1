@@ -3,18 +3,21 @@
     [ValidateSet('https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.212.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.214.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.304.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd')]
-    $opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd",
+    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd',
+    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.326.vhd')]
+    $opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.326.vhd",
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
 $storageaccount = 'opsmanstorage',
 $image_containername = 'opsman-image',
 [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
-$opsManFQDNPrefix = "pcfopsman1",
+$opsManFQDNPrefix = "pcf",
 $dnsZoneName = "pcfpas.local.azurestack.external",
 [switch]$RegisterProviders,
-[switch]$OpsmanUpdate
+[switch]$OpsmanUpdate,
+[Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green"
 )
+$opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
 $storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
 $storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
 $vhdName = 'image.vhd'
@@ -56,6 +59,11 @@ $parameters.Add("storageAccountName",$storageaccount)
 
 if (!$OpsmanUpdate)
  {
+    $parameters = @{}
+    $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
+    $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
+    $parameters.Add("dnsZoneName",$dnsZoneName)
+    $parameters.Add("storageAccountName",$storageaccount)     
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
     $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
     $MyStorageaccount | Set-AzureRmCurrentStorageAccount
@@ -72,6 +80,11 @@ if (!$OpsmanUpdate)
 
  }
  else {
+    $parameters = @{}
+    $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
+    $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
+    $parameters.Add("storageAccountName",$storageaccount) 
+    $parameters.Add("deploymentcolor",$deploymentcolor )
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json -TemplateParameterObject $parameters
  
  }
