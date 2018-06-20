@@ -140,7 +140,7 @@
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[variables('opsManPrivateIPAddress')]",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses','OpsManPublicIP')]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('OpsManPublicIPName'))]"
               },
               "subnet": {
                 "id": "[variables('mgmtSubnetRef')]"
