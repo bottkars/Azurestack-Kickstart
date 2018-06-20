@@ -69,6 +69,7 @@ $parameters.Add("deploymentcolor",$deploymentcolor)
 if (!$OpsmanUpdate)
  {
     $parameters.Add("dnsZoneName",$dnsZoneName) 
+    Write-host "Starting Deployment!"
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
     $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
     $MyStorageaccount | Set-AzureRmCurrentStorageAccount
