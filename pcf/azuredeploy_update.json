@@ -181,7 +181,7 @@
             "name": "osdisk",
             "createOption": "FromImage",
             "image": {
-              "uri": "[concat('https://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/opsman-image/',parameters('deploymentcolor')'.vhd')]"
+              "uri": "[concat('https://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/opsman-image/',parameters('deploymentcolor'),'.vhd')]"
             },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/',variables('vmStorageAccountContainerName'),'/',variables('opsManVMName'),'-osdisk.vhd')]"
