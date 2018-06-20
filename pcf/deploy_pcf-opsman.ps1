@@ -65,11 +65,10 @@ $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
 $parameters.Add("storageAccountName",$storageaccount)
 $parameters.Add("opsManVHD",$opsManVHD)
 $parameters.Add("deploymentcolor",$deploymentcolor)
-
+Write-host "Starting Deployment!"
 if (!$OpsmanUpdate)
  {
     $parameters.Add("dnsZoneName",$dnsZoneName) 
-    Write-host "Starting Deployment!"
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
     $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
     $MyStorageaccount | Set-AzureRmCurrentStorageAccount

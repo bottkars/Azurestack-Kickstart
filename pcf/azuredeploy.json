@@ -74,7 +74,7 @@
   },
   "variables": {
     "boshExtraStorageAccountName": "[concat('xtrastrg',uniquestring(resourceGroup().id, deployment().name))]",
-    "opsManVMName": "pcf-ops-man",
+    "opsManVMName": "[parameters('opsManFQDNPrefix')]",
     "location": "[parameters('location')]",
     "vmStorageAccountContainerName": "vhds",
     "storageid": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
@@ -547,10 +547,6 @@
   "outputs": {
     "fqdn": {
       "value": "[reference(variables('OpsManPublicIPName')).dnsSettings.fqdn]",
-      "type": "string"
-  },
-  "ipaddress": {
-      "value": "[reference(variables('OpsManPublicIPName')).ipAddress]",
       "type": "string"
   },
     "Extra Storage Account Prefix": {
