@@ -136,7 +136,7 @@
       "properties": {
         "ipConfigurations": [
           {
-            "name": "[parameters('OpsManIPConfigName')]",
+            "name": "[variables('OpsManIPConfigName')]",
             "properties": {
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[variables('opsManPrivateIPAddress')]",
