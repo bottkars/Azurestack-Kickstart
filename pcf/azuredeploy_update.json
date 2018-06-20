@@ -212,7 +212,7 @@
   "outputs": {
     "OpsMan-FQDN": {
       "type": "string",
-      "value": "[reference(concat(variables('publicIPref')),'.dnsSettings.fqdn')]"
+      "value": "[reference(variables('OpsManIPConfigName')).dnsSettings.fqdn]"
     },
     "Extra Storage Account Prefix": {
       "type": "string",
