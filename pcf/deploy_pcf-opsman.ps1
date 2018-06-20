@@ -20,7 +20,7 @@ $dnsZoneName = "pcfpas.local.azurestack.external",
 $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
 $storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
 $storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
-$vhdName = Split-Path -Leaf $opsmanager_uri
+$opsManVHD = Split-Path -Leaf $opsmanager_uri
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
 $localPath = "$HOME\Downloads\$file"
@@ -45,24 +45,19 @@ if (!$OpsmanUpdate)
         -Type $storageType 
  }
 
-$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $image_containername + '/' + $vhdName)
+$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $image_containername + '/' + $opsManVHD)
 Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
     -LocalFilePath $localPath
 
 $parameters = @{}
 $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
 $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
-$parameters.Add("dnsZoneName",$dnsZoneName)
 $parameters.Add("storageAccountName",$storageaccount)
-$parameters.Add("storageAccountName",$storageaccount)
+$parameters.Add("opsManVHD",$opsManVHD)
 
 if (!$OpsmanUpdate)
  {
-    $parameters = @{}
-    $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
-    $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
-    $parameters.Add("dnsZoneName",$dnsZoneName)
-    $parameters.Add("storageAccountName",$storageaccount)     
+    $parameters.Add("dnsZoneName",$dnsZoneName) 
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
     $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
     $MyStorageaccount | Set-AzureRmCurrentStorageAccount
@@ -79,10 +74,6 @@ if (!$OpsmanUpdate)
 
  }
  else {
-    $parameters = @{}
-    $parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
-    $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
-    $parameters.Add("storageAccountName",$storageaccount) 
     $parameters.Add("deploymentcolor",$deploymentcolor )
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json -TemplateParameterObject $parameters
  
