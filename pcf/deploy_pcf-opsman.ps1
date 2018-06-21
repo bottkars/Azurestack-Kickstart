@@ -18,8 +18,8 @@ $dnsZoneName = "pcfpas.local.azurestack.external",
 [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green"
 )
 $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
-$storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
-$storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
+#$storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
+#$storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
 $opsManVHD = Split-Path -Leaf $opsmanager_uri
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
