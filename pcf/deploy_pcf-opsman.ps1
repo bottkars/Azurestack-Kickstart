@@ -15,8 +15,18 @@ $opsManFQDNPrefix = "pcf",
 $dnsZoneName = "pcfpas.local.azurestack.external",
 [switch]$RegisterProviders,
 [switch]$OpsmanUpdate,
-[Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green"
+[Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green",
+[ipaddress]$subnet = "10.0.0.0"
 )
+$BaseNetworkVersion = [version]$subnet.IPAddressToString
+$mask = "$($BaseNetworkVersion.Major).$($BaseNetworkVersion.Minor)"
+Write-Host "Using the following Network Assignments:" -ForegroundColor Magenta
+Write-Host "Management: $Mask.4.0/22"
+Write-Host "Deployments: $Mask.8.0/22"
+Write-Host "Services: $Mask.12.0/22"
+Write-Host "$($opsManFQDNPrefix)green $Mask.4.4/32"
+Write-Host "$($opsManFQDNPrefix)blue $Mask.4.5/32"
+pause
 $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
 #$storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
 #$storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
@@ -67,6 +77,7 @@ $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
 $parameters.Add("storageAccountName",$storageaccount)
 $parameters.Add("opsManVHD",$opsManVHD)
 $parameters.Add("deploymentcolor",$deploymentcolor)
+$parameters.Add("mask",$mask)
 #$parameters.Add("opsmanVersion",$opsmanVersion)
 Write-host "Starting Deployment!"
 if (!$OpsmanUpdate)
