@@ -55,8 +55,10 @@ if ($RegisterProviders.isPresent)
 
 if (!$OpsmanUpdate)
  {
-    New-AzureRmResourceGroup -Name $resourceGroup -Location $location
-    New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
+    Write-Host "Creating ResourceGroup $resourceGroup"
+    $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
+    Write-Host "Creating StorageAccount $storageaccount"
+    $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
         $storageAccount -Location $location `
         -Type $storageType 
  }
@@ -65,7 +67,8 @@ $urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_
 
 try
     {
-    Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
+    Write-Host "uploading $opsManVHD into storageaccount $storageaccount, this may take a while"
+    $new_arm_vhd = Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
     -LocalFilePath $localPath -ErrorAction SilentlyContinue    
     }
     catch
