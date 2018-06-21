@@ -164,6 +164,9 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('OpsManPublicIPName')]",
       "location": "[variables('location')]",
+      "tags": {
+        "deployment": "[parameters('deploymentcolor')]"
+      },
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
@@ -462,6 +465,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('opsManNicName')]",
       "location": "[variables('location')]",
+      "tags": {
+        "deployment": "[parameters('deploymentcolor')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Network/networkSecurityGroups/', 'AllowWebAndSSH')]"
       ],
@@ -491,6 +497,9 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('opsManVMName')]",
       "location": "[variables('location')]",
+      "tags": {
+        "deployment": "[parameters('deploymentcolor')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/',variables('opsManNicName'))]"
       ],
