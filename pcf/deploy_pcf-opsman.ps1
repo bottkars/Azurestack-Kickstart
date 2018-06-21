@@ -26,13 +26,13 @@ Write-Host "Services: $Mask.8.0/22"
 Write-Host "Deployment: $Mask.12.0/22"
 Write-Host "$($opsManFQDNPrefix)green $Mask.4.4/32"
 Write-Host "$($opsManFQDNPrefix)blue $Mask.4.5/32"
-pause
+Write-Host
 $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
 #$storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
 #$storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
 $opsManVHD = Split-Path -Leaf $opsmanager_uri
 $opsmanVersion = $opsManVHD -replace ".vhd",""
-Write-host "Preparing to deploy OpsMan $opsmanVersion"
+Write-host "Preparing to deploy OpsMan $opsmanVersion for $deplomentcolor deployment"
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
 $localPath = "$HOME\Downloads\$file"
@@ -79,7 +79,7 @@ $parameters.Add("opsManVHD",$opsManVHD)
 $parameters.Add("deploymentcolor",$deploymentcolor)
 $parameters.Add("mask",$mask)
 #$parameters.Add("opsmanVersion",$opsmanVersion)
-Write-host "Starting Deployment!"
+Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVersion" -ForegroundColor $deploymentcolor
 if (!$OpsmanUpdate)
  {
     $parameters.Add("dnsZoneName",$dnsZoneName) 
