@@ -67,7 +67,7 @@ $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
 $parameters.Add("storageAccountName",$storageaccount)
 $parameters.Add("opsManVHD",$opsManVHD)
 $parameters.Add("deploymentcolor",$deploymentcolor)
-$parameters.Add(("opsmanVersion",$opsmanVersion)
+#$parameters.Add("opsmanVersion",$opsmanVersion)
 Write-host "Starting Deployment!"
 if (!$OpsmanUpdate)
  {
