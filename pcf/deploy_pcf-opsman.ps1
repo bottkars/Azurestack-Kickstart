@@ -8,7 +8,7 @@
     $opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.326.vhd",
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
-$storageaccount = 'opsmanstorage',
+$storageaccount,
 $image_containername = 'opsman-image',
 [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
 $opsManFQDNPrefix = "pcf",
@@ -28,8 +28,12 @@ Write-Host "$($opsManFQDNPrefix)green $Mask.4.4/32"
 Write-Host "$($opsManFQDNPrefix)blue $Mask.4.5/32"
 Write-Host
 $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
-#$storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
-#$storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
+if (!$storageaccount)
+    {
+        $storageaccount = 'opsmanstorage'
+        $storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
+        $storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
+    }
 $opsManVHD = Split-Path -Leaf $opsmanager_uri
 $opsmanVersion = $opsManVHD -replace ".vhd",""
 Write-host "Preparing to deploy OpsMan $opsmanVersion for $deplomentcolor deployment"
