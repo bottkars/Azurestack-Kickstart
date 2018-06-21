@@ -21,6 +21,8 @@ $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
 #$storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
 #$storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
 $opsManVHD = Split-Path -Leaf $opsmanager_uri
+$opsmanVersion = $opsManVHD -replace ".vhd",""
+Write-host "Preparing to deploy OpsMan $opsmanVersion"
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
 $localPath = "$HOME\Downloads\$file"
@@ -65,6 +67,7 @@ $parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
 $parameters.Add("storageAccountName",$storageaccount)
 $parameters.Add("opsManVHD",$opsManVHD)
 $parameters.Add("deploymentcolor",$deploymentcolor)
+$parameters.Add(("opsmanVersion",$opsmanVersion)
 Write-host "Starting Deployment!"
 if (!$OpsmanUpdate)
  {
