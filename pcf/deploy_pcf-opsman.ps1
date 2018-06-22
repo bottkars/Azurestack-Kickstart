@@ -93,15 +93,20 @@ if (!$OpsmanUpdate)
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
     $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
     $MyStorageaccount | Set-AzureRmCurrentStorageAccount
-    New-AzureStorageContainer -Name stemcell -Permission Blob
-    New-AzureStorageContainer -Name bosh
-    New-AzureStorageTable -Name stemcells
+    Write-Host "Creating Container Stemcell in $($MyStorageaccount.StorageAccountName)"
+    $Container = New-AzureStorageContainer -Name stemcell -Permission Blob
+    Write-Host  "Creating Container bosh in $($MyStorageaccount.StorageAccountName)"
+    $Container = New-AzureStorageContainer -Name bosh
+    Write-Host "Creating Table Stemcells in $($MyStorageaccount.StorageAccountName)"
+    $Table = New-AzureStorageTable -Name stemcells
     $Storageaccounts = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match Xtra
     foreach ($Mystorageaccount in $Storageaccounts)
         {
         $MyStorageaccount | Set-AzureRmCurrentStorageAccount
-        New-AzureStorageContainer -Name stemcell -Permission Blob
-        New-AzureStorageContainer -Name bosh
+        Write-Host "Creating Container Stemcell in $($MyStorageaccount.StorageAccountName)"
+        $Container = New-AzureStorageContainer -Name stemcell -Permission Blob
+        Write-Host "Creating Container bosh in $($MyStorageaccount.StorageAccountName)"
+        $Container = New-AzureStorageContainer -Name bosh
     }
 
  }
