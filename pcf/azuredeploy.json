@@ -253,9 +253,37 @@
               "sourcePortRange": "*",
               "destinationPortRange": "22",
               "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
+              "destinationAddressPrefix": "[concat(variables('OpsManGreenIP'), '/32')]",
               "access": "Allow",
               "priority": 1200,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "allow-ssh-to-opsman",
+            "properties": {
+              "description": "Allow Inbound SSH To Ops Manager",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "[concat(variables('OpsManBlueIP'), '/32')]",
+              "access": "Allow",
+              "priority": 1250,
+              "direction": "Inbound"
+            }
+          },          
+          {
+            "name": "allow-http-to-opsman",
+            "properties": {
+              "description": "Allow Inbound HTTP To Ops Manager",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "[concat(variables('OpsManGreenIP'), '/32')]",
+              "access": "Allow",
+              "priority": 1300,
               "direction": "Inbound"
             }
           },
@@ -267,9 +295,23 @@
               "sourcePortRange": "*",
               "destinationPortRange": "80",
               "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
+              "destinationAddressPrefix": "[concat(variables('OpsManBlueIP'), '/32')]",
               "access": "Allow",
-              "priority": 1300,
+              "priority": 1350,
+              "direction": "Inbound"
+            }
+          },          
+          {
+            "name": "allow-https-to-opsman",
+            "properties": {
+              "description": "Allow Inbound HTTPS To Ops Manager",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "[concat(variables('OpsManGreenIP'), '/32')]",
+              "access": "Allow",
+              "priority": 1400,
               "direction": "Inbound"
             }
           },
@@ -281,9 +323,9 @@
               "sourcePortRange": "*",
               "destinationPortRange": "443",
               "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "[concat(variables('opsManPrivateIPAddress'), '/32')]",
+              "destinationAddressPrefix": "[concat(variables('OpsManBlueIP'), '/32')]",
               "access": "Allow",
-              "priority": 1400,
+              "priority": 1450,
               "direction": "Inbound"
             }
           },
