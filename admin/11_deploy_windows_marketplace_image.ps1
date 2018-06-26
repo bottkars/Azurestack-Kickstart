@@ -22,7 +22,7 @@ param (
 )]$KB,
 [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
-Write-Warning "this module is affected by microsoft´s removal of aturestack-tools/compute and will no longer work"
+Write-Warning "this module is affected by microsoft´s removal of azurestack-tools/compute and will no longer work"
 break
 #REQUIRES -Module AzureStack.Connect
 #REQUIRES -RunAsAdministrator

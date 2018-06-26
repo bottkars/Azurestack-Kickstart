@@ -8,7 +8,7 @@ param (
     [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
 begin {
-    Write-Warning "this module is affected by microsoft´s removal of aturestack-tools/compute and will no longer work"
+    Write-Warning "this module is affected by microsoft´s removal of azurestack-tools/compute and will no longer work"
     break 
     if (!$Global:SubscriptionID)
         {
