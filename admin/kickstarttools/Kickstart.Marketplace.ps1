@@ -5,7 +5,7 @@
     .SYNOPSIS
     Adds the VMSS Gallery Item to your Azure Stack Marketplace.
 #>
-function Add-AzsVMSSGalleryItem {
+function Add-KickstartVMSSGalleryItem {
     
     [CmdletBinding()]
     Param(
@@ -15,7 +15,7 @@ function Add-AzsVMSSGalleryItem {
         [String] $Location
     )
     
-    $Location = Get-AzsHomeLocation -Location $Location
+    $Location = Get-KickstartHomeLocation -Location $Location
     $rgName = "vmss.gallery"
 
     New-AzureRmResourceGroup -Name $rgName -Location $Location -Force
@@ -42,37 +42,37 @@ function Add-AzsVMSSGalleryItem {
 
     $uri = $blob.Context.BlobEndPoint + $container.Name + "/" + $blob.Name    
 
-    Add-AzsGalleryItem -GalleryItemUri $uri
+    Add-KickstartGalleryItem -GalleryItemUri $uri
 }
 
-Export-ModuleMember -Function 'Add-AzsVMSSGalleryItem' 
+Export-ModuleMember -Function 'Add-KickstartVMSSGalleryItem' 
 
 <#
     .SYNOPSIS
     Adds the VMSS Gallery Item from your Azure Stack Marketplace.
 #>
-function Remove-AzsVMSSGalleryItem {
+function Remove-KickstartVMSSGalleryItem {
 
     [CmdletBinding(SupportsShouldProcess = $true)]
     param()
-    $item = Get-AzsGalleryItem -Name "microsoft.vmss.1.3.6"
+    $item = Get-KickstartGalleryItem -Name "microsoft.vmss.1.3.6"
 
     if ($item) {
         
         if ($pscmdlet.ShouldProcess("Delete VMSS Gallery Item")) {
-            $null = $item | Remove-AzsGalleryItem
+            $null = $item | Remove-KickstartGalleryItem
             $item
         }
     }
 }
 
-Export-ModuleMember -Function 'Remove-AzsVMSSGalleryItem' 
+Export-ModuleMember -Function 'Remove-KickstartVMSSGalleryItem' 
 
 <#
     .SYNOPSIS
     Uploads a VM Image to your Azure Stack and creates a Marketplace item for it.
 #>
-function Add-AzsVMImage {
+function Add-KickstartVMImage {
 
     [CmdletBinding(DefaultParameterSetName = 'VMImageFromLocal')]
     Param(
@@ -138,7 +138,7 @@ function Add-AzsVMImage {
         [switch] $Force
     )
         
-    $location = Get-AzsHomeLocation -Location $location
+    $location = Get-KickstartHomeLocation -Location $location
 
     if ($CreateGalleryItem -eq $false -and $PSBoundParameters.ContainsKey('title')) {
         Write-Error -Message "The title parameter only applies to creating a gallery item." -ErrorAction Stop
@@ -154,7 +154,7 @@ function Add-AzsVMImage {
 
     #pre validate if image is not already deployed
     $VMImageAlreadyAvailable = $false
-    if ($(Get-AzsVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location -ErrorAction SilentlyContinue).Properties.ProvisioningState -eq 'Succeeded') {
+    if ($(Get-KickstartVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location -ErrorAction SilentlyContinue).Properties.ProvisioningState -eq 'Succeeded') {
         $VMImageAlreadyAvailable = $true
         Write-Verbose -Message ('VM Image with publisher "{0}", offer "{1}", sku "{2}", version "{3}" already is present.' -f $publisher, $offer, $sku, $version) -Verbose -ErrorAction Stop
     }
@@ -276,7 +276,7 @@ function Add-AzsVMImage {
         New-AzureRmResource @params -ErrorAction Stop -Force
     }
 
-    $platformImage = Get-AzsVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location
+    $platformImage = Get-KickstartVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location
 
     while ($platformImage.Properties.ProvisioningState -ne 'Succeeded') {
         if ($platformImage.Properties.ProvisioningState -eq 'Failed') {
@@ -289,7 +289,7 @@ function Add-AzsVMImage {
 
         Write-Verbose "Downloading...";
         Start-Sleep -Seconds 10
-        $platformImage = Get-AzsVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location
+        $platformImage = Get-KickstartVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location
     }
 
     #reaquire storage account context
@@ -301,7 +301,7 @@ function Add-AzsVMImage {
         $null = $container| Set-AzureStorageBlobContent -File $GalleryItem.FullName -Blob $galleryItem.Name
         $galleryItemURI = '{0}{1}/{2}' -f $storageAccount.PrimaryEndpoints.Blob.AbsoluteUri, $containerName, $galleryItem.Name
 
-        Add-AzsGalleryItem -GalleryItemUri $galleryItemURI
+        Add-KickstartGalleryItem -GalleryItemUri $galleryItemURI
 
         #cleanup
         Remove-Item $GalleryItem
@@ -312,13 +312,13 @@ function Add-AzsVMImage {
     Remove-AzureRmResourceGroup -Name $resourceGroupName -Force
 }
 
-Export-ModuleMember -Function 'Add-AzsVMImage' 
+Export-ModuleMember -Function 'Add-KickstartVMImage' 
 
 <#
     .SYNOPSIS
-    Removes an existing VM Image from your Azure Stack.  Does not delete any maketplace items created by Add-AzSVMImage.
+    Removes an existing VM Image from your Azure Stack.  Does not delete any maketplace items created by Add-KickstartVMImage.
 #>
-function Remove-AzsVMImage {
+function Remove-KickstartVMImage {
 
     [CmdletBinding(SupportsShouldProcess = $true)]
     Param(
@@ -346,10 +346,10 @@ function Remove-AzsVMImage {
         [switch] $Force
     )
         
-    $location = Get-AzsHomeLocation -Location $location
+    $location = Get-KickstartHomeLocation -Location $location
         
     $VMImageExists = $false
-    if (Get-AzsVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location -ErrorAction SilentlyContinue) {
+    if (Get-KickstartVMImage -publisher $publisher -offer $offer -sku $sku -version $version -location $location -ErrorAction SilentlyContinue) {
         Write-Verbose "VM Image is present in Azure Stack - continuing to remove"
         $VMImageExists = $true
     }
@@ -384,18 +384,18 @@ function Remove-AzsVMImage {
 
         if ($pscmdlet.ShouldProcess("$("Remove Gallery Item: '{0}', offer: '{1}', sku: '{2}'" -f $publisher,$offer,$sku)")) {
 
-            Get-AzsGalleryItem | Where-Object {$_.Name -contains "$publisher.$name.$version"} | Remove-AzsGalleryItem 
+            Get-KickstartGalleryItem | Where-Object {$_.Name -contains "$publisher.$name.$version"} | Remove-KickstartGalleryItem 
         }
     }
 }
 
-Export-ModuleMember -Function 'Remove-AzsVMImage' 
+Export-ModuleMember -Function 'Remove-KickstartVMImage' 
 
 <#
     .SYNOPSIS
     Gets a VM Image from your Azure Stack as an Administrator to view the provisioning state of the image.
 #>
-function Get-AzsVMImage {
+function Get-KickstartVMImage {
     Param(
         [Parameter(Mandatory = $true)]
         [ValidatePattern("[a-zA-Z0-9-]{3,}")]
@@ -417,7 +417,7 @@ function Get-AzsVMImage {
         [String] $Location
     )
 
-    $location = Get-AzsHomeLocation -Location $location
+    $location = Get-KickstartHomeLocation -Location $location
 
     $params = @{
         ResourceType = "Microsoft.Compute.Admin/locations/artifactTypes/publishers/offers/skus/versions"
@@ -434,13 +434,13 @@ function Get-AzsVMImage {
     }
 }
 
-Export-ModuleMember -Function 'Get-AzsVMImage'
+Export-ModuleMember -Function 'Get-KickstartVMImage'
 
 <#
     .SYNOPSIS
     Creates and Uploads a new Server 2016 Core and / or Full Image and creates a Marketplace item for it.
 #>
-function New-AzsServer2016VMImage {
+function New-KickstartServer2016VMImage {
     [cmdletbinding(DefaultParameterSetName = 'NoCU')]
     param (
         [Parameter()]
@@ -562,14 +562,14 @@ function New-AzsServer2016VMImage {
     }
     process {
     
-        $location = Get-AzsHomeLocation -Location $location
+        $location = Get-KickstartHomeLocation -Location $location
         Write-Verbose -Message "Checking ISO path for a valid ISO."
         if (!$IsoPath.ToLower().contains('.iso')) {
             Write-Error -Message "ISO path is not a valid ISO file." -ErrorAction Stop
         }
 
         if (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-            Write-Error -Message "New-AzsServer2016VMImage must run with Administrator privileges" -ErrorAction Stop
+            Write-Error -Message "New-KickstartServer2016VMImage must run with Administrator privileges" -ErrorAction Stop
         }
         $ModulePath = Split-Path -Path $MyInvocation.MyCommand.Module.Path
         $CoreEdition = 'Windows Server 2016 SERVERDATACENTERCORE'
@@ -643,7 +643,7 @@ function New-AzsServer2016VMImage {
 
             #Pre-validate that the VM Image is not already available
             $VMImageAlreadyAvailable = $false
-            if ($(Get-AzsVMImage -publisher $PublishArguments.publisher -offer $PublishArguments.offer -sku $sku -version $PublishArguments.version -location $PublishArguments.location -ErrorAction SilentlyContinue).Properties.ProvisioningState -eq 'Succeeded') {
+            if ($(Get-KickstartVMImage -publisher $PublishArguments.publisher -offer $PublishArguments.offer -sku $sku -version $PublishArguments.version -location $PublishArguments.location -ErrorAction SilentlyContinue).Properties.ProvisioningState -eq 'Succeeded') {
                 $VMImageAlreadyAvailable = $true
                 Write-Verbose -Message ('VM Image with publisher "{0}", offer "{1}", sku "{2}", version "{3}" already is present.' -f $publisher, $offer, $sku, $version) -Verbose -ErrorAction Stop
             }
@@ -660,10 +660,10 @@ function New-AzsServer2016VMImage {
 
                 if ($CreateGalleryItem) {
                     $description = "This evaluation image should not be used for production workloads."
-                    Add-AzsVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -title "Windows Server 2016 Datacenter Core Eval" -description $description -CreateGalleryItem $CreateGalleryItem
+                    Add-KickstartVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -title "Windows Server 2016 Datacenter Core Eval" -description $description -CreateGalleryItem $CreateGalleryItem
                 }
                 else {
-                    Add-AzsVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -CreateGalleryItem $CreateGalleryItem
+                    Add-KickstartVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -CreateGalleryItem $CreateGalleryItem
                 }
             }
             catch {
@@ -680,7 +680,7 @@ function New-AzsServer2016VMImage {
 
                 #Pre-validate that the VM Image is not already available
                 $VMImageAlreadyAvailable = $false
-                if ($(Get-AzsVMImage -publisher $PublishArguments.publisher -offer $PublishArguments.offer -sku $sku -version $PublishArguments.version -location $PublishArguments.location -ErrorAction SilentlyContinue).Properties.ProvisioningState -eq 'Succeeded') {
+                if ($(Get-KickstartVMImage -publisher $PublishArguments.publisher -offer $PublishArguments.offer -sku $sku -version $PublishArguments.version -location $PublishArguments.location -ErrorAction SilentlyContinue).Properties.ProvisioningState -eq 'Succeeded') {
                     $VMImageAlreadyAvailable = $true
                     Write-Verbose -Message ('VM Image with publisher "{0}", offer "{1}", sku "{2}", version "{3}" already is present.' -f $publisher, $offer, $sku, $version) -Verbose -ErrorAction Stop
                 }
@@ -694,10 +694,10 @@ function New-AzsServer2016VMImage {
                 }
                 if ($CreateGalleryItem) {
                     $description = "This evaluation image should not be used for production workloads."
-                    Add-AzsVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -title "Windows Server 2016 Datacenter Eval" -description $description -CreateGalleryItem $CreateGalleryItem
+                    Add-KickstartVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -title "Windows Server 2016 Datacenter Eval" -description $description -CreateGalleryItem $CreateGalleryItem
                 }
                 else {
-                    Add-AzsVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -CreateGalleryItem $CreateGalleryItem
+                    Add-KickstartVMImage -sku $sku -osDiskLocalPath $ImagePath @PublishArguments -CreateGalleryItem $CreateGalleryItem
                 }
             }
             catch {
@@ -711,7 +711,7 @@ function New-AzsServer2016VMImage {
     }
 }
 
-Export-ModuleMember -Function 'New-AzsServer2016VMImage' 
+Export-ModuleMember -Function 'New-KickstartServer2016VMImage' 
 
 Function CreateGalleryItem {
     Param(
@@ -816,7 +816,7 @@ Function CreateGalleryItem {
     $azpkg = '{0}\{1}' -f $workdir, $galleryItemName
     return Get-Item -LiteralPath $azpkg
 }
-Function Get-AzsHomeLocation {
+Function Get-KickstartHomeLocation {
     param(
         [Parameter(Mandatory = $false)]
         [string] $Location
@@ -825,6 +825,6 @@ Function Get-AzsHomeLocation {
         return $Location
     }
     
-    $locationResource = Get-AzsLocation
+    $locationResource = Get-KickstartLocation
     return $locationResource.Name
 }

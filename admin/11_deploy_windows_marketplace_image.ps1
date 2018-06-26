@@ -22,8 +22,9 @@ param (
 )]$KB,
 [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
-Write-Warning "this module is affected by microsoft´s removal of azurestack-tools/compute and will no longer work"
-break
+#Write-Warning "this module is affected by microsoft´s removal of azurestack-tools/compute and will no longer work"
+#break
+#REQUIRES -Module .\kickstarttools\kikcstart.Marketplace
 #REQUIRES -Module AzureStack.Connect
 #REQUIRES -RunAsAdministrator
 begin {
@@ -32,7 +33,7 @@ begin {
         Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
         break
         }    
-    Remove-Item "$Global:AZSTools_location\ComputeAdmin\*.vhd" -force -ErrorAction SilentlyContinue
+    Remove-Item ".\kickstarttools\*.vhd" -force -ErrorAction SilentlyContinue
     $Updates = (get-content $PSScriptRoot\windowsupdate.json | ConvertFrom-Json)
     $Updates = $Updates |  Sort-Object -Descending -Property Date
     $azserverimage = @()
@@ -123,7 +124,7 @@ if ($image_version -ne "NONE")
     Write-Host -ForegroundColor Green [Done]
 
     Write-Host -ForegroundColor White "[==>]Creating image for $osImageSkuVersion" -NoNewline
-    $azserverimage += New-AzsServer2016VMImage -ISOPath $ISOFilePath -Version $image_version `
+    $azserverimage += New-KickstartServer2016VMImage -ISOPath $ISOFilePath -Version $image_version `
         -CUPath $updateFilePath -CreateGalleryItem:$true `
         -Location local -Sku_Version $osImageSkuVersion -Verbose:$false
     Write-Host -ForegroundColor Green [Done]
