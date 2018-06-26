@@ -8,6 +8,8 @@ param (
     [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
 begin {
+    Write-Warning "this module is affected by microsoft´s removal of aturestack-tools/compute and will no longer work"
+    break 
     if (!$Global:SubscriptionID)
         {
         Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
