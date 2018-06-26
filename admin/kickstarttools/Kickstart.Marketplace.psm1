@@ -42,7 +42,7 @@ function Add-KickstartVMSSGalleryItem {
 
     $uri = $blob.Context.BlobEndPoint + $container.Name + "/" + $blob.Name    
 
-    Add-KickstartGalleryItem -GalleryItemUri $uri
+    Add-AZSGalleryItem -GalleryItemUri $uri
 }
 
 Export-ModuleMember -Function 'Add-KickstartVMSSGalleryItem' 
@@ -301,7 +301,7 @@ function Add-KickstartVMImage {
         $null = $container| Set-AzureStorageBlobContent -File $GalleryItem.FullName -Blob $galleryItem.Name
         $galleryItemURI = '{0}{1}/{2}' -f $storageAccount.PrimaryEndpoints.Blob.AbsoluteUri, $containerName, $galleryItem.Name
 
-        Add-KickstartGalleryItem -GalleryItemUri $galleryItemURI
+        Add-AZSGalleryItem -GalleryItemUri $galleryItemURI
 
         #cleanup
         Remove-Item $GalleryItem
