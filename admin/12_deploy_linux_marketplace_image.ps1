@@ -7,9 +7,10 @@ param (
     [Parameter(Mandatory = $false,Position = 1)][ValidateScript({ Test-Path -Path $_ })]$ImagePath=$Global:ImagePath,
     [alias('sku_version')][version]$osImageSkuVersion # = (date -Format yyyy.MM.dd).ToString()
 )
+#REQUIRES -Module Kickstart.Marketplace
 begin {
-    Write-Warning "this module is affected by microsoft´s removal of azurestack-tools/compute and will no longer work"
-    break 
+    #Write-Warning "this module is affected by microsoft´s removal of azurestack-tools/compute and will no longer work"
+    #break 
     if (!$Global:SubscriptionID)
         {
         Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
@@ -139,7 +140,7 @@ switch ($PsCmdlet.ParameterSetName)
     if ($evalnum -gt 0)
         {   
         Write-Host -ForegroundColor White "[==>]Starting Image Upload of $VHD_Image for Publisher $Publisher as offer $Offer with SKU $SKU and Version $osImageSkuVersion"
-        $AzureRMVMImage = Add-AzsVMImage `
+        $AzureRMVMImage = Add-KickstartVMImage `
         -publisher $Publisher `
         -offer $Offer `
         -sku $SKU `

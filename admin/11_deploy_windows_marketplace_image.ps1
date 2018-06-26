@@ -24,7 +24,7 @@ param (
 )
 #Write-Warning "this module is affected by microsoft´s removal of azurestack-tools/compute and will no longer work"
 #break
-#REQUIRES -Module .\kickstarttools\kikcstart.Marketplace
+#REQUIRES -Module Kickstart.Marketplace
 #REQUIRES -Module AzureStack.Connect
 #REQUIRES -RunAsAdministrator
 begin {
