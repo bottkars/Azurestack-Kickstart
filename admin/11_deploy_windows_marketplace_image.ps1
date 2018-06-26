@@ -25,7 +25,6 @@ param (
 Write-Warning "this module is affected by microsoft´s removal of aturestack-tools/compute and will no longer work"
 break
 #REQUIRES -Module AzureStack.Connect
-#REQUIRES -Module AzureStack.ComputeAdmin
 #REQUIRES -RunAsAdministrator
 begin {
     if (!$Global:SubscriptionID)
