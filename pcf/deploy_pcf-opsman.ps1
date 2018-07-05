@@ -5,10 +5,11 @@
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.304.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.326.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.335.vhd'
+    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.335.vhd',
+    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd'
 
     )]
-    $opsmanager_uri  = "https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.335.vhd",
+    $opsmanager_uri  = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
 $storageaccount,
