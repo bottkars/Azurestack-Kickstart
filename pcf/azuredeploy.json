@@ -302,7 +302,7 @@
             }
           },          
           {
-            "name": "allow-https-to-opsman",
+            "name": "allow-https-to-opsman-green",
             "properties": {
               "description": "Allow Inbound HTTPS To Ops Manager",
               "protocol": "*",
@@ -316,7 +316,7 @@
             }
           },
           {
-            "name": "allow-https-to-opsman",
+            "name": "allow-https-to-opsman-blue",
             "properties": {
               "description": "Allow Inbound HTTPS To Ops Manager",
               "protocol": "*",
