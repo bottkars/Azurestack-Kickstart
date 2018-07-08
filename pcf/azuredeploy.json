@@ -246,7 +246,7 @@
       "properties": {
         "securityRules": [
           {
-            "name": "allow-ssh-to-opsman",
+            "name": "allow-ssh-to-opsman-green",
             "properties": {
               "description": "Allow Inbound SSH To Ops Manager",
               "protocol": "*",
@@ -260,7 +260,7 @@
             }
           },
           {
-            "name": "allow-ssh-to-opsman",
+            "name": "allow-ssh-to-opsman-blue",
             "properties": {
               "description": "Allow Inbound SSH To Ops Manager",
               "protocol": "*",
@@ -274,7 +274,7 @@
             }
           },          
           {
-            "name": "allow-http-to-opsman",
+            "name": "allow-http-to-opsman-green",
             "properties": {
               "description": "Allow Inbound HTTP To Ops Manager",
               "protocol": "*",
@@ -288,7 +288,7 @@
             }
           },
           {
-            "name": "allow-http-to-opsman",
+            "name": "allow-http-to-opsman-blue",
             "properties": {
               "description": "Allow Inbound HTTP To Ops Manager",
               "protocol": "*",
