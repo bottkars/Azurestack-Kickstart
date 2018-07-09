@@ -106,6 +106,7 @@
     "pcffrontEndIPConfigID": "[concat(variables('pcflbID'),'/frontendIPConfigurations/pcf-fe-ip')]",
     "pcflbPoolID": "[concat(variables('pcflbID'),'/backendAddressPools/pcf-vms')]",
     "pcflbProbeID": "[concat(variables('pcflbID'),'/probes/tcp80')]",
+    "pcfpublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses','pcf-lb-ip')]",
     "diegosshlbName": "diegossh-lb",
     "diegosshlbID": "[resourceId('Microsoft.Network/loadBalancers',variables('diegosshlbName'))]",
     "diegosshfrontEndIPConfigID": "[concat(variables('diegosshlbID'),'/frontendIPConfigurations/diegossh-fe-ip')]",
@@ -201,6 +202,25 @@
         "location": "global",
         "properties": {}
     },
+    {
+      "type": "Microsoft.Network/dnszones/A",
+      "name": "[concat(parameters('dnsZoneName'), '/*.system')]",
+      "apiVersion": "2016-04-01",
+      "location": "global",
+      "dependsOn": [
+        "[parameters('dnsZoneName')]"
+      ],
+      "properties": {
+        "TTL": 3600,
+        "ARecords": [
+          {
+            "ipv4Address": "[variables('pcfpublicIPAddressID')]"
+          }
+        ]
+      }
+    },
+
+
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
