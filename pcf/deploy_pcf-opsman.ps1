@@ -94,7 +94,7 @@ Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVer
 if (!$OpsmanUpdate)
  {
     $parameters.Add("dnsZoneName",$dnsZoneName) 
-    New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
+    New-AzureRmResourceGroupDeployment -Name $resourceGroup -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
     $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
     $MyStorageaccount | Set-AzureRmCurrentStorageAccount
     Write-Host "Creating Container Stemcell in $($MyStorageaccount.StorageAccountName)"
