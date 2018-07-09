@@ -106,7 +106,7 @@
     "pcffrontEndIPConfigID": "[concat(variables('pcflbID'),'/frontendIPConfigurations/pcf-fe-ip')]",
     "pcflbPoolID": "[concat(variables('pcflbID'),'/backendAddressPools/pcf-vms')]",
     "pcflbProbeID": "[concat(variables('pcflbID'),'/probes/tcp80')]",
-    "pcfpublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses','pcf-lb-ip')]",
+    "pcfpublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses','pcf-lb-ip').properties.ipAddress]",
     "diegosshlbName": "diegossh-lb",
     "diegosshlbID": "[resourceId('Microsoft.Network/loadBalancers',variables('diegosshlbName'))]",
     "diegosshfrontEndIPConfigID": "[concat(variables('diegosshlbID'),'/frontendIPConfigurations/diegossh-fe-ip')]",
