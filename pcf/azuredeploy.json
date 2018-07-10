@@ -205,7 +205,7 @@
       "type": "Microsoft.Network/dnszones/A",
       "name": "[concat(parameters('dnsZoneName'), '/*.system')]",
       "apiVersion": "2016-04-01",
-      "location": "global",
+      "location": "[variables('location')]",
       "dependsOn": [
         "[parameters('dnsZoneName')]",
         "Microsoft.Network/publicIPAddresses/pcf-lb-ip"
@@ -219,8 +219,24 @@
         ]
       }
     },
-
-
+    {
+      "type": "Microsoft.Network/dnszones/A",
+      "name": "[concat(parameters('dnsZoneName'), '/*.apps')]",
+      "apiVersion": "2016-04-01",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[parameters('dnsZoneName')]",
+        "Microsoft.Network/publicIPAddresses/pcf-lb-ip"
+      ],
+      "properties": {
+        "TTL": 3600,
+        "ARecords": [
+          {
+            "ipv4Address": "[reference('Microsoft.Network/publicIPAddresses/pcf-lb-ip').IpAddress]"
+          }
+        ]
+      }
+    },    
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
@@ -415,7 +431,33 @@
               "priority": 1700,
               "direction": "Inbound"
             }
-          }
+          },
+          {
+            "name": "allow-mysql-probe",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "1935",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 175,
+              "direction": "Inbound"
+            }
+          },          
+          {
+            "name": "allow-mysqql",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3306",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1750,
+              "direction": "Inbound"
+            }
+          }          
         ]
       }
     },
