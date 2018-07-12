@@ -457,7 +457,20 @@
               "priority": 1750,
               "direction": "Inbound"
             }
-          }          
+          },
+          {
+            "name": "allow-socks",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8443",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1850,
+              "direction": "Inbound"
+            }
+          }                              
         ]
       }
     },
