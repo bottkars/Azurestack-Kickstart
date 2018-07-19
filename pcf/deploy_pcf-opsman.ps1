@@ -1,12 +1,13 @@
 ﻿param(
     [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]
-    [ValidateSet('https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.212.vhd',
+    [ValidateSet('https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.214.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.304.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.326.vhd',
     'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.335.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd'
+    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
+    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd'
 
     )]
     $opsmanager_uri  = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
