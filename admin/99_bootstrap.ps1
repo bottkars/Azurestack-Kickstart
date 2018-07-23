@@ -225,6 +225,7 @@ $Modules = (
     "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1"
     #"$($Global:AZSTools_location)\serviceAdmin\AzureStack.ServiceAdmin.psm1",
     #"$($Global:AZSTools_location)\ComputeAdmin\AzureStack.ComputeAdmin.psm1")
+)
 foreach ($module in $Modules)
     {
         Write-Host -ForegroundColor White "[==>]Importing Module $Module" -NoNewline
