@@ -13,6 +13,7 @@
     $opsmanager_uri  = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
 $resourceGroup = 'OpsMANAGER',
 $location = $GLOBAL:AZS_Location,
+$dnsdomain = $Global:dnsdomain,
 $storageaccount,
 $image_containername = 'opsman-image',
 [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
@@ -90,7 +91,9 @@ $parameters.Add("storageAccountName",$storageaccount)
 $parameters.Add("opsManVHD",$opsManVHD)
 $parameters.Add("deploymentcolor",$deploymentcolor)
 $parameters.Add("mask",$mask)
-#$parameters.Add("opsmanVersion",$opsmanVersion)
+$parameters.Add("location",$location)
+$parameters.Add("storageEndpoint","blob.$location.$dnsdomain")
+
 Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVersion" -ForegroundColor $deploymentcolor
 if (!$OpsmanUpdate)
  {
