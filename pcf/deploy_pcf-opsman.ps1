@@ -41,7 +41,7 @@ if (!$storageaccount)
     }
 $opsManVHD = Split-Path -Leaf $opsmanager_uri
 $opsmanVersion = $opsManVHD -replace ".vhd",""
-Write-host "Preparing to deploy OpsMan $opsmanVersion for $deplomentcolor deployment"
+Write-host "Preparing to deploy OpsMan $opsmanVersion for $deploymentcolor deployment" -ForegroundColor $deploymentcolor
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
 $localPath = "$HOME\Downloads\$file"
