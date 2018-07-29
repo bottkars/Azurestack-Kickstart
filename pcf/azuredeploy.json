@@ -470,7 +470,21 @@
               "priority": 1850,
               "direction": "Inbound"
             }
-          }                              
+          },
+          {
+            "name": "allow-credhub",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8844",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1950,
+              "direction": "Inbound"
+            }
+          } 
+
         ]
       }
     },
