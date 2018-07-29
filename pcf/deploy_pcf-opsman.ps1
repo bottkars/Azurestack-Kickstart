@@ -22,7 +22,8 @@ $dnsZoneName = "pcfpas.local.azurestack.external",
 [switch]$RegisterProviders,
 [switch]$OpsmanUpdate,
 [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green",
-[ipaddress]$subnet = "10.0.0.0"
+[ipaddress]$subnet = "10.0.0.0",
+$downloadpath = "$($HOME)/Downloads"
 )
 $BaseNetworkVersion = [version]$subnet.IPAddressToString
 $mask = "$($BaseNetworkVersion.Major).$($BaseNetworkVersion.Minor)"
@@ -45,7 +46,7 @@ $opsmanVersion = $opsManVHD -replace ".vhd",""
 Write-host "Preparing to deploy OpsMan $opsmanVersion for $deploymentcolor deployment" -ForegroundColor $deploymentcolor
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
-$localPath = "$HOME\Downloads\$file"
+$localPath = "$Downloadpath/$file"
 
 if (!(Test-Path $localPath))
     {
