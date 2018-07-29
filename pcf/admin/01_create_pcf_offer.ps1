@@ -41,17 +41,17 @@ if  ($AZSOffer)
     }
 
 $ComputeQuota = New-AzsComputeQuota -Name pcf-compute `
-    -Location local -VirtualMachineCount 500 `
-    -AvailabilitySetCount 30 -CoresLimit 200 -VmScaleSetCount 30
+    -Location local -VirtualMachineCount 200 `
+    -AvailabilitySetCount 50 -CoresLimit 200 -VmScaleSetCount 10
    
 $NetworkQuota = New-AzsNetworkQuota -Name pcf-network `
-    -Location local -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 `
-    -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
+    -Location local -PublicIpsPerSubscription 20 -VNetsPerSubscription 5 `
+    -GatewaysPerSubscription 5 -ConnectionsPerSubscription 1000 -NicsPerSubscription 200
 
     if (!($StorageQuota = Get-AzsStorageQuota -Name pcf-storage))
        {
            $StorageQuota = New-AzsStorageQuota -Name pcf-storage -Location local `
-           -NumberOfStorageAccounts 300 -CapacityInGB 50000
+           -NumberOfStorageAccounts 300 -CapacityInGB 5000
        }
     
        
