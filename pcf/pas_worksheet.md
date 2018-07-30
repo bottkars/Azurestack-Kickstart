@@ -1,6 +1,6 @@
 # PAS Deployment Worksheet
 
-![image](https://user-images.githubusercontent.com/8255007/43384579-bf204240-93de-11e8-9130-1751cab3c152.png){:height="350px"}
+![image](https://user-images.githubusercontent.com/8255007/43384579-bf204240-93de-11e8-9130-1751cab3c152.png)  
 
 
 ## Upload TILE to OPS Manager Director
