@@ -1,3 +1,7 @@
+# Configuring OpsMANAGER
+after successfull deploying OpsMANAGER 
+
+
 ## Filling in Configuration  
 
 
