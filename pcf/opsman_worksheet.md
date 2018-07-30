@@ -16,7 +16,8 @@ Tenant ID
 
 Application ID  
 *can't be blank*  
-Service Principal created in AzureAD
+(Service Principal created in AzureAD)[https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#create-an-azure-active-directory-application]
+
 
 Client Secret  
 *can't be blank*  
