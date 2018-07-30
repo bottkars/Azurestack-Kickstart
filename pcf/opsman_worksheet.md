@@ -16,7 +16,8 @@ Tenant ID
 
 Application ID  
 *can't be blank*  
-[Service Principal created in AzureAD](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#create-an-azure-active-directory-application)
+[See here how to create a Service Principal in AzureAD](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#create-an-azure-active-directory-application)  
+Kickstart Users can use 01_create_service_principal.ps1
 
 
 Client Secret  
