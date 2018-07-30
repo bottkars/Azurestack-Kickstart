@@ -11,19 +11,19 @@
 
     )]
     $opsmanager_uri  = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
-$resourceGroup = 'OpsMANAGER',
-$location = $GLOBAL:AZS_Location,
-$dnsdomain = $Global:dnsdomain,
-$storageaccount,
-$image_containername = 'opsman-image',
-[Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
-$opsManFQDNPrefix = "pcf",
-$dnsZoneName = "pcfpas.local.azurestack.external",
-[switch]$RegisterProviders,
-[switch]$OpsmanUpdate,
-[Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green",
-[ipaddress]$subnet = "10.0.0.0",
-$downloadpath = "$($HOME)/Downloads"
+    $resourceGroup = 'OpsMANAGER',
+    $location = $GLOBAL:AZS_Location,
+    $dnsdomain = $Global:dnsdomain,
+    $storageaccount,
+    $image_containername = 'opsman-image',
+    [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
+    $opsManFQDNPrefix = "pcf",
+    $dnsZoneName = "pcf.local.azurestack.external",
+    [switch]$RegisterProviders,
+    [switch]$OpsmanUpdate,
+    [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green",
+    [ipaddress]$subnet = "10.0.0.0",
+    $downloadpath = "$($HOME)/Downloads"
 )
 $BaseNetworkVersion = [version]$subnet.IPAddressToString
 $mask = "$($BaseNetworkVersion.Major).$($BaseNetworkVersion.Minor)"
@@ -54,10 +54,15 @@ if (!(Test-Path $localPath))
     }
 if ($RegisterProviders.isPresent)
     {
-        foreach ($provider in ('Microsoft.Compute','Microsoft.Network','Microsoft.KeyVault','Microsoft.Storage'))
+        foreach ($provider in
+            ('Microsoft.Compute',
+            'Microsoft.Network',
+            #'Microsoft.KeyVault',
+            'Microsoft.Storage')
+            )
         {
             Get-AzureRmResourceProvider -ProviderNamespace $provider | Register-AzureRmResourceProvider
-        } 
+        }
     }
 
 if (!$OpsmanUpdate)
@@ -67,7 +72,7 @@ if (!$OpsmanUpdate)
     Write-Host "Creating StorageAccount $storageaccount"
     $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
         $storageAccount -Location $location `
-        -Type $storageType 
+        -Type $storageType
  }
 
 $urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $image_containername + '/' + $opsManVHD)
@@ -76,7 +81,7 @@ try
     {
     Write-Host "uploading $opsManVHD into storageaccount $storageaccount, this may take a while"
     $new_arm_vhd = Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
-    -LocalFilePath $localPath -ErrorAction SilentlyContinue    
+    -LocalFilePath $localPath -ErrorAction SilentlyContinue
     }
     catch
     {
