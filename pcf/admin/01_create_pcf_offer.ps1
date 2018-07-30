@@ -7,7 +7,7 @@ param (
 $plan = "PCF_PLAN",
 $rg_name = "plans_and_offers",
 $owner = $Global:Service_RM_Account.Context.Account.Id
-#$SubscriptionID = $Global:SubscriptionID 
+#$SubscriptionID = $Global:SubscriptionID
 )
 if (!$Global:SubscriptionID)
 {
@@ -22,7 +22,7 @@ if (!$Global:Service_RM_Account.Context)
 
 if (!($RG = Get-AzureRmResourceGroup -Name $rg_name -Location local))
     {
-    Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"        
+    Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"
     $RG = New-AzureRmResourceGroup -Name $rg_name -Location local
     Write-Host -ForegroundColor Green [Done]
     }
@@ -43,7 +43,7 @@ if  ($AZSOffer)
 $ComputeQuota = New-AzsComputeQuota -Name pcf-compute `
     -Location local -VirtualMachineCount 200 `
     -AvailabilitySetCount 50 -CoresLimit 200 -VmScaleSetCount 10
-   
+
 $NetworkQuota = New-AzsNetworkQuota -Name pcf-network `
     -Location local -MaxPublicIpsPerSubscription 20 -MaxVNetsPerSubscription 5 `
     -MaxVirtualNetworkGatewaysPerSubscription 5 `
@@ -54,16 +54,13 @@ $NetworkQuota = New-AzsNetworkQuota -Name pcf-network `
            $StorageQuota = New-AzsStorageQuota -Name pcf-storage -Location local `
            -NumberOfStorageAccounts 300 -CapacityInGB 5000
        }
-    
-       
 
 try {
     $PCF_PLAN = Get-AZSPlan -Name $plan -ResourceGroupName $rg_name -ErrorAction SilentlyContinue
     }
     catch {
-    
-          Write-Host "$plan not found in $rg_name, creating now"
-          $PCF_PLAN = New-AzsPlan -Name $plan -DisplayName "Offer for PCF" `
+        Write-Host "$plan not found in $rg_name, creating now"
+        $PCF_PLAN = New-AzsPlan -Name $plan -DisplayName "Offer for PCF" `
     	    -ResourceGroupName $rg_name `
             -QuotaIds $StorageQuota.Id,$NetworkQuota.Id,$ComputeQuota.Id -ArmLocation local
     }

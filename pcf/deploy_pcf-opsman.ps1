@@ -1,27 +1,41 @@
 ﻿param(
-    [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]
+    [Parameter(ParameterSetName = "1", Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
     [ValidateSet('https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.214.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.304.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.326.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.335.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
-    'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd'
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.214.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.304.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.314.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.326.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.1-build.335.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd'
 
     )]
-    $opsmanager_uri  = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
+    $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
+    # The name of the Ressource Group we want to Deploy to.
+    [Parameter(ParameterSetName = "1", Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
     $resourceGroup = 'OpsMANAGER',
+    # region of the Deployment., local for ASDK
+    [Parameter(ParameterSetName = "1", Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
     $location = $GLOBAL:AZS_Location,
+    [Parameter(ParameterSetName = "1", Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
     $dnsdomain = $Global:dnsdomain,
+    [Parameter(ParameterSetName = "1", Mandatory = $false)]
     $storageaccount,
+    # The Containername we will host the Images for Opsmanager in
+    [Parameter(ParameterSetName = "1", Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
     $image_containername = 'opsman-image',
-    [Parameter(ParameterSetName = "1", Mandatory=$true)]$OPSMAN_SSHKEY,
+    # The SSH Key for OpsManager
+    [Parameter(ParameterSetName = "1", Mandatory = $true)]$OPSMAN_SSHKEY,
     $opsManFQDNPrefix = "pcf",
     $dnsZoneName = "pcf.local.azurestack.external",
     [switch]$RegisterProviders,
     [switch]$OpsmanUpdate,
-    [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green','blue')]$deploymentcolor = "green",
+    [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green', 'blue')]$deploymentcolor = "green",
     [ipaddress]$subnet = "10.0.0.0",
     $downloadpath = "$($HOME)/Downloads"
 )
@@ -35,75 +49,67 @@ Write-Host "$($opsManFQDNPrefix)green $Mask.4.4/32"
 Write-Host "$($opsManFQDNPrefix)blue $Mask.4.5/32"
 Write-Host
 $opsManFQDNPrefix = "$opsManFQDNPrefix$deploymentcolor"
-if (!$storageaccount)
-    {
-        $storageaccount = 'opsmanstorage'
-        $storageaccount = ($resourceGroup+$Storageaccount) -Replace '[^a-zA-Z0-9]',''
-        $storageaccount = ($Storageaccount.subString(0,[System.Math]::Min(23, $storageaccount.Length))).tolower()
-    }
+if (!$storageaccount) {
+    $storageaccount = 'opsmanstorage'
+    $storageaccount = ($resourceGroup + $Storageaccount) -Replace '[^a-zA-Z0-9]', ''
+    $storageaccount = ($Storageaccount.subString(0, [System.Math]::Min(23, $storageaccount.Length))).tolower()
+}
 $opsManVHD = Split-Path -Leaf $opsmanager_uri
-$opsmanVersion = $opsManVHD -replace ".vhd",""
+$opsmanVersion = $opsManVHD -replace ".vhd", ""
 Write-host "Preparing to deploy OpsMan $opsmanVersion for $deploymentcolor deployment" -ForegroundColor $deploymentcolor
 $storageType = 'Standard_LRS'
 $file = split-path -Leaf $opsmanager_uri
 $localPath = "$Downloadpath/$file"
 
-if (!(Test-Path $localPath))
-    {
-    Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager     
-    }
-if ($RegisterProviders.isPresent)
-    {
-        foreach ($provider in
-            ('Microsoft.Compute',
+if (!(Test-Path $localPath)) {
+    Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager
+}
+if ($RegisterProviders.isPresent) {
+    foreach ($provider in
+        ('Microsoft.Compute',
             'Microsoft.Network',
             #'Microsoft.KeyVault',
             'Microsoft.Storage')
-            )
-        {
-            Get-AzureRmResourceProvider -ProviderNamespace $provider | Register-AzureRmResourceProvider
-        }
+    ) {
+        Get-AzureRmResourceProvider -ProviderNamespace $provider | Register-AzureRmResourceProvider
     }
+}
 
-if (!$OpsmanUpdate)
- {
+if (!$OpsmanUpdate) {
     Write-Host "Creating ResourceGroup $resourceGroup"
     $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
     Write-Host "Creating StorageAccount $storageaccount"
     $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
         $storageAccount -Location $location `
         -Type $storageType
- }
+}
 
-$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain+ '/' + $image_containername + '/' + $opsManVHD)
+$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain + '/' + $image_containername + '/' + $opsManVHD)
 
-try
-    {
+try {
     Write-Host "uploading $opsManVHD into storageaccount $storageaccount, this may take a while"
     $new_arm_vhd = Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
-    -LocalFilePath $localPath -ErrorAction SilentlyContinue
-    }
-    catch
-    {
-         Write-Warning "Image already exists for $opsManVHD, not overwriting"
+        -LocalFilePath $localPath -ErrorAction SilentlyContinue
+}
+catch {
+    Write-Warning "Image already exists for $opsManVHD, not overwriting"
 
-    }
+}
 
 
 $parameters = @{}
-$parameters.Add("SSHKeyData",$OPSMAN_SSHKEY)
-$parameters.Add("opsManFQDNPrefix",$opsManFQDNPrefix)
-$parameters.Add("storageAccountName",$storageaccount)
-$parameters.Add("opsManVHD",$opsManVHD)
-$parameters.Add("deploymentcolor",$deploymentcolor)
-$parameters.Add("mask",$mask)
-$parameters.Add("location",$location)
-$parameters.Add("storageEndpoint","blob.$location.$dnsdomain")
+$parameters.Add("SSHKeyData", $OPSMAN_SSHKEY)
+$parameters.Add("opsManFQDNPrefix", $opsManFQDNPrefix)
+$parameters.Add("storageAccountName", $storageaccount)
+$parameters.Add("opsManVHD", $opsManVHD)
+$parameters.Add("deploymentcolor", $deploymentcolor)
+$parameters.Add("mask", $mask)
+$parameters.Add("location", $location)
+$parameters.Add("storageEndpoint", "blob.$location.$dnsdomain")
 
 Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVersion" -ForegroundColor $deploymentcolor
-if (!$OpsmanUpdate)
- {
-    $parameters.Add("dnsZoneName",$dnsZoneName) 
+if (!$OpsmanUpdate) {
+    $parameters.Add("dnsZoneName", $dnsZoneName) 
     New-AzureRmResourceGroupDeployment -Name $resourceGroup -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy.json -TemplateParameterObject $parameters
     $MyStorageaccount = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match $storageaccount
     $MyStorageaccount | Set-AzureRmCurrentStorageAccount
@@ -114,8 +120,7 @@ if (!$OpsmanUpdate)
     Write-Host "Creating Table Stemcells in $($MyStorageaccount.StorageAccountName)"
     $Table = New-AzureStorageTable -Name stemcells
     $Storageaccounts = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match Xtra
-    foreach ($Mystorageaccount in $Storageaccounts)
-        {
+    foreach ($Mystorageaccount in $Storageaccounts) {
         $MyStorageaccount | Set-AzureRmCurrentStorageAccount
         Write-Host "Creating Container Stemcell in $($MyStorageaccount.StorageAccountName)"
         $Container = New-AzureStorageContainer -Name stemcell -Permission Blob
@@ -123,11 +128,11 @@ if (!$OpsmanUpdate)
         $Container = New-AzureStorageContainer -Name bosh
     }
 
- }
- else {
+}
+else {
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json -TemplateParameterObject $parameters
  
- }
+}
 
 
 ##// create storage containers
