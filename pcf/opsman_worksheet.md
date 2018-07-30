@@ -1,17 +1,25 @@
-# Filling in Configuration  
+## Filling in Configuration  
 
 
-Subscription ID
-can't be blank
+Subscription ID  
+*can't be blank*
+```
+(Get-AzureRMSubscription).id
+```
 
-Tenant ID
-can't be blank
 
-Application ID
-can't be blank
+Tenant ID  
+*can't be blank*
+```
+(Get-AzureRMSubscription).TenantID
+```
+
+Application ID  
+*can't be blank*
+Service Principal created in AzureAD
 
 Client Secret
-can't be blank
+*can't be blank*
 
 Resource Group Name
 can't be blank
