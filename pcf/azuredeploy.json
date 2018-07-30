@@ -483,6 +483,19 @@
               "priority": 1950,
               "direction": "Inbound"
             }
+          },
+            {
+              "name": "allow-boshdns",
+              "properties": {
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "destinationPortRange": "8853",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 2050,
+                "direction": "Inbound"
+              }            
           } 
 
         ]
