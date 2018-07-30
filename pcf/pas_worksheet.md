@@ -33,4 +33,28 @@ disable HAproxy SSL Forwarding
 Confirm with X
 ![image](https://user-images.githubusercontent.com/8255007/43382226-692b11c8-93d7-11e8-884a-a409eb8169a7.png)
 
+### On UAA Tab
+
+create an SSL Certificate for the following domains:  
+```
+*.login.pcf.local.azurestack.external
+```
+enter Passphrase
+
+### On CredHUB TAB  
+create a Primary Encryption KERY
+*Passphrase must not be shorter then 20 chars*
+
+### On Internal MySQL Tab  
+enter a Valid E-Mail Address
+
+### On Ressources TAB
+
+For ASDK, Scale ressources down to 2 where Possible
+
+Assign the Loadbalancers to:
+mysql-lb to MYSql Proxy  
+pcf-lb to Router  
+diegossh-lb to Diego Cell  
+![image](https://user-images.githubusercontent.com/8255007/43383270-ce943bfe-93da-11e8-8b18-d89899fa0e04.png)
 
