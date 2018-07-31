@@ -40,7 +40,7 @@ Confirm with X
 
 create an SSL Certificate for the following domains:  
 ```
-*.login.pcf.local.azurestack.external
+*.login.system.pcf.local.azurestack.external
 ```
 enter Passphrase
 
