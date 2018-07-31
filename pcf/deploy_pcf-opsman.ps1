@@ -87,12 +87,12 @@ if (!$OpsmanUpdate) {
     Write-Host "Creating ResourceGroup $resourceGroup"
     $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
     Write-Host "Creating StorageAccount $storageaccount"
-    $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
-        $storageAccount -Location $location `
+        $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup `
+        -Name $storageAccount -Location $location `
         -Type $storageType
 }
 
-$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain + '/' + $image_containername + '/' + $opsManVHD)
+$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $location + '.' + $dnsdomain + '/' + $image_containername + '/' + $opsManVHD)
 
 try {
     Write-Host "uploading $opsManVHD into storageaccount $storageaccount, this may take a while"
