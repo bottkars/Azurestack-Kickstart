@@ -15,7 +15,7 @@
     # The name of the Ressource Group we want to Deploy to.
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
-    $resourceGroup = 'OpsMANAGER',
+    $resourceGroup = 'PCF_RG',
     # region of the Deployment., local for ASDK
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
@@ -31,8 +31,8 @@
     $image_containername = 'opsman-image',
     # The SSH Key for OpsManager
     [Parameter(ParameterSetName = "1", Mandatory = $true)]$OPSMAN_SSHKEY,
-    $opsManFQDNPrefix = "pcf",
-    $dnsZoneName = "pcf.local.azurestack.external",
+    $opsManFQDNPrefix = "pcfopsman",
+    $dnsZoneName = "pcfdemo.local.azurestack.external",
     [switch]$RegisterProviders,
     [switch]$OpsmanUpdate,
     [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green', 'blue')]$deploymentcolor = "green",
