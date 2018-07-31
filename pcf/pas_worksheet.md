@@ -17,7 +17,7 @@ enter you DNS Zone Information
 
 ### On Networking Tab  
 create an SSL Certificate for the following domains:  
-*note, the below domains are for use with an ASDK, on an integrated system replace _pcf.local.azurestack.external_ with your _<pcfzone>.<region>.<azurestackdomain>_ *
+*note, the below domains are for use with an ASDK, on an integrated system replace _pcf.local.azurestack.external_ with your _pcfzone.region.azurestackdomain_*
 ```
 *.pcf.local.azurestack.external,
 *.system.pcf.local.azurestack.external,
