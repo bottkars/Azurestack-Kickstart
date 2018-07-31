@@ -18,6 +18,7 @@ enter you DNS Zone Information
 ### On Networking Tab  
 create an SSL Certificate for the following domains:  
 ```
+*.pcf.local.azurestack.external,
 *.system.pcf.local.azurestack.external,
 *.apps.local.azurestack.external,
 *.uaa.system.pcf.local.azurestack.external,
