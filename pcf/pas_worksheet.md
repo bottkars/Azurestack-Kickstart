@@ -20,8 +20,8 @@ create an SSL Certificate for the following domains:
 ```
 *.system.pcf.local.azurestack.external,
 *.apps.local.azurestack.external,
-*.uaa.pcf.local.azurestack.external,
-*.login.pcf.local.azurestack.external
+*.uaa.system.pcf.local.azurestack.external,
+*.login.system.pcf.local.azurestack.external
 ```
 ![image](https://user-images.githubusercontent.com/8255007/43381969-a5846e40-93d6-11e8-9c48-ad4db23e5b69.png)
 
