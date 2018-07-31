@@ -39,6 +39,14 @@
     [ipaddress]$subnet = "10.0.0.0",
     $downloadpath = "$($HOME)/Downloads"
 )
+if (!$location)
+    {
+        $Location = Read-Host "Please enter your Region Name [local for asdk]"
+    }
+if (!$dnsdomain)
+    {
+        $dnsdomain = Read-Host "Please enter your DNS Domain [azurestack.external for asdk]"
+    }
 $BaseNetworkVersion = [version]$subnet.IPAddressToString
 $mask = "$($BaseNetworkVersion.Major).$($BaseNetworkVersion.Minor)"
 Write-Host "Using the following Network Assignments:" -ForegroundColor Magenta
