@@ -11,11 +11,11 @@
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd'
 
     )]
-    $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.292.vhd',
+    $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd',
     # The name of the Ressource Group we want to Deploy to.
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
-    $resourceGroup = 'OpsMANAGER',
+    $resourceGroup = 'PCF_RG',
     # region of the Deployment., local for ASDK
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
@@ -31,14 +31,22 @@
     $image_containername = 'opsman-image',
     # The SSH Key for OpsManager
     [Parameter(ParameterSetName = "1", Mandatory = $true)]$OPSMAN_SSHKEY,
-    $opsManFQDNPrefix = "pcf",
-    $dnsZoneName = "pcf.local.azurestack.external",
+    $opsManFQDNPrefix = "pcfopsman",
+    $dnsZoneName = "pcfdemo.local.azurestack.external",
     [switch]$RegisterProviders,
     [switch]$OpsmanUpdate,
     [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green', 'blue')]$deploymentcolor = "green",
     [ipaddress]$subnet = "10.0.0.0",
     $downloadpath = "$($HOME)/Downloads"
 )
+if (!$location)
+    {
+        $Location = Read-Host "Please enter your Region Name [local for asdk]"
+    }
+if (!$dnsdomain)
+    {
+        $dnsdomain = Read-Host "Please enter your DNS Domain [azurestack.external for asdk]"
+    }
 $BaseNetworkVersion = [version]$subnet.IPAddressToString
 $mask = "$($BaseNetworkVersion.Major).$($BaseNetworkVersion.Minor)"
 Write-Host "Using the following Network Assignments:" -ForegroundColor Magenta
@@ -79,12 +87,12 @@ if (!$OpsmanUpdate) {
     Write-Host "Creating ResourceGroup $resourceGroup"
     $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
     Write-Host "Creating StorageAccount $storageaccount"
-    $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name `
-        $storageAccount -Location $location `
+        $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup `
+        -Name $storageAccount -Location $location `
         -Type $storageType
 }
 
-$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $Global:AZS_location + '.' + $Global:dnsdomain + '/' + $image_containername + '/' + $opsManVHD)
+$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $location + '.' + $dnsdomain + '/' + $image_containername + '/' + $opsManVHD)
 
 try {
     Write-Host "uploading $opsManVHD into storageaccount $storageaccount, this may take a while"
