@@ -825,6 +825,6 @@ Function Get-KickstartHomeLocation {
         return $Location
     }
     
-    $locationResource = Get-KickstartLocation
+    $locationResource = Get-AzsLocation
     return $locationResource.Name
 }
