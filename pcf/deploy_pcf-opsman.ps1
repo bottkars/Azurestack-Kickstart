@@ -11,9 +11,10 @@
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.296.vhd',
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.300.vhd',
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.305.vhd',
-        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.312.vhd'
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.312.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.316.vhd'
     )]
-    $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.312.vhd',
+    $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.316.vhd',
     # The name of the Ressource Group we want to Deploy to.
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
@@ -116,6 +117,7 @@ $parameters.Add("deploymentcolor", $deploymentcolor)
 $parameters.Add("mask", $mask)
 $parameters.Add("location", $location)
 $parameters.Add("storageEndpoint", "blob.$location.$dnsdomain")
+
 
 Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVersion" -ForegroundColor $deploymentcolor
 if (!$OpsmanUpdate) {
