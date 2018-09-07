@@ -16,6 +16,17 @@
         "description": "Domain prefix for storaged based on the chosen Azure cloud i.e. Commercial, Germany, etc."
       }
     },
+    "useManagedDisks": {
+      "type": "string",
+      "defaultValue": "yes",
+      "allowedValues": [
+        "yes",
+        "no"
+      ],
+      "metadata": {
+        "description": "Use managed disks, otherwise, storageaccounts will be created"
+      }
+    },
     "opsManFQDNPrefix": {
       "type": "string",
       "defaultValue": "pcfopsman",
@@ -127,6 +138,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
+      "condition": "[equals(parameters('usemanageddisks'),'no')]",
       "name": "[concat(variables('boshExtraStorageAccountName'), '1')]",
       "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
@@ -914,7 +926,7 @@
     "fqdn": {
       "value": "[reference(variables('OpsManPublicIPName')).dnsSettings.fqdn]",
       "type": "string"
-  },
+    },
     "Extra Storage Account Prefix": {
       "type": "string",
       "value": "[variables('boshExtraStorageAccountName')]"

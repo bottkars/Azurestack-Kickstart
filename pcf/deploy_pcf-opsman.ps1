@@ -40,16 +40,15 @@
     [switch]$OpsmanUpdate,
     [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green', 'blue')]$deploymentcolor = "green",
     [ipaddress]$subnet = "10.0.0.0",
-    $downloadpath = "$($HOME)/Downloads"
+    $downloadpath = "$($HOME)/Downloads",
+    [switch]$useManagedDisks
 )
-if (!$location)
-    {
-        $Location = Read-Host "Please enter your Region Name [local for asdk]"
-    }
-if (!$dnsdomain)
-    {
-        $dnsdomain = Read-Host "Please enter your DNS Domain [azurestack.external for asdk]"
-    }
+if (!$location) {
+    $Location = Read-Host "Please enter your Region Name [local for asdk]"
+}
+if (!$dnsdomain) {
+    $dnsdomain = Read-Host "Please enter your DNS Domain [azurestack.external for asdk]"
+}
 $BaseNetworkVersion = [version]$subnet.IPAddressToString
 $mask = "$($BaseNetworkVersion.Major).$($BaseNetworkVersion.Minor)"
 Write-Host "Using the following Network Assignments:" -ForegroundColor Magenta
@@ -90,7 +89,7 @@ if (!$OpsmanUpdate) {
     Write-Host "Creating ResourceGroup $resourceGroup"
     $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
     Write-Host "Creating StorageAccount $storageaccount"
-        $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup `
+    $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup `
         -Name $storageAccount -Location $location `
         -Type $storageType
 }
@@ -107,7 +106,12 @@ catch {
 
 }
 
-
+if ( $useManagedDisks.IsPresent) {
+    $ManagedDisks = "yes"
+}
+else {
+    $ManagedDisks = "no" 
+}
 $parameters = @{}
 $parameters.Add("SSHKeyData", $OPSMAN_SSHKEY)
 $parameters.Add("opsManFQDNPrefix", $opsManFQDNPrefix)
@@ -117,7 +121,7 @@ $parameters.Add("deploymentcolor", $deploymentcolor)
 $parameters.Add("mask", $mask)
 $parameters.Add("location", $location)
 $parameters.Add("storageEndpoint", "blob.$location.$dnsdomain")
-
+$parameters.Add("useManagedDisks", $ManagedDisks)
 
 Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVersion" -ForegroundColor $deploymentcolor
 if (!$OpsmanUpdate) {
@@ -131,15 +135,16 @@ if (!$OpsmanUpdate) {
     $Container = New-AzureStorageContainer -Name bosh
     Write-Host "Creating Table Stemcells in $($MyStorageaccount.StorageAccountName)"
     $Table = New-AzureStorageTable -Name stemcells
-    $Storageaccounts = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match Xtra
-    foreach ($Mystorageaccount in $Storageaccounts) {
-        $MyStorageaccount | Set-AzureRmCurrentStorageAccount
-        Write-Host "Creating Container Stemcell in $($MyStorageaccount.StorageAccountName)"
-        $Container = New-AzureStorageContainer -Name stemcell -Permission Blob
-        Write-Host "Creating Container bosh in $($MyStorageaccount.StorageAccountName)"
-        $Container = New-AzureStorageContainer -Name bosh
+    if (!$useManagedDisks.IsPresent) {
+        $Storageaccounts = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup | Where-Object StorageAccountName -match Xtra
+        foreach ($Mystorageaccount in $Storageaccounts) {
+            $MyStorageaccount | Set-AzureRmCurrentStorageAccount
+            Write-Host "Creating Container Stemcell in $($MyStorageaccount.StorageAccountName)"
+            $Container = New-AzureStorageContainer -Name stemcell -Permission Blob
+            Write-Host "Creating Container bosh in $($MyStorageaccount.StorageAccountName)"
+            $Container = New-AzureStorageContainer -Name bosh
+        }
     }
-
 }
 else {
     New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json -TemplateParameterObject $parameters
