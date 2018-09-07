@@ -12,7 +12,7 @@
 "cloudadmin": "cloudadmin",
 "AZSTools_Location": "C:\\AzureStack-Tools",
 "AzureRMProfile": "2017-03-09-profile",
-"AzureSTackModuleVersion": "1.2.11",
+"AzureSTackModuleVersion": "1.4.0",
 "SQLRPadmin": "SQLRPadmin",
 "MySQLRPadmin": "MySQLRPadmin",
 "SQLHost": "SQLHost1",

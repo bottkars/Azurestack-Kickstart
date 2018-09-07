@@ -929,7 +929,7 @@
     },
     "Extra Storage Account Prefix": {
       "type": "string",
-      "value": "[variables('boshExtraStorageAccountName')]"
+      "value": "[if(equals(parameters('useManagedDisks'), 'no'), variables('boshExtraStorageAccountName'), 'NOne, using ManagedDisks')]"
     }
   }
 }
