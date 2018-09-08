@@ -45,7 +45,7 @@ $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
 $Global:AzureRmProfile = $Admin_Defaults.AzureRmProfile
-$Global:AzureSTackModuleVersion = $Admin_Defaults.AzureSTackModuleVersion
+$Global:AzureStackModuleVersion = $Admin_Defaults.AzureStackModuleVersion
 
    
 Set-PSRepository `
@@ -130,11 +130,11 @@ Use-AzureRmProfile `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue
 Write-Host -ForegroundColor Green "[Done]"
 
-Write-Host "[==>]Installing Module Azurestack" -ForegroundColor White -NoNewline
+Write-Host "[==>]Installing Module Azurestack $($Global:AzureSTackModuleVersion)" -ForegroundColor White -NoNewline
 Install-Module `
   -Name AzureStack `
   -MinimumVersion $($Global:AzureSTackModuleVersion) `
-  -Force -Scope CurrentUser -WarningAction SilentlyContinue | Out-Null
+  -Force -Scope CurrentUser -WarningAction SilentlyContinue -Verbose | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   
 Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline
