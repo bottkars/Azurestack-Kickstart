@@ -931,7 +931,11 @@
       "value": "[concat('https://', reference(variables('OpsManPublicIPName')).dnsSettings.fqdn)]",
       "type": "string"
     },
-    "Extra Storage Account Prefix": {
+      "Bosh Storageaccount": {
+        "value": "[parameters('storageAccountName')]",
+        "type": "string"
+      },
+    "Extra Storageaccount Prefix": {
       "type": "string",
       "value": "[if(equals(parameters('useManagedDisks'), 'no'), variables('boshExtraStorageAccountName'), 'None, using ManagedDisks for extra Storage')]"
     }
