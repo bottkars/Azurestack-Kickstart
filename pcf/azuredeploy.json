@@ -927,8 +927,8 @@
     }
   ],
   "outputs": {
-    "fqdn": {
-      "value": "[reference(variables('OpsManPublicIPName')).dnsSettings.fqdn]",
+    "Opsman URL": {
+      "value": "[concat('https://', reference(variables('OpsManPublicIPName')).dnsSettings.fqdn)]",
       "type": "string"
     },
     "Extra Storage Account Prefix": {
