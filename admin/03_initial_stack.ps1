@@ -130,10 +130,10 @@ Use-AzureRmProfile `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue
 Write-Host -ForegroundColor Green "[Done]"
 
-Write-Host "[==>]Installing Module Azurestack $($Global:AzureSTackModuleVersion)" -ForegroundColor White -NoNewline
+Write-Host "[==>]Installing Module Azurestack $($Admin_Defaults.AzureStackModuleVersion)" -ForegroundColor White -NoNewline
 Install-Module `
   -Name AzureStack `
-  -MinimumVersion $($Global:AzureSTackModuleVersion) `
+  -MinimumVersion $($Admin_Defaults.AzureStackModuleVersion) `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue  | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   
