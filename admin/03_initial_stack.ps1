@@ -134,7 +134,7 @@ Write-Host "[==>]Installing Module Azurestack $($Global:AzureSTackModuleVersion)
 Install-Module `
   -Name AzureStack `
   -MinimumVersion $($Global:AzureSTackModuleVersion) `
-  -Force -Scope CurrentUser -WarningAction SilentlyContinue -Verbose | Out-Null
+  -Force -Scope CurrentUser -WarningAction SilentlyContinue  | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   
 Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline
