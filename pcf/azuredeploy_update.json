@@ -9,6 +9,17 @@
         "description": "Name of storage account created with Azure CLI"
       }
     },
+    "useManagedDisks": {
+      "type": "string",
+      "defaultValue": "yes",
+      "allowedValues": [
+        "yes",
+        "no"
+      ],
+      "metadata": {
+        "description": "Use managed disks, otherwise, storageaccounts will be created"
+      }
+    },    
     "storageEndpoint": {
       "type": "string",
       "defaultValue": "blob.local.azurestack.external",
