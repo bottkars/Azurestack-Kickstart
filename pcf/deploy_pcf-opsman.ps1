@@ -13,7 +13,8 @@
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.305.vhd',
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.312.vhd',
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.316.vhd',
-        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.319.vhd'
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.319.vhd',
+        'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.3-build.146.vhd'
     )]
     $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.319.vhd',
     # The name of the Ressource Group we want to Deploy to.
