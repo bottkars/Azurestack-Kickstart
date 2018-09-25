@@ -16,7 +16,7 @@
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.319.vhd',
         'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.3-build.146.vhd'
     )]
-    $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.2-build.319.vhd',
+    $opsmanager_uri = 'https://opsmanagerwesteurope.blob.core.windows.net/images/ops-manager-2.3-build.146.vhd',
     # The name of the Ressource Group we want to Deploy to.
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
