@@ -26,9 +26,9 @@
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
     $location = $GLOBAL:AZS_Location,
-    [Parameter(ParameterSetName = "1", Mandatory = $false)]
-    [ValidateNotNullOrEmpty()]
-    $dnsdomain = $Global:dnsdomain,
+   # [Parameter(ParameterSetName = "1", Mandatory = $false)]
+   # [ValidateNotNullOrEmpty()]
+   # $dnsdomain = $Global:dnsdomain,
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     $storageaccount,
     # The Containername we will host the Images for Opsmanager in
@@ -49,9 +49,10 @@
 if (!$location) {
     $Location = Read-Host "Please enter your Region Name [local for asdk]"
 }
-if (!$dnsdomain) {
-    $dnsdomain = Read-Host "Please enter your DNS Domain [azurestack.external for asdk]"
-}
+#if (!$dnsdomain) {
+#    $dnsdomain = Read-Host "Please enter your DNS Domain [azurestack.external for asdk]"
+#}
+$blobbaseuri = (Get-AzureRmContext).Environment.StorageEndpointSuffix
 $BaseNetworkVersion = [version]$subnet.IPAddressToString
 $mask = "$($BaseNetworkVersion.Major).$($BaseNetworkVersion.Minor)"
 Write-Host "Using the following Network Assignments:" -ForegroundColor Magenta
@@ -97,7 +98,7 @@ if (!$OpsmanUpdate) {
         -Type $storageType
 }
 
-$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $location + '.' + $dnsdomain + '/' + $image_containername + '/' + $opsManVHD)
+$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $blobbaseuri + '/' + $image_containername + '/' + $opsManVHD)
 
 try {
     Write-Host "uploading $opsManVHD into storageaccount $storageaccount, this may take a while"
@@ -123,7 +124,7 @@ $parameters.Add("opsManVHD", $opsManVHD)
 $parameters.Add("deploymentcolor", $deploymentcolor)
 $parameters.Add("mask", $mask)
 $parameters.Add("location", $location)
-$parameters.Add("storageEndpoint", "blob.$location.$dnsdomain")
+$parameters.Add("storageEndpoint", "blob.$blobbaseuri")
 $parameters.Add("useManagedDisks", $ManagedDisks)
 
 Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVersion" -ForegroundColor $deploymentcolor
