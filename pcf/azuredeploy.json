@@ -16,6 +16,13 @@
         "description": "Domain prefix for storaged based on the chosen Azure cloud i.e. Commercial, Germany, etc."
       }
     },
+    "OpsManImageURI": {
+      "type": "string",
+      "defaultValue": "blob.local.azurestack.external",
+      "metadata": {
+        "description": "Uri of the Operations Manager VHD"
+      }
+    },    
     "useManagedDisks": {
       "type": "string",
       "defaultValue": "yes",
@@ -27,6 +34,17 @@
         "description": "Use managed disks, otherwise, storageaccounts will be created"
       }
     },
+    "Environment": {
+      "type": "string",
+      "defaultValue": "AzureStack",
+      "allowedValues": [
+        "AzureStack",
+        "AzureCloud"
+      ],
+      "metadata": {
+        "description": "Use managed disks, otherwise, storageaccounts will be created"
+      }
+    },    
     "opsManFQDNPrefix": {
       "type": "string",
       "defaultValue": "pcfopsman",
@@ -142,9 +160,12 @@
       "name": "[concat(variables('boshExtraStorageAccountName'), '1')]",
       "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
+      "sku": {
+        "name": "Standard_LRS"
+        },
+        "kind": "Storage",
+        "properties": {
+        }
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -152,9 +173,12 @@
       "name": "[concat(variables('boshExtraStorageAccountName'), '2')]",
       "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
+      "sku": {
+        "name": "Standard_LRS"
+        },
+        "kind": "Storage",
+        "properties": {
+        }
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -162,9 +186,12 @@
       "name": "[concat(variables('boshExtraStorageAccountName'), '3')]",
       "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
+      "sku": {
+        "name": "Standard_LRS"
+        },
+        "kind": "Storage",
+        "properties": {
+        }
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -172,9 +199,12 @@
       "name": "[concat(variables('boshExtraStorageAccountName'), '4')]",
       "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
+      "sku": {
+        "name": "Standard_LRS"
+        },
+        "kind": "Storage",
+        "properties": {
+        }
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -182,18 +212,24 @@
       "name": "[concat(variables('boshExtraStorageAccountName'), '5')]",
       "apiVersion": "2016-01-01",
       "location": "[variables('location')]",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
+      "sku": {
+        "name": "Standard_LRS"
+        },
+        "kind": "Storage",
+        "properties": {
+        }
     },
     {
       "name": "[variables('diagnosticsStorageAccountName')]",
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2016-01-01",
       "location": "[resourceGroup().location]",
-      "properties": {
-        "accountType": "[variables('diagnosticsStorageAccountType')]"
-      }
+      "sku": {
+        "name": "[variables('diagnosticsStorageAccountType')]"
+        },
+        "kind": "Storage",
+        "properties": {
+        }      
     },
     {
       "apiVersion": "2015-06-15",
@@ -212,6 +248,7 @@
     },
     {
         "type": "Microsoft.Network/dnszones",
+        "condition": "[equals(parameters('Environment'),'AzureStack')]",
         "name": "[parameters('dnsZoneName')]",
         "apiVersion": "2016-04-01",
         "location": "global",
@@ -219,6 +256,7 @@
     },
     {
       "type": "Microsoft.Network/dnszones/A",
+      "condition": "[equals(parameters('Environment'),'AzureStack')]",
       "name": "[concat(parameters('dnsZoneName'), '/*.system')]",
       "apiVersion": "2016-04-01",
       "location": "[variables('location')]",
@@ -237,6 +275,7 @@
     },
     {
       "type": "Microsoft.Network/dnszones/A",
+      "condition": "[equals(parameters('Environment'),'AzureStack')]",
       "name": "[concat(parameters('dnsZoneName'), '/*.apps')]",
       "apiVersion": "2016-04-01",
       "location": "[variables('location')]",
@@ -901,7 +940,7 @@
             "name": "osdisk",
             "createOption": "FromImage",
             "image": {
-              "uri": "[concat('https://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/opsman-image/',parameters('opsManVHD'))]"
+              "uri": "[parameters('OpsManImageURI')]"
             },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/',variables('vmStorageAccountContainerName'),'/',variables('opsManVMName'),'-osdisk.vhd')]"

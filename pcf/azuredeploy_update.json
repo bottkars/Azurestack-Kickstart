@@ -9,6 +9,13 @@
         "description": "Name of storage account created with Azure CLI"
       }
     },
+    "OpsManImageURI": {
+      "type": "string",
+      "defaultValue": "blob.local.azurestack.external",
+      "metadata": {
+        "description": "Uri of the Operations Manager VHD"
+      }
+    },    
     "useManagedDisks": {
       "type": "string",
       "defaultValue": "yes",
@@ -221,7 +228,7 @@
             "name": "osdisk",
             "createOption": "FromImage",
             "image": {
-              "uri": "[concat('https://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/opsman-image/',parameters('opsManVHD'))]"
+              "uri": "[parameters('OpsManImageURI')]"
             },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/',variables('vmStorageAccountContainerName'),'/',variables('opsManVMName'),'-osdisk.vhd')]"

@@ -26,9 +26,9 @@
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
     $location = $GLOBAL:AZS_Location,
-   # [Parameter(ParameterSetName = "1", Mandatory = $false)]
-   # [ValidateNotNullOrEmpty()]
-   # $dnsdomain = $Global:dnsdomain,
+    # [Parameter(ParameterSetName = "1", Mandatory = $false)]
+    # [ValidateNotNullOrEmpty()]
+    # $dnsdomain = $Global:dnsdomain,
     [Parameter(ParameterSetName = "1", Mandatory = $false)]
     $storageaccount,
     # The Containername we will host the Images for Opsmanager in
@@ -44,7 +44,11 @@
     [Parameter(ParameterSetName = "1", Mandatory = $false)][ValidateSet('green', 'blue')]$deploymentcolor = "green",
     [ipaddress]$subnet = "10.0.0.0",
     $downloadpath = "$($HOME)/Downloads",
-    [switch]$useManagedDisks
+    [switch]$useManagedDisks,
+    [Parameter(ParameterSetName = "1", Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
+    [ValidateSet('AzureCloud', 'AzureStack')]$Environment = "AzureStack"
+
 )
 if (!$location) {
     $Location = Read-Host "Please enter your Region Name [local for asdk]"
@@ -68,16 +72,81 @@ if (!$storageaccount) {
     $storageaccount = ($resourceGroup + $Storageaccount) -Replace '[^a-zA-Z0-9]', ''
     $storageaccount = ($Storageaccount.subString(0, [System.Math]::Min(23, $storageaccount.Length))).tolower()
 }
+$OpsManBaseUri = Split-Path  $opsmanager_uri  
+$OpsmanContainer = Split-Path $OpsManBaseUri
 $opsManVHD = Split-Path -Leaf $opsmanager_uri
 $opsmanVersion = $opsManVHD -replace ".vhd", ""
 Write-host "Preparing to deploy OpsMan $opsmanVersion for $deploymentcolor deployment" -ForegroundColor $deploymentcolor
 $storageType = 'Standard_LRS'
-$file = split-path -Leaf $opsmanager_uri
-$localPath = "$Downloadpath/$file"
 
-if (!(Test-Path $localPath)) {
-    Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager
+$StopWatch_prepare = New-Object System.Diagnostics.Stopwatch
+$StopWatch_deploy = New-Object System.Diagnostics.Stopwatch
+$StopWatch_prepare.Start()
+
+if (!$OpsmanUpdate) {
+    Write-Host "==>Creating ResourceGroup $resourceGroup" -nonewline   
+    $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
+    Write-Host -ForegroundColor green "[done]"
+    $account_available = Get-AzureRmStorageAccountNameAvailability -Name $storageaccount
+    if ($account_available.NameAvailable -eq $true) {
+         Write-Host "==>Creating StorageAccount $storageaccount" -nonewline
+    $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup `
+        -Name $storageAccount -Location $location `
+        -Type $storageType
+    Write-Host -ForegroundColor green "[done]"
+    }
+    else {
+        Write-Host "$storageaccount already exists, operations might fail if not owner in same location" 
+    }    
+   
 }
+$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $blobbaseuri + '/' + $image_containername + '/' + $opsManVHD)
+Write-Host "Starting upload Procedure for $opsManVHD into storageaccount $storageaccount, this may take a while"
+if ($Environment -eq 'AzureStack') {
+    $file = split-path -Leaf $opsmanager_uri
+    $localPath = "$Downloadpath/$file"
+    if (!(Test-Path $localPath)) {
+        Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager
+    }  
+    try {
+        $new_arm_vhd = Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
+            -LocalFilePath $localPath -ErrorAction SilentlyContinue
+    }
+    catch {
+        Write-Warning "Image already exists for $opsManVHD, not overwriting"
+    }
+}
+else {
+    # Blob Copy routine
+    $src_context = New-AzureStorageContext -StorageAccountName opsmanagerwesteurope -Anonymous
+    $dst_context = (Get-AzureRmStorageAccount -ResourceGroupName $resourceGroup -Name $storageaccount).context
+    ## check for blob
+    Write-Host "==>Checking blob $opsManVHD exixts in container $image_containername for Storageaccount $storageaccount" -NoNewline
+    $ExistingBlob = Get-AzureStorageBlob -Context $dst_context -Blob $opsManVHD -Container $image_containername -ErrorAction SilentlyContinue
+    if (!$ExistingBlob) {
+        Write-Host -ForegroundColor Green "[blob needs to be uploaded]"
+        # check container
+        Write-Host "==>Checking container $image_containername exists for Storageaccount $storageaccount" -NoNewline
+        $ContainerExists = (Get-AzureStorageContainer -Name $image_containername -Context $dst_context -ErrorAction SilentlyContinue)
+        If (!$ContainerExists) {
+            Write-Host -ForegroundColor Green "[creating container]"
+            $container = New-AzureStorageContainer -Name $image_containername -Permission Off -Context $dst_context            
+        }
+        else {
+            Write-Host -ForegroundColor blue "[container already exists]"
+        }
+        Write-Host "==>copying $opsManVHD into Storageaccount $storageaccount" -NoNewline
+        $copy = Get-AzureStorageBlob -Container images -Blob $opsManVHD -Context $src_context | `
+            Start-AzureStorageBlobCopy -DestContainer $image_containername -DestContext $dst_context
+        $complete = $copy | Get-AzureStorageBlobCopyState -WaitForComplete
+        Write-Host -ForegroundColor green "[done copying]"
+    }
+    else {
+        Write-Host -ForegroundColor Blue "[blob already exixts]"
+    }
+}
+
+$StopWatch_prepare.Stop()
 if ($RegisterProviders.isPresent) {
     foreach ($provider in
         ('Microsoft.Compute',
@@ -88,28 +157,6 @@ if ($RegisterProviders.isPresent) {
         Get-AzureRmResourceProvider -ProviderNamespace $provider | Register-AzureRmResourceProvider
     }
 }
-
-if (!$OpsmanUpdate) {
-    Write-Host "Creating ResourceGroup $resourceGroup"
-    $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
-    Write-Host "Creating StorageAccount $storageaccount"
-    $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup `
-        -Name $storageAccount -Location $location `
-        -Type $storageType
-}
-
-$urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $blobbaseuri + '/' + $image_containername + '/' + $opsManVHD)
-
-try {
-    Write-Host "uploading $opsManVHD into storageaccount $storageaccount, this may take a while"
-    $new_arm_vhd = Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
-        -LocalFilePath $localPath -ErrorAction SilentlyContinue
-}
-catch {
-    Write-Warning "Image already exists for $opsManVHD, not overwriting"
-
-}
-
 if ( $useManagedDisks.IsPresent) {
     $ManagedDisks = "yes"
 }
@@ -126,7 +173,10 @@ $parameters.Add("mask", $mask)
 $parameters.Add("location", $location)
 $parameters.Add("storageEndpoint", "blob.$blobbaseuri")
 $parameters.Add("useManagedDisks", $ManagedDisks)
+$parameters.Add("OpsManImageURI", $urlOfUploadedImageVhd)
+$parameters.Add("Environment", $Environment)
 
+$StopWatch_deploy.Start()
 Write-host "Starting $deploymentcolor Deployment of $opsManFQDNPrefix $opsmanVersion" -ForegroundColor $deploymentcolor
 if (!$OpsmanUpdate) {
     $parameters.Add("dnsZoneName", $dnsZoneName) 
@@ -151,17 +201,18 @@ if (!$OpsmanUpdate) {
     }
 }
 else {
-    New-AzureRmResourceGroupDeployment -Name OpsManager -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json -TemplateParameterObject $parameters
+    New-AzureRmResourceGroupDeployment -Name OpsManager -Location $location `
+        -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json `
+        -TemplateParameterObject $parameters `
+        -DeploymentDebugLogLevel All -Debug
  
 }
+$StopWatch_deploy.Stop()
 
+Write-Host "Preparation and BLOB copy job took $($StopWatch_prepare.Elapsed.Hours) hours, $($StopWatch_prepare.Elapsed.Minutes) minutes and $($StopWatch_prepare.Elapsed.Seconds) seconds" -ForegroundColor Magenta
+Write-Host "ARM Deployment took $($StopWatch_deploy.Elapsed.Hours) hours, $($StopWatch_deploy.Elapsed.Minutes) minutes and  $($StopWatch_deploy.Elapsed.Seconds) seconds" -ForegroundColor Magenta
 
 ##// create storage containers
-
-
-
-
-
 
     
 <#
