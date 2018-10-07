@@ -204,8 +204,7 @@ if (!$OpsmanUpdate) {
 else {
     New-AzureRmResourceGroupDeployment -Name OpsManager -Location $location `
         -ResourceGroupName $resourceGroup -Mode Incremental -TemplateFile .\pcf\azuredeploy_update.json `
-        -TemplateParameterObject $parameters `
-        -DeploymentDebugLogLevel All -Debug
+        -TemplateParameterObject $parameters
  
 }
 $StopWatch_deploy.Stop()

@@ -26,7 +26,18 @@
       "metadata": {
         "description": "Use managed disks, otherwise, storageaccounts will be created"
       }
-    },    
+    },
+    "Environment": {
+      "type": "string",
+      "defaultValue": "AzureStack",
+      "allowedValues": [
+        "AzureStack",
+        "AzureCloud"
+      ],
+      "metadata": {
+        "description": "Use managed disks, otherwise, storageaccounts will be created"
+      }
+    },        
     "storageEndpoint": {
       "type": "string",
       "defaultValue": "blob.local.azurestack.external",
