@@ -39,26 +39,30 @@ if  ($AZSOffer)
         Write-Host "Offer with name $offer already exists in $rg_name"
         break
     }
-
-$ComputeQuota = New-AzsComputeQuota -Name pcf-compute `
+if (!($ComputeQuota = Get-AzsComputeQuota -Name pcf-compute))
+    {
+    $ComputeQuota = New-AzsComputeQuota -Name pcf-compute `
     -Location local -VirtualMachineCount 200 `
-    -AvailabilitySetCount 50 -CoresLimit 200 -VmScaleSetCount 10
-
-$NetworkQuota = New-AzsNetworkQuota -Name pcf-network `
+    -AvailabilitySetCount 50 -CoresLimit 200 -VmScaleSetCount 10    
+    }
+if (!($NetworkQuota = Get-AzsNetworkQuota -Name pcf-network))
+    {
+    $NetworkQuota = New-AzsNetworkQuota -Name pcf-network `
     -Location local -MaxPublicIpsPerSubscription 20 -MaxVNetsPerSubscription 5 `
     -MaxVirtualNetworkGatewaysPerSubscription 5 `
     -MaxVirtualNetworkGatewayConnectionsPerSubscription 1000 -MaxNicsPerSubscription 200
+    }
 
-    if (!($StorageQuota = Get-AzsStorageQuota -Name pcf-storage))
+
+if (!($StorageQuota = Get-AzsStorageQuota -Name pcf-storage))
        {
            $StorageQuota = New-AzsStorageQuota -Name pcf-storage -Location local `
            -NumberOfStorageAccounts 300 -CapacityInGB 5000
        }
 
-try {
-    $PCF_PLAN = Get-AZSPlan -Name $plan -ResourceGroupName $rg_name -ErrorAction SilentlyContinue
-    }
-    catch {
+
+$PCF_PLAN = Get-AZSPlan -Name $plan -ResourceGroupName $rg_name -ErrorAction SilentlyContinue
+if (!$PCF_PLAN) {
         Write-Host "$plan not found in $rg_name, creating now"
         $PCF_PLAN = New-AzsPlan -Name $plan -DisplayName "Offer for PCF" `
     	    -ResourceGroupName $rg_name `
