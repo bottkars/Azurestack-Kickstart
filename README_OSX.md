@@ -78,20 +78,22 @@ Connection to an ASDK is made from a vpn client.
 For OSX, we need to create a new create a new vpn connection with the following settings ( translation to follow)
 
 - Type: L2TP
-- Name: <your provided name>
-![image](https://user-images.githubusercontent.com/8255007/47666096-01bb3b80-dba3-11e8-81d3-5498bb745400.png)
+- Name: <your provided name>  
+
+![image](https://user-images.githubusercontent.com/8255007/47666096-01bb3b80-dba3-11e8-81d3-5498bb745400.png)  
+    
 - Configuration: Add
     - name: AzureStack
     - address: you azs ip
     - username: AzurestackAdmin
 
-![image](https://user-images.githubusercontent.com/8255007/47666189-3202da00-dba3-11e8-9f22-3219e81499a6.png)
+![image](https://user-images.githubusercontent.com/8255007/47666189-3202da00-dba3-11e8-9f22-3219e81499a6.png)  
 - Authentication Settings
     - Password: Your AZS Admin Password
     - Key: Your AZD Admin Password
 
-![image](https://user-images.githubusercontent.com/8255007/47666239-5494f300-dba3-11e8-811c-ef0ab3ab9cb7.png)
-- Advanced --> DNS
+![image](https://user-images.githubusercontent.com/8255007/47666239-5494f300-dba3-11e8-811c-ef0ab3ab9cb7.png)  
+- Advanced --> DNS  
     - add *.azurestack.external to search domains
 
 
