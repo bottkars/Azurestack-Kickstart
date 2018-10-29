@@ -87,6 +87,8 @@ For OSX, we need to create a new create a new vpn connection with the following 
 - Athentication Settings
     - Password: Your AZS Admin Password
     - Key: Your AZD Admin Password
+- Advanced --> DNS
+    - add *.azurestack.external to search domains
 
 
 In order to get connection to the Management and adminmanagement Endpoints as well as the Portals and Public IP´s,
