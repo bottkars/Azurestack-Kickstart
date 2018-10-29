@@ -26,13 +26,13 @@ Import the certificate in the correct store.
     cat Documents/root.pem >> /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
     ```
 
-    *export REQUESTS_CA_BUNDLE
+    * export REQUESTS_CA_BUNDLE
 
     ```zsh
     export REQUESTS_CA_BUNDLE=/usr/local/lib/python3.7/site-packages/certifi/cacert.pem
     ```
 
-## enabling bach copletion with zsh/oh-my-zsh
+2. enabling bash completion with zsh/oh-my-zsh
 
 ```zsh
 echo 'autoload -U +X bashcompinit && bashcompinit' >> ~/.zshrc
@@ -42,7 +42,7 @@ echo 'source /usr/local/etc/bash_completion.d/az' >> ~/.zshrc
 
 
 
-## Using the CLI
+3. Using the CLI
 
 ### Register an AzureStack user for multitenancy requires the correct endpoint 
 [my pull request](https://github.com/MicrosoftDocs/azure-docs/pull/17808)
