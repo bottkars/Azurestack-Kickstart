@@ -1,0 +1,277 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "opsmanstorageaccount",
+      "metadata": {
+        "description": "Name of storage account created with Azure CLI"
+      }
+    },
+    "OpsManImageURI": {
+      "type": "string",
+      "defaultValue": "blob.local.azurestack.external",
+      "metadata": {
+        "description": "Uri of the Operations Manager VHD"
+      }
+    },    
+    "useManagedDisks": {
+      "type": "string",
+      "defaultValue": "yes",
+      "allowedValues": [
+        "yes",
+        "no"
+      ],
+      "metadata": {
+        "description": "Use managed disks, otherwise, storageaccounts will be created"
+      }
+    },
+    "Environment": {
+      "type": "string",
+      "defaultValue": "AzureStack",
+      "allowedValues": [
+        "AzureStack",
+        "AzureCloud"
+      ],
+      "metadata": {
+        "description": "Use managed disks, otherwise, storageaccounts will be created"
+      }
+    },        
+    "storageEndpoint": {
+      "type": "string",
+      "defaultValue": "blob.local.azurestack.external",
+      "metadata": {
+        "description": "Domain prefix for storaged based on the chosen Azure cloud i.e. Commercial, Germany, etc."
+      }
+    },
+    "opsManFQDNPrefix": {
+      "type": "string",
+      "defaultValue": "pcf-opsman",
+      "metadata": {
+        "description": "Domain prefix for opsman."
+      }
+    },
+    "opsManVHD": {
+      "type": "string",
+      "metadata": {
+        "description": "Opsman VHD Name"
+      }
+    },
+    "mask": {
+      "type": "string",
+      "defaultValue": "10.0",
+      "metadata": {
+        "description": "Opsman VHD Name"
+      }
+    },        
+    "deploymentcolor": {
+      "type": "string",
+      "defaultValue": "green",
+      "metadata": {
+        "description": "select the opsman deployment color"
+      }
+    },    
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_DS2_v2",
+      "metadata": {
+        "description": "Size of vm"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "ubuntu",
+      "metadata": {
+        "description": "User name for the Virtual Machine."
+      }
+    },
+    "sshKeyData": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for admin user."
+      }
+    },
+    "tenantID": {
+      "type": "string",
+      "defaultValue": "TENANT-ID",
+      "metadata": {
+        "description": "ID of the tenant. See https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md"
+      }
+    },
+    "clientID": {
+      "type": "string",
+      "defaultValue": "CLIENT-ID",
+      "metadata": {
+        "description": "ID of the client. See https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md"
+      }
+    },
+    "clientSecret": {
+      "type": "securestring",
+      "defaultValue": "CLIENT-SECRET",
+      "metadata": {
+        "description": "secret of the client. See https://github.com/cloudfoundry-incubator/bosh-azure-cpi-release/blob/master/docs/guidance.md"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "local",
+      "metadata": {
+        "description": "location where you want to deploy resources"
+      }
+    }
+  },
+  "variables": {
+    "boshExtraStorageAccountName": "[concat('xtrastrg',uniquestring(resourceGroup().id, deployment().name))]",
+    "opsManVMName": "[parameters('opsManFQDNPrefix')]",
+    "location": "[parameters('location')]",
+    "vmStorageAccountContainerName": "vhds",
+    "storageid": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+    "xstorageid1": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'1'))]",
+    "xstorageid2": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'2'))]",
+    "xstorageid3": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'3'))]",
+    "xstorageid4": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'4'))]",
+    "xstorageid5": "[resourceId('Microsoft.Storage/storageAccounts', concat(variables('boshExtraStorageAccountName'),'5'))]",
+    "virtualNetworkName": "PCF",
+    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
+    "pcfVNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+    "opsManNicName": "[concat('OPSMANNIC_',parameters('deploymentcolor'))]",
+    "addressSpace": "[concat(parameters('mask'),'.0.0/16')]",
+    "ManagementaddressPrefix": "[concat(parameters('mask'),'.4.0/22')]",
+    "ServicesaddressPrefix": "[concat(parameters('mask'),'.8.0/22')]",
+    "DeploymentaddressPrefix": "[concat(parameters('mask'),'.12.0/22')]",
+    "OpsManGreenIP": "[concat(parameters('mask'),'.4.4')]",
+    "OpsManBlueIP": "[concat(parameters('mask'),'.4.5')]",
+    "opsManPrivateIPAddress": "[if(equals(parameters('deploymentcolor'),'green'), variables('OpsManGreenIP'), variables('OpsManBlueIP'))]",
+    "lbName": "pcf-lb",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
+    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/pcf-fe-ip')]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/pcf-vms')]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcp80')]",
+    "diagnosticsStorageAccountName": "[concat('diag', uniquestring(resourceGroup().id))]",
+    "diagnosticsStorageAccountType": "Standard_LRS",
+    "mgmtSubnetRef": "[concat(variables('pcfVNetID'),'/subnets/', 'Management')]",
+    "publicIPRef": "[concat('Microsoft.Network/publicIPAddresses/',variables('OpsManPublicIPName'))]",
+    "OpsManPublicIPName": "[concat('OpsManPublicIP_', parameters('deploymentcolor'))]",
+    "OpsManIPConfigName": "[concat('OpsManIPConfig_', parameters('deploymentcolor'))]",
+    "OpsManVersion": "[replace(parameters('opsManVHD'),'.vhd', '')]"
+  },
+  "resources": [
+
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('OpsManPublicIPName')]",
+      "location": "[variables('location')]",
+      "tags": {
+        "deployment": "[parameters('deploymentcolor')]"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('opsManFQDNPrefix')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('opsManNicName')]",
+      "location": "[variables('location')]",
+      "tags": {
+        "deployment": "[parameters('deploymentcolor')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('OpsManPublicIPName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "[variables('OpsManIPConfigName')]",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[variables('opsManPrivateIPAddress')]",
+              "publicIPAddress": {
+                "id": "[resourceID('Microsoft.Network/publicIPAddresses/',variables('OpsManPublicIPName'))]"
+              },
+              "subnet": {
+                "id": "[variables('mgmtSubnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2016-03-30",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[variables('opsManVMName')]",
+      "location": "[variables('location')]",
+      "tags": {
+        "deployment": "[parameters('deploymentcolor')]",
+        "opsmanversion": "[variables('OpsManVersion')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/',variables('opsManNicName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[variables('opsManVMName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": "True",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[variables('sshKeyPath')]",
+                  "keyData": "[parameters('sshKeyData')]"
+                }
+              ]
+            }            
+          }
+        },
+        "storageProfile": {
+          "osDisk": {
+            "osType": "Linux",
+            "name": "osdisk",
+            "createOption": "FromImage",
+            "image": {
+              "uri": "[parameters('OpsManImageURI')]"
+            },
+            "vhd": {
+              "uri": "[concat('http://',parameters('storageAccountName'),'.',parameters('storageEndpoint'),'/',variables('vmStorageAccountContainerName'),'/',variables('opsManVMName'),'-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "diskSizeGB": 127
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('opsManNicName'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": "true",
+            "storageUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName')),providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob)]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "fqdn": {
+      "value": "[reference(variables('OpsManPublicIPName')).dnsSettings.fqdn]",
+      "type": "string"
+  },
+    "Extra Storage Account Prefix": {
+      "type": "string",
+      "value": "[variables('boshExtraStorageAccountName')]"
+    }
+  }
+}

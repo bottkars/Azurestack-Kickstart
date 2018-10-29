@@ -44,6 +44,9 @@ $Global:VMPassword = $Admin_Defaults.VMPassword
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
+$Global:AzureRmProfile = $Admin_Defaults.AzureRmProfile
+$Global:AzureStackModuleVersion = $Admin_Defaults.AzureStackModuleVersion
+
    
 Set-PSRepository `
   -Name "PSGallery" `
@@ -60,6 +63,7 @@ if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
       Write-Host -ForegroundColor Green "[Done]"
   }
   else {
+    Get-Module -ListAvailable AzureRM.BootStrapper | Uninstall-Module
     Write-Host "[==>]Updating AzureRM Bootstrapper" -ForegroundColor White -NoNewline
     Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue | Out-Null
     Write-Host -ForegroundColor Green "[Done]"
@@ -79,14 +83,14 @@ if ($Azurestack_modules)
   {
     Write-Host "[==>]Removing old Azurestack Modules" -NoNewline
     $azurestack_modules | Remove-Module
-    Remove-item $($Azurestack_modules.ModuleBase) -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-item $($Azurestack_modules.ModuleBase) -Force -Recurse # -ErrorAction SilentlyContinue
     Write-Host -ForegroundColor Green "[Done]"
     }
 #Remove-Item "$HOME/Documents/WindowsPowerShell/Modules/Azure*" -Recurse -ErrorAction SilentlyContinue | Out-Null
 # Uninstall any existing Azure PowerShell modules. To uninstall, close all the active PowerShell sessions, and then run the following command:
 Write-Host "[==>]Checking for old Azure Powershell Modules" 
 
-foreach ($modules in ("AzureRM.*","Azure.*"))
+foreach ($modules in ("AzureRM.*","Azure.*","AZS.*"))
     {
   $My_Modules = Get-Module -ListAvailable $modules
   Write-Host -ForegroundColor Green "[Done]"
@@ -123,20 +127,28 @@ Remove-Item $Global:AZSTools_location -Force -Recurse -ErrorAction SilentlyConti
 
 Write-Host "[==>]" -ForegroundColor White -NoNewline
 Use-AzureRmProfile `
-  -Profile "$($Admin_Defaults.AzureRmProfile)" `
+  -Profile "$($Global:AzureRmProfile)" `
   -Force -Scope CurrentUser -WarningAction SilentlyContinue
 Write-Host -ForegroundColor Green "[Done]"
 
-Write-Host "[==>]Installing Module Azurestack Connect" -ForegroundColor White -NoNewline
+Write-Host "[==>]Installing Module Azurestack $($Admin_Defaults.AzureStackModuleVersion)" -ForegroundColor White -NoNewline
 Install-Module `
   -Name AzureStack `
-  -MinimumVersion "$($Admin_Defaults.AzureSTackModuleVersion)" `
-  -Force -Scope CurrentUser -WarningAction SilentlyContinue | Out-Null
+  -MinimumVersion $($Admin_Defaults.AzureStackModuleVersion) `
+  -Force -Scope CurrentUser -WarningAction SilentlyContinue  | Out-Null
 Write-Host -ForegroundColor Green "[Done]"
   
 Write-Host "[==>]Cloning into Azurestack-Tools" -ForegroundColor White -NoNewline
-git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-2 --single-branch $Global:AZSTools_location
+# git clone  https://github.com/bottkars/AzureStack-Tools/ --branch patch-4 --single-branch $Global:AZSTools_location
+git clone  https://github.com/Azure/AzureStack-Tools  $Global:AZSTools_location
+
 Write-Host -ForegroundColor Green "[Done]"
+
+
+
+#Write-Host "[==>]Loading AzureRM.AzureStackAdmin" -ForegroundColor White -NoNewline
+#Import-Module "$($Global:AZSTools_location)/Connect/AzureRM.AzureStackAdmin.psm1"
+#Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Loading AzureStack.Connect" -ForegroundColor White -NoNewline
 Import-Module "$($Global:AZSTools_location)/Connect/AzureStack.Connect.psm1"

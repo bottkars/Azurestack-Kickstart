@@ -222,5 +222,47 @@
     "Date": "2018.03.29",
     "Build": "14393.2156",
     "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2018/03/windows10.0-kb4096309-x64_fdfc206803fd7451cfb083c74420fda5b2754d1f.msu"
+},
+{
+    "KB": "KB4093119",
+    "Date": "2018.04.10",
+    "Build": "14393.2189",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/secu/2018/04/windows10.0-kb4093119-x64_553b6ac77ec6100784cdf1947b3fb83403aa5d1c.msu"
+},
+{
+    "KB": "KB4093120",
+    "Date": "2018.04.17",
+    "Build": "14393.2214",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/updt/2018/04/windows10.0-kb4093120-x64_72c7d6ce20eb42c0df760cd13a917bbc1e57c0b7.msu"
+},
+{
+    "KB": "KB4103723",
+    "Date": "2018.05.8",
+    "Build": "14393.2248",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/secu/2018/05/windows10.0-kb4103723-x64_2adf2ea2d09b3052d241c40ba55e89741121e07e.msu"
+},
+{
+    "KB": "KB4103720",
+    "Date": "2018.05.17",
+    "Build": "14393.2273",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2018/05/windows10.0-kb4103720-x64_c1fb7676d38fffae5c28b9216220c1f033ce26ac.msu"
+},
+{
+    "KB": "KB4345418",
+    "Date": "2018.07.16",
+    "Build": "14393.2368",
+    "URL": "http://download.windowsupdate.com/c/msdownload/update/software/updt/2018/07/windows10.0-kb4345418-x64_a636a1048a2601d9218463107bc5fde558a1055e.msu"
+},
+{
+    "KB": "KB4338822",
+    "Date": "2018.07.24",
+    "Build": "14393.2395",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2018/07/windows10.0-kb4338822-x64_2db60cf228eca5137700178e0e7b2d6d3d19f78b.msu"
+},
+{
+    "KB": "KB4346877",
+    "Date": "2018.07.30",
+    "Build": "14393.2396",
+    "URL": "http://download.windowsupdate.com/d/msdownload/update/software/updt/2018/07/windows10.0-kb4346877-x64_374c04ab4fce5134b8c95faab72be4e527c86824.msu"
 }
 ]

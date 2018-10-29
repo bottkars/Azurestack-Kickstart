@@ -19,6 +19,11 @@ catch {
     Write-Warning "No 2016-Datacenter found in $($Global:AZS_location), please upload a 2016-Datacenter Image first ( use 11_deploy_windows_marketplace_image.ps1 )"
     Break
 }
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:consumptionSubscription)
+  {
+  Write-Host "Setting Environment to $($Global:consumptionSubscription)"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
 Get-AzureRmVMImage -Location $Global:AZS_location -PublisherName MicrosoftWindowsServer `
     -Offer WindowsServer -Skus 2016-Datacenter `
     -ErrorAction Stop

@@ -83,7 +83,6 @@ if (!$azsuser_credentials)
     {
     $azsuser_credentials = Get-Credential -Message "Enter Azure User Password for $global:azsuser" -UserName $global:azsuser
     }
-Import-Module AzureRM.AzureStackAdmin
 Import-Module "$global:AZS_MODULES_ROOT\Connect\AzureStack.Connect.psm1"
 if (!$User_Defaults.StackIP)
     {
@@ -141,5 +140,6 @@ if (!$noconnect.IsPresent)
     $Global:azsuser_RM_Account = $azsuser_RM_Account
     $azsuser_rm_account.context
     }
+$host.ui.RawUI.WindowTitle = "Logged in with  $($Global:azsuser_RM_Account.context.account) as $($Global:azsuser_RM_Account.context.environment) "    
 
 

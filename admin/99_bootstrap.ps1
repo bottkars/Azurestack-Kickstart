@@ -7,6 +7,7 @@ function test-pathvalid
 param (
     $path
     )
+ 
 if (!(test-path $path))
     {
         try {
@@ -90,6 +91,26 @@ if (!$Admin_Defaults.AZSTools_Location)
        Break 
     }
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
+
+if (!$Admin_Defaults.consumptionSubscription)
+    {
+    Write-Warning "consumptionSubscription is not set in $defaultsfile, you may want to add for future use. Using Default Provider Subscription now" 
+    $Global:consumptionSubscription = "Default Provider Subscription"
+    }
+else {
+    $Global:consumptionSubscription = $Admin_Defaults.consumptionSubscription
+}
+
+
+if (!$Admin_Defaults.meteringSubscription)
+    {
+       Write-Warning "meteringSubscription is not set in $defaultsfile, you may want to add for future use. Using Default Provider Subscription now" 
+       $Global:meteringSubscription = "Default Provider Subscription"
+    }
+else {
+        $Global:meteringSubscription = $Admin_Defaults.meteringSubscription
+    }   
+
 if (!$Admin_Defaults.subscriptionID)
     {
        Write-Warning "subscriptionID is not set in $defaultsfile. Please add entry and retry" 
@@ -143,12 +164,28 @@ if (!$Admin_Defaults.SQLHost)
     }
 
 $Global:SQLhost = $Admin_Defaults.SQLHost
+
 if (!$Admin_Defaults.MySQLHost)
     {
        Write-Warning "MySQLHost is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
 $Global:MySQLHost = $Admin_Defaults.MySQLHost
+
+
+if (!$Admin_Defaults.AzureRMProfile)
+    {
+       Write-Warning "AzureRMProfile is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:AzureRMProfile = $Admin_Defaults.AzureRMProfile
+
+if (!$Admin_Defaults.AzureSTackModuleVersion)
+    {
+       Write-Warning "AzureSTackModuleVersion is not set in $defaultsfile. Please add entry and retry" 
+       Break 
+    }
+$Global:AzureSTackModuleVersion = $Admin_Defaults.AzureSTackModuleVersion
 
 if (!$Admin_Defaults.ISOPath)
     {
@@ -183,10 +220,12 @@ if (!$Global:CloudAdminCreds)
     {
     $Global:CloudAdminCreds = Get-Credential -UserName $CloudAdmin -Message "Enter Azure CloudAdmin Password for $Cloudadmin" 
     }
-
-$Modules = ("$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1",
-    "$($Global:AZSTools_location)\serviceAdmin\AzureStack.ServiceAdmin.psm1",
-    "$($Global:AZSTools_location)\ComputeAdmin\AzureStack.ComputeAdmin.psm1")
+#"$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1",
+$Modules = (
+    "$($GLobal:AZSTools_location)\Connect\AzureStack.Connect.psm1"
+    #"$($Global:AZSTools_location)\serviceAdmin\AzureStack.ServiceAdmin.psm1",
+    #"$($Global:AZSTools_location)\ComputeAdmin\AzureStack.ComputeAdmin.psm1")
+)
 foreach ($module in $Modules)
     {
         Write-Host -ForegroundColor White "[==>]Importing Module $Module" -NoNewline
@@ -225,3 +264,5 @@ catch  {
 }
 $Global:ServiceAdminCreds = $ServiceAdminCreds
 $Global:Service_RM_Account = $Service_RM_Account
+
+$host.ui.RawUI.WindowTitle = "Logged in with  $($Global:Service_RM_Account.context.account) as $($Global:AZS_RM_Environment.Name) "    

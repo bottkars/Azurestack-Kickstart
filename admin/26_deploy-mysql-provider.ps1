@@ -8,6 +8,11 @@ if (!$Global:SubscriptionID)
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
 }
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:meteringSubscription)
+  {
+  Write-Host "Setting Environment to $($Global:meteringSubscription)"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
 push-location
 $MYSQL_DIR = "C:\Temp\MySQL"
 Remove-Item $MYSQL_DIR -Force -Recurse -ErrorAction SilentlyContinue -Confirm:$false | out-null

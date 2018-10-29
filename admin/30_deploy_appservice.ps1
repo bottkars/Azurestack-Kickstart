@@ -18,12 +18,18 @@ $PrivilegedEndpoint = $Global:PrivilegedEndpoint,
 [switch]$NoOfflineDownload,
 $Offlinepath = "$Home\Downloads\AppService"
 )
+#Requires -Runas
 if (!$Global:SubscriptionID)
     {
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
 }
-#Requires -Runas
+
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:consumptionSubscription)
+  {
+  Write-Host "Setting Environment to $($Global:consumptionSubscription)"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
 Push-Location
 Remove-item  C:\Temp\AppService -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
 $Location = new-item -ItemType Directory C:\Temp\AppService -Force -ErrorAction SilentlyContinue

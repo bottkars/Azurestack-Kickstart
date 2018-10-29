@@ -1,6 +1,6 @@
-﻿#requires -module AzureStack.ServiceAdmin
-#requires -module AzureStack.ComputeAdmin
-#requires -module AzureRM.AzureStackStorage
+﻿#//Azs.ServiceAdmin
+#requires -module Azs.Compute.Admin
+#requires -module Azs.Storage.Admin
 [CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
 param (
 [Parameter(ParameterSetName = "1", Mandatory = $false,Position = 1)]$plan_name = "BASE_$($(new-guid).guid)"
@@ -17,6 +17,13 @@ if (!$Global:Service_RM_Account.Context)
     }
 $name = $plan_name
 $rg_name = "plans_and_offers"
+if (!($RG = Get-AzureRmResourceGroup -Name $rg_name -Location local))
+    {
+    Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"        
+    $TG = New-AzureRmResourceGroup -Name $rg_name -Location local
+    Write-Host -ForegroundColor Green [Done]
+    }
+
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_compute"
 $ComputeQuota = New-AzsComputeQuota -Name "$($name)_compute" -Location local # -VirtualMachineCount 5000
 Write-Host -ForegroundColor Green [Done]
@@ -26,7 +33,8 @@ $NetworkQuota = New-AzsNetworkQuota -Name "$($name)_network" -Location local # -
 Write-Host -ForegroundColor Green [Done]
 
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_Storage"
-$StorageQuota = New-AzsStorageQuota -Name "$($name)_storage" -Location local -NumberOfStorageAccounts 10 -CapacityInGB 500 -SkipCertificateValidation
+$StorageQuota = New-AzsStorageQuota -Name "$($name)_storage" -Location local -NumberOfStorageAccounts 10 -CapacityInGB 500 
+# -SkipCertificateValidation
 Write-Host -ForegroundColor Green [Done]
 
 ## create a plan
@@ -36,11 +44,12 @@ Write-Host -ForegroundColor Green [Done]
 
 
 Write-Host -ForegroundColor White -NoNewline "Creating $($name)_Offer"
-$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -State Public -BasePlanIds $PLAN.Id -ArmLocation local -ResourceGroupName $rg_name
+$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -BasePlanIds $PLAN.Id -ArmLocation local -ResourceGroupName $rg_name
+# -State Public
 Write-Host -ForegroundColor Green [Done]
 
 Write-Host -ForegroundColor White -NoNewline "Creating Subscription $($name) Subsription"
-$SubScription =  New-AzsUserSubscription -DisplayName "$name Subscription" -Owner "Azurestack Admin" -OfferId $Offer.Id 
+$SubScription =  New-AzsUserSubscription -DisplayName "$name Subscription" -Owner $global:ServiceAdmin -OfferId $Offer.Id 
 Write-Host -ForegroundColor Green [Done]
 
 Write-Output $SubScription

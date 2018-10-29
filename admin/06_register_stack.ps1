@@ -1,4 +1,11 @@
-﻿$myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+﻿[CmdletBinding(HelpUri = "https://github.com/bottkars/azurestack-kickstart")]
+param (
+        [Parameter(Mandatory = $false)]
+        [String] $ResourceGroupName = 'azurestack',
+        [Parameter(Mandatory = $false)]
+        [String] $ResourceGroupLocation = 'westcentralus'
+)        
+$myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
 
 $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
@@ -7,7 +14,7 @@ $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
 if (!$myWindowsPrincipal.IsInRole($adminRole))
   {
   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
-  $newProcess.Arguments = "-noexit $PSScriptRoot/99_bootstrap.ps1;$PSScriptRoot/$($myinvocation.MyCommand)" 
+  $newProcess.Arguments = "-noexit $PSScriptRoot/99_bootstrap.ps1;$PSScriptRoot/$($myinvocation.MyCommand) -ResourceGroupLocation $ResourceGroupLocation -ResourceGroupName $ResourceGroupName" 
   Write-Host $newProcess.Arguments
   $newProcess.Verb = "runas"
   [System.Diagnostics.Process]::Start($newProcess) 
@@ -45,13 +52,18 @@ Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White -NoNewline "[==>]registering AzureRMProvider"
 Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack  
 Write-Host -ForegroundColor Green [Done]
+$Azurermcontext = Get-AzureRmContext
 Write-Host -ForegroundColor White "Registering Azure Stack with $($SubscriptionOwnerContext.Context.Tenant.TenantId)" -NoNewline
-$AZSregistration = Add-AzsRegistration `
-    -CloudAdminCredential $Global:CloudAdminCreds `
-    -AzureSubscriptionId $SubscriptionOwnerContext.Context.Subscription `
-    -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
-    -PrivilegedEndpoint $Global:PrivilegedEndpoint  `
-    -BillingModel Development
+$AZSregistration = Set-AzsRegistration `
+    -PrivilegedEndpointCredential $Global:CloudAdminCreds `
+    -AzureContext $Azurermcontext `
+    -PrivilegedEndpoint $Global:PrivilegedEndpoint `
+    -BillingModel Development `
+    -ResourceGroupLocation $ResourceGroupLocation `
+    -ResourceGroupName $ResourceGroupName `
+    -MarketplaceSyndicationEnabled `
+    -UsageReportingEnabled
+#    -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
 
     Write-Host -ForegroundColor Green [Done]
 .$PSScriptRoot/99_bootstrap.ps1    

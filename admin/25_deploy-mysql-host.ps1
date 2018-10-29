@@ -9,6 +9,12 @@ if (!$Global:SubscriptionID)
     Write-Warning -Message "You Have not Configured a SubscriptionID, did you run 99_bootstrap.ps1 ?"
     break
 }
+
+if ($Subscription = Get-AzureRmSubscription -SubscriptionName $Global:consumptionSubscription)
+  {
+  Write-Host "Setting Environment to $($Global:consumptionSubscription)"
+  Select-AzureRmSubscription -Subscription $Subscription  
+  }
 $RG = "rg_$mysqlhost"
 $templateuri = 'https://raw.githubusercontent.com/Azure/AzureStack-QuickStart-Templates/master/mysql-standalone-server-windows/azuredeploy.json'
 try {
