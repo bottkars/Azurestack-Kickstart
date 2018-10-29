@@ -1,5 +1,5 @@
 # OSX Gotchas
-this is a collection of my tweaks to run azure-cli on OSX with azurestack
+this is a collection of my tweaks to run azure-cli on OSX with azurestack /azurestack asdk
 1. Certificates fo azure-cli
 Import the certificate in the correct store. 
 
@@ -69,4 +69,39 @@ az cloud update \
 az cloud register  -n AzureStackAdmin --endpoint-resource-manager \ "https://adminmanagement.local.azurestack.external" \
   --suffix-storage-endpoint "local.azurestack.external" \
   --suffix-keyvault-dns ".adminvault.local.azurestack.external"
+```
+
+
+5. ASDK VPN Connection
+
+Connection to an ASDK is made from a vpn client.
+For OSX, we need to create a new create a new vpn connection with the following settings ( translation to follow)
+
+- Type: L2TP
+- Name: <your provided name>
+
+- Configuration: Add
+    - name: AzureStack
+    - address: you azs ip
+    - username: AzurestackAdmin
+- Athentication Settings
+    - Password: Your AZS Admin Password
+    - Key: Your AZD Admin Password
+
+
+In order to get connection to the Management and adminmanagement Endpoints as well as the Portals and Public IP´s,
+we need to add some default routes to ppp0
+therefore, edit /etc/ppp/ip-up :
+
+```vi
+#!/bin/sh
+
+/sbin/route add -net 192.168.102.0/24 -interface $1
+/sbin/route add -net 192.168.105.0/27 -interface $1
+```
+This will bring up the additional routes on ppp0   
+you can manually update the routres then by  
+
+```bash
+sudo /etc/ppp/ip-up ppp0
 ```
