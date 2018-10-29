@@ -3,12 +3,13 @@
 Azurestack Kickstart is an automation to AzureStack ASDK ( and Integrated Systems )  
 It is an automated Process to do initial Configurations, Management Tasks and deployments.  
 The Idea is to have base components/logins stored in a json template and credentials stored in session variables.  
-# The Current Version assumes AzureStack ≥ 1807 and will deploy AzureRM Profile 2018-03-01-hybrid and AzureStack Tools 1.5.0  
+### The Current Version assumes AzureStack ≥ 1807 and will deploy AzureRM Profile 2018-03-01-hybrid and AzureStack Tools 1.5.0  
 Azurestack-Kickstart is tested against 1809 successfully   
 However, the behavior is set in your admin profile ( see below )  
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
-## ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY OLD TOOLS AND NOT TESTED
+
+
 to install the Azure Stack Kickstart, simply type in 
 ```Powershell
 install-script azurestack-kickstart -Scope CurrentUser -Force
@@ -27,7 +28,6 @@ the command will run itsself in elevated Mode and will:
 Once finished, CD into Azurestack-Kickstart.
 create an admin.json file in your Homedirectory ( copy the admin.json.example fro the root of the distro as reference)
 
-# New: honoring future use of metering and consumption subscription
 
 ## example admin.json
 ```json
