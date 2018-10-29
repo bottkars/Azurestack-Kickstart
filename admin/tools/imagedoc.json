@@ -1,0 +1,40 @@
+{
+ 
+    "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion":"1.0.0.0",
+    "parameters":{},
+    "variables":{},
+    "resources":[],
+  
+    "outputs":{
+      "aliases":{
+        "type":"object",
+        "value":{
+  
+          "Linux":{
+            "CentOS":{
+              "publisher":"OpenLogic",
+              "offer":"CentOS",
+              "sku":"7.3",
+              "version":"latest"
+            },
+            "UbuntuLTS":{
+                    "offer": "UbuntuServer",
+                    "publisher": "Canonical",
+                    "sku": "16.04-LTS",
+                    "version": "16.04.201808140"
+            }
+          },
+  
+          "Windows":{
+            "Win2016Datacenter":{
+                "offer": "WindowsServer",
+                "publisher": "MicrosoftWindowsServer",
+                "sku": "2016-Datacenter-Server-Core",
+                "version": "2016.127.20180717"            
+            }
+          }
+        }
+      }
+    }
+  }   
