@@ -7,8 +7,8 @@
 "azsuser": "azsuser1",
 "cloudadmin": "cloudadmin",
 "AZSTools_Location": "D:\\AzureStack-Tools",
-"AzureRMProfile": "2017-03-09-profile",
-"AzureStackModuleVersion": "1.2.11",
+"AzureRMProfile": "2018-03-01-hybrid",
+"AzureStackModuleVersion": "1.5.0",
 "location": "local",
 "StackIP": "10.204.16.82"
 }
