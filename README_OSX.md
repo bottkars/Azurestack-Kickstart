@@ -26,7 +26,7 @@ python3 -c "import certifi; print(certifi.where())"
 ```
 append your root ca to cacert 
 
-```
+```zsh
 cat Documents/root.pem >> /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
 ```
 
@@ -38,7 +38,10 @@ export REQUESTS_CA_BUNDLE=/usr/local/lib/python3.7/site-packages/certifi/cacert.
 
 ## enabling bach copletion with zsh/oh-my-zsh
 
-
+```zsh
+echo 'autoload -U +X bashcompinit && bashcompinit' >> ~/.zshrc
+echo 'source /usr/local/etc/bash_completion.d/az' >> ~/.zshrc
+```
 
 
 
