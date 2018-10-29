@@ -14,9 +14,9 @@ export REQUESTS_CA_BUNDLE=/Library/Python/2.7/site-packages/certifi/cacert.pem
 * Set Environment for REQUESTS_CA_BUNDLE with python3
 
     * install certifi
-```zsh
-pip3 install certifi
-```
+    ```zsh
+    pip3 install certifi
+    ```
 
 run
 ```zsh
