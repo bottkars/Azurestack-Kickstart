@@ -12,20 +12,25 @@
         "value":{
   
           "Linux":{
-            "CentOS":{
-              "publisher":"OpenLogic",
-              "offer":"CentOS",
-              "sku":"7.3",
-              "version":"latest"
+            "CentOS_75":{
+                "offer": "CentOS",
+                "publisher": "OpenLogic",
+                "sku": "7.5",
+                "version": "7.5.20180815"
             },
-            "UbuntuLTS":{
+            "Ubuntu_1603_LTS":{
                     "offer": "UbuntuServer",
                     "publisher": "Canonical",
                     "sku": "16.04-LTS",
                     "version": "16.04.201808140"
-            }
+            },
+            "Ubuntu_18_04_LTS":{
+              "offer": "UbuntuServer",
+              "publisher": "Canonical",
+              "sku": "18.04-LTS",
+              "version": "18.04.201808140"
+      }            
           },
-  
           "Windows":{
             "Win2016Datacenter":{
                 "offer": "WindowsServer",
