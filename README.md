@@ -1,9 +1,11 @@
 # Azurestack-Kickstart
 
-Azurestack Kickstart is an automation to AzureStack ASDK ( and Integrated Systems )
-It is an automated Process to do initial Configurations, Management Tasks and deployments.
-The Idea is to have base components/logins stored in a json template and credentials stored in session variables.
-# The Current Version assumes AzureStack >= 1804 and will deploy AzureRM  1.2.11 and AzureStack Tools 1.3.0
+Azurestack Kickstart is an automation to AzureStack ASDK ( and Integrated Systems )  
+It is an automated Process to do initial Configurations, Management Tasks and deployments.  
+The Idea is to have base components/logins stored in a json template and credentials stored in session variables.  
+# The Current Version assumes AzureStack ≥ 1807 and will deploy AzureRM Profile 2018-03-01-hybrid and AzureStack Tools 1.5.0  
+Azurestack-Kickstart is tested against 1809 successfully   
+However, the behavior is set in your admin profile ( see below )  
 The Consistent Approach allws you to "Bootstrap" your Shell session with the 99_bootstrap script(s)
 The Bootstrap Scripts wll read the user / admin json files having envronment data stored from the Homedirectory
 ## ALL SCRIPTS IN THE REPO NOT MENTIONED HERE ARE STILL IN TRANSITIONING FROM MY OLD TOOLS AND NOT TESTED
@@ -42,8 +44,8 @@ create an admin.json file in your Homedirectory ( copy the admin.json.example fr
 "serviceuser": "masadmin",
 "cloudadmin": "cloudadmin",
 "AZSTools_Location": "D:\\AzureStack-Tools",
-"AzureRMProfile": "2018-03-01-hybrid",
-"AzureSTackModuleVersion": "1.5.0",
+"AzureRMProfile": "2018-03-01-hybrid",  //This set´s the profile to be installed
+"AzureSTackModuleVersion": "1.5.0",  //this set´s the Azurestack Module Version to be installed
 "SQLRPadmin": "SQLRPadmin",
 "MySQLRPadmin": "MySQLRPadmin",
 "SQLHost": "SQLHost1",
