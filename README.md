@@ -17,17 +17,25 @@ Azurestack-Kickstart.ps1
 ```
 Note: If you want a customized keyboard, simply tab for your language tag:
 ```Powershell
-Azurestack-Kickstart.ps1 -LanguageTag de-DE
+Azurestack-Kickstart.ps1
 ```  
 the command will run itsself in elevated Mode and will:  
-   - disable updates
-   - Install GitSCM, Chrome and Shortcuts for the Portals
-   - Clone into Azuerstack-Kickstart Distro
+- Install GitSCM, Chrome and Shortcuts for the Portals
+- Clone into Azuerstack-Kickstart Distro
 ![azurestack-kickstart](https://user-images.githubusercontent.com/8255007/34120361-abf1a93e-e425-11e7-827e-98fceb33c8f3.gif)  
 
 Once finished, CD into Azurestack-Kickstart.
-create an admin.json file in your Homedirectory ( copy the admin.json.example fro the root of the distro as reference)
+run 01_asdk_post to
 
+- disable updates
+- set password expirations
+- set the language/keyboard to your needs  
+
+```Powershell
+.\admin\01_asdk_post.ps1 -LanguageTag de-DE
+```
+
+create an admin.json file in your Homedirectory ( copy the admin.json.example fro the root of the distro as reference)
 
 ## example admin.json
 ```json
