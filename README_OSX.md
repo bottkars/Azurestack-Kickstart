@@ -54,7 +54,7 @@ az cloud register \
   --suffix-storage-endpoint "local.azurestack.external" \
   --suffix-keyvault-dns ".vault.local.azurestack.external" \
   --endpoint-active-directory-resource-id="https://management.karstenbottemc.onmicrosoft.com/6a22cb35-aabc-40a2-bc24-d3a75a15d67e" \
-  --endpoint-vm-image-alias-doc "https://images.blob.local.azurestack.external/images/imagedoc.json" \
+  --endpoint-vm-image-alias-doc "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/tools/imagedoc.json" \
   --profile 2018-03-01-hybrid
 ```
 ### Update the Profile parameters
