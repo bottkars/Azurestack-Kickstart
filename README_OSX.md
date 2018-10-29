@@ -1,15 +1,13 @@
 # OSX Gotchas
-this is a collex
+this is a collection of my tweaks to run azure-cli on OSX with azurestack
 1. Certificates fo azure-cli
 Import the certificate in the correct store. 
-* Set Environment for REQUESTS_CA_BUNDLE with python2
 
-/Library/Python/2.7/site-packages/certifi/cacert.pem
+* Set Environment for REQUESTS_CA_BUNDLE with python
 
-Set Environment for REQUESTS_CA_BUNDLE with python2.7
-```azurecli
-export REQUESTS_CA_BUNDLE=/Library/Python/2.7/site-packages/certifi/cacert.pem
-```
+    ```azurecli
+    export REQUESTS_CA_BUNDLE=/Library/Python/2.7/site-packages/certifi/cacert.pem
+    ```
 
 * Set Environment for REQUESTS_CA_BUNDLE with python3
 
@@ -18,21 +16,21 @@ export REQUESTS_CA_BUNDLE=/Library/Python/2.7/site-packages/certifi/cacert.pem
     pip3 install certifi
     ```
 
-run
-```zsh
-python3 -c "import certifi; print(certifi.where())"
-```
-append your root ca to cacert 
+    * get cert store
+    ```zsh
+    python3 -c "import certifi; print(certifi.where())"
+    ```
+    * append your root ca to cert store  
 
-```zsh
-cat Documents/root.pem >> /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
-```
+    ```zsh
+    cat Documents/root.pem >> /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
+    ```
 
-export REQUESTS_CA_BUNDLE
+    *export REQUESTS_CA_BUNDLE
 
-```zsh
-export REQUESTS_CA_BUNDLE=/usr/local/lib/python3.7/site-packages/certifi/cacert.pem
-```
+    ```zsh
+    export REQUESTS_CA_BUNDLE=/usr/local/lib/python3.7/site-packages/certifi/cacert.pem
+    ```
 
 ## enabling bach copletion with zsh/oh-my-zsh
 
