@@ -78,7 +78,7 @@ Connection to an ASDK is made from a vpn client.
 For OSX, we need to create a new create a new vpn connection with the following settings ( translation to follow)
 
 - Type: L2TP
-- Name: <your provided name>  
+- Name: <<your provided name>> 
 
 ![image](https://user-images.githubusercontent.com/8255007/47666096-01bb3b80-dba3-11e8-81d3-5498bb745400.png)  
     
