@@ -79,14 +79,18 @@ For OSX, we need to create a new create a new vpn connection with the following 
 
 - Type: L2TP
 - Name: <your provided name>
-
+![image](https://user-images.githubusercontent.com/8255007/47666096-01bb3b80-dba3-11e8-81d3-5498bb745400.png)
 - Configuration: Add
     - name: AzureStack
     - address: you azs ip
     - username: AzurestackAdmin
-- Athentication Settings
+
+![image](https://user-images.githubusercontent.com/8255007/47666189-3202da00-dba3-11e8-9f22-3219e81499a6.png)
+- Authentication Settings
     - Password: Your AZS Admin Password
     - Key: Your AZD Admin Password
+
+![image](https://user-images.githubusercontent.com/8255007/47666239-5494f300-dba3-11e8-811c-ef0ab3ab9cb7.png)
 - Advanced --> DNS
     - add *.azurestack.external to search domains
 
@@ -107,3 +111,11 @@ you can manually update the routres then by
 ```bash
 sudo /etc/ppp/ip-up ppp0
 ```
+
+## Clearing Browser
+Safari stores login cookies and security settings.
+If your Web Browser has issues connecting to the Portal, you might want to clear the Security Settings.  
+
+![image](https://user-images.githubusercontent.com/8255007/47666309-84dc9180-dba3-11e8-9779-1242b47874a1.png)
+
+![image](https://user-images.githubusercontent.com/8255007/47666330-945bda80-dba3-11e8-832e-4847a733ec1a.png)
