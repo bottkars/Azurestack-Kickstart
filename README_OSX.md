@@ -115,9 +115,10 @@ sudo /etc/ppp/ip-up ppp0
 ```
 
 ## Clearing Browser
-Safari stores login cookies and security settings.
-If your Web Browser has issues connecting to the Portal, you might want to clear the Security Settings.  
-
+Safari stores login cookies and security settings.  
+If your Web Browser has issues connecting to the Portal, you might want to clear the Security Settings.   
+In Safari Settings, --> Data Protection, go to Website Settings   
 ![image](https://user-images.githubusercontent.com/8255007/47666309-84dc9180-dba3-11e8-9779-1242b47874a1.png)
+Select Clear All Content  
+![image](https://user-images.githubusercontent.com/8255007/47666330-945bda80-dba3-11e8-832e-4847a733ec1a.png)  
 
-![image](https://user-images.githubusercontent.com/8255007/47666330-945bda80-dba3-11e8-832e-4847a733ec1a.png)
