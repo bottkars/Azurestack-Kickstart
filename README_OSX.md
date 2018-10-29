@@ -7,19 +7,24 @@ Set Environment for REQUESTS_CA_BUNDLE with python2.7
 export REQUESTS_CA_BUNDLE=/Library/Python/2.7/site-packages/certifi/cacert.pem
 ```
 
-Set Environment for REQUESTS_CA_BUNDLE with python3
+## Set Environment for REQUESTS_CA_BUNDLE with python3
 
 install certifi
 ```zsh
 pip3 install certifi
 ```
+
 run
 ```zsh
 python3 -c "import certifi; print(certifi.where())"
 ```
+append your root ca to cacert 
 
+```
+cat Documents/root.pem >> /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
+```
 
-```azurecli
+```zsh
 export REQUESTS_CA_BUNDLE=/usr/local/lib/python3.7/site-packages/certifi/cacert.pem
 ```
 
