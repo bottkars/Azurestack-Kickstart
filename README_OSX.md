@@ -1,10 +1,8 @@
 # OSX Gotchas
-
-## Certificates fo azure-cli
+this is a collex
+1. Certificates fo azure-cli
 Import the certificate in the correct store. 
-
-
-### Set Environment for REQUESTS_CA_BUNDLE with python2
+* Set Environment for REQUESTS_CA_BUNDLE with python2
 
 /Library/Python/2.7/site-packages/certifi/cacert.pem
 
@@ -13,9 +11,9 @@ Set Environment for REQUESTS_CA_BUNDLE with python2.7
 export REQUESTS_CA_BUNDLE=/Library/Python/2.7/site-packages/certifi/cacert.pem
 ```
 
-### Set Environment for REQUESTS_CA_BUNDLE with python3
+* Set Environment for REQUESTS_CA_BUNDLE with python3
 
-install certifi
+    * install certifi
 ```zsh
 pip3 install certifi
 ```
