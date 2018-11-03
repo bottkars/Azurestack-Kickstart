@@ -1,0 +1,3 @@
+[submodule "pcf"]
+	path = pcf
+	url = git://github.com/bottkars/azure-pcf-opsman-powershell.git
