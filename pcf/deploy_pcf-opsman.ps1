@@ -53,6 +53,66 @@
     [ValidateSet('AzureCloud', 'AzureStack')]$Environment = "AzureStack"
 
 )
+
+
+function get-runningos 
+{
+    # backward copatibility for peeps runnin powershell 5
+    write-verbose "trying to get os type ... "
+    if ($env:windir) {
+        $OS_Version = Get-Command "$env:windir\system32\ntdll.dll"
+        $OS_Version = $OS_Version.Version
+        $Global:deploy_os_type = "win_x86_64"
+        $webrequestor = ".Net"
+    }
+    elseif ($OS = uname) {
+        write-verbose "found OS $OS"
+        Switch ($OS) {
+            "Darwin" {
+                $Global:deploy_os_type = "OSX"
+                $OS_Version = (sw_vers -productVersion)
+                write-verbose $OS_Version
+                try {
+                    $webrequestor = (get-command curl).Path
+                }
+                catch {
+                    Write-Warning "curl not found"
+                    exit
+                }
+            }
+            'Linux' {
+                $Global:deploy_os_type = "LINUX"
+                $OS_Version = (uname -o)
+                #$OS_Version = $OS_Version -join " "
+                try {
+                    $webrequestor = (get-command curl).Path
+                }
+                catch {
+                    Write-Warning "curl not found"
+                    exit
+                }
+            }
+            default {
+                write-verbose "Sorry, rome was not build in one day"
+                exit
+            }
+            'default' {
+                write-verbose "unknown linux OS"
+                break
+            }
+        }
+    }
+    else {
+        write-verbose "error detecting OS"
+    }
+
+    $Object = New-Object -TypeName psobject
+    $Object | Add-Member -MemberType NoteProperty -Name OSVersion -Value $OS_Version
+    $Object | Add-Member -MemberType NoteProperty -Name OSType -Value $deploy_os_type
+    $Object | Add-Member -MemberType NoteProperty -Name Webrequestor -Value $webrequestor
+    Write-Output $Object
+}
+
 if (!$location) {
     $Location = Read-Host "Please enter your Region Name [local for asdk]"
 }
@@ -90,7 +150,7 @@ if (!$OpsmanUpdate) {
     Write-Host "==>Creating ResourceGroup $resourceGroup" -nonewline   
     $new_rg = New-AzureRmResourceGroup -Name $resourceGroup -Location $location
     Write-Host -ForegroundColor green "[done]"
-    $account_available = Get-AzureRmStorageAccountNameAvailability -Name $storageaccount
+    $account_available = Get-AzureRmStorageAccountNameAvailability -Name $storageaccount -ErrorAction SilentlyContinue
     if ($account_available.NameAvailable -eq $true) {
          Write-Host "==>Creating StorageAccount $storageaccount" -nonewline
     $new_acsaccount = New-AzureRmStorageAccount -ResourceGroupName $resourceGroup `
@@ -106,10 +166,20 @@ if (!$OpsmanUpdate) {
 $urlOfUploadedImageVhd = ('https://' + $storageaccount + '.blob.' + $blobbaseuri + '/' + $image_containername + '/' + $opsManVHD)
 Write-Host "Starting upload Procedure for $opsManVHD into storageaccount $storageaccount, this may take a while"
 if ($Environment -eq 'AzureStack') {
+    Write-Host "==>Checking OS Transfer Type" -nonewline 
+    $transfer_type = (get-runningos).Webrequestor
+    Write-Host -ForegroundColor Green "[using $transfer_type for transfer]"
     $file = split-path -Leaf $opsmanager_uri
     $localPath = "$Downloadpath/$file"
     if (!(Test-Path $localPath)) {
-        Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager
+        switch ($transfer_type) {
+            ".Net" {  
+                Start-BitsTransfer -Source $opsmanager_uri -Destination $localPath -DisplayName OpsManager
+            }
+            Default {
+                curl -o $localPath $opsmanager_uri
+            }
+        }
     }  
     try {
         $new_arm_vhd = Add-AzureRmVhd -ResourceGroupName $resourceGroup -Destination $urlOfUploadedImageVhd `
