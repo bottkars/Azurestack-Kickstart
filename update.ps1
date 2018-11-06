@@ -4,7 +4,7 @@ Set-Location $PSScriptRoot
 git pull
 git submodule
 Set-Location ./pcf
-git submodule init
+git submodule update --init
 git checkout master
 git pull
 Pop-Location
