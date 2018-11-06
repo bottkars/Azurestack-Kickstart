@@ -1,8 +1,9 @@
+# short update script
 Push-Location
 Set-Location $PSScriptRoot
 git pull
-cd ./pcf
 git submodule
+Set-Location ./pcf
 git submodule init
 git checkout master
 git pull
