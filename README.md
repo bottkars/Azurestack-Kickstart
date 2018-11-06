@@ -15,14 +15,17 @@ to install the Azure Stack Kickstart, simply type in
 install-script azurestack-kickstart -Scope CurrentUser -Force
 Azurestack-Kickstart.ps1
 ```
-Note: If you want a customized keyboard, simply tab for your language tag:
-```Powershell
-Azurestack-Kickstart.ps1
-```  
 the command will run itsself in elevated Mode and will:  
-- Install GitSCM, Chrome and Shortcuts for the Portals
-- Clone into Azuerstack-Kickstart Distro
+- Install GitSCM, Chrome and Shortcuts for the Portals 
+- Clone into Azuerstack-Kickstart Distro 
+- Clone into submodules like PCF Deployment Scripts 
 ![azurestack-kickstart](https://user-images.githubusercontent.com/8255007/34120361-abf1a93e-e425-11e7-827e-98fceb33c8f3.gif)  
+
+To update Kickstart or the Sub-Modules, just type
+```Powershell
+./update.ps1
+```  
+from the kickstart root
 
 Once finished, CD into Azurestack-Kickstart.
 run 01_asdk_post to
