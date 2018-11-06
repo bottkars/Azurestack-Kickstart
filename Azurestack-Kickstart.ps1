@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 2.2
+.VERSION 2.3
 
 .GUID a6511736-a96f-4c6f-a8f2-2f4f877627c0
 
@@ -76,4 +76,6 @@ foreach ($Util in $Utils)
   }
 }
 Write-Host "[==]now cloning into Azurestack Kickstart Environment[==]"
-git clone https://github.com/bottkars/Azurestack-Kickstart 
+git clone https://github.com/bottkars/Azurestack-Kickstart
+Set-Location $HOME/Azurestack-Kickstart
+./update.ps1
