@@ -3,7 +3,9 @@ param (
         [Parameter(Mandatory = $false)]
         [String] $ResourceGroupName = 'azurestack',
         [Parameter(Mandatory = $false)]
-        [String] $ResourceGroupLocation = 'westcentralus'
+        [String] $ResourceGroupLocation = 'westcentralus',
+        [Parameter(Mandatory = $false)]
+        [String] $RegistrationName = 'azurestack'
 )        
 $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
@@ -61,6 +63,7 @@ $AZSregistration = Set-AzsRegistration `
     -BillingModel Development `
     -ResourceGroupLocation $ResourceGroupLocation `
     -ResourceGroupName $ResourceGroupName `
+    -RegistrationName $RegistrationName `
     -MarketplaceSyndicationEnabled `
     -UsageReportingEnabled
 #    -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
