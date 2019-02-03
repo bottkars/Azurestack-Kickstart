@@ -23,8 +23,8 @@ catch {
     Write-Host -ForegroundColor Red [failed]
     Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"        
     $RG = New-AzureRmResourceGroup -Name $rg_name -Location local
-    Write-Host -ForegroundColor Green [Done]
 }
+Write-Host -ForegroundColor Green [Done]
 
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_compute"
 $ComputeQuota = New-AzsComputeQuota -Name "$($name)_compute" -Location local # -VirtualMachineCount 5000
