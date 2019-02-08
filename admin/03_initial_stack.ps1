@@ -54,10 +54,9 @@ Set-PSRepository `
 
 Set-ExecutionPolicy RemoteSigned `
   -force
-if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
+if (!(Get-Module -ListAvailable AzureRM.BootStrapper -ErrorAction SilentlyContinue))
   {
     Write-Host "[==>]Cool, No Bootstrapper NOthing do do here" -ForegroundColor White
-
   }
   else {
     Get-Module -ListAvailable AzureRM.BootStrapper | Uninstall-Module
