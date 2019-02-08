@@ -55,12 +55,12 @@ az cloud register \
   --suffix-keyvault-dns ".vault.local.azurestack.external" \
   --endpoint-active-directory-resource-id="https://management.karstenbottemc.onmicrosoft.com/6a22cb35-aabc-40a2-bc24-d3a75a15d67e" \
   --endpoint-vm-image-alias-doc "https://raw.githubusercontent.com/bottkars/Azurestack-Kickstart/master/admin/tools/imagedoc.json" \
-  --profile 2018-03-01-hybrid
+  --profile 2.40
 ```
 ### Update the Profile parameters
 ```azurecli
 az cloud update \
-  --profile 2018-03-01-hybrid
+  --profile 2.40
 ```
 
 

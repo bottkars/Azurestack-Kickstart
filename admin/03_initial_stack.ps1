@@ -44,7 +44,7 @@ $Global:VMPassword = $Admin_Defaults.VMPassword
 $Global:TenantName = $Admin_Defaults.TenantName
 $Global:ServiceAdmin = "$($Admin_Defaults.serviceuser)@$Global:TenantName"
 $Global:AZSTools_location = $Admin_Defaults.AZSTools_Location
-$Global:AzureRmProfile = $Admin_Defaults.AzureRmProfile
+$Global:AzureRmVersion = $Admin_Defaults.AzureRmVersion
 $Global:AzureStackModuleVersion = $Admin_Defaults.AzureStackModuleVersion
 
    
@@ -56,11 +56,8 @@ Set-ExecutionPolicy RemoteSigned `
   -force
 if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
   {
-    Write-Host "[==>]Installing AzureRM Bootstrapper" -ForegroundColor White -NoNewline
-    Install-Module `
-      -Name AzureRm.BootStrapper `
-      -Force -WarningAction SilentlyContinue
-      Write-Host -ForegroundColor Green "[Done]"
+    Write-Host "[==>]Cool, No Bootstrapper NOthing do do here" -ForegroundColor White
+
   }
   else {
     Get-Module -ListAvailable AzureRM.BootStrapper | Uninstall-Module
@@ -70,10 +67,10 @@ if (!(Get-Module -ListAvailable AzureRM.BootStrapper))
   }  
 
 
-if ($AzureRMProfileInstalled = Get-AzureRmProfile)
+if ($AzureRMVersionInstalled = Get-AzureRMVersion)
   {
-    Write-Host -ForegroundColor White -NoNewline "[==>]uninstalling $($AzureRMProfileInstalled.ProfileName)"
-    Uninstall-AzureRmProfile -Profile $AzureRMProfileInstalled.ProfileName -Force 
+    Write-Host -ForegroundColor White -NoNewline "[==>]uninstalling $($AzureRMVersionInstalled.ProfileName)"
+    Uninstall-AzureRMVersion -Profile $AzureRMVersionInstalled.ProfileName -Force 
     Write-Host -ForegroundColor Green "[Done]"
   }   
 Write-Host "[==>]Checking for old Powershell Modules" -NoNewline
@@ -126,9 +123,7 @@ Remove-Item $Global:AZSTools_location -Force -Recurse -ErrorAction SilentlyConti
 # Install PowerShell for Azure Stack.
 
 Write-Host "[==>]" -ForegroundColor White -NoNewline
-Use-AzureRmProfile `
-  -Profile "$($Global:AzureRmProfile)" `
-  -Force -Scope CurrentUser -WarningAction SilentlyContinue
+Install-Module AzureRM -RequiredVersion $AzureRmVersion
 Write-Host -ForegroundColor Green "[Done]"
 
 Write-Host "[==>]Installing Module Azurestack $($Admin_Defaults.AzureStackModuleVersion)" -ForegroundColor White -NoNewline

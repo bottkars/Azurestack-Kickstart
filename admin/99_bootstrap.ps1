@@ -173,12 +173,12 @@ if (!$Admin_Defaults.MySQLHost)
 $Global:MySQLHost = $Admin_Defaults.MySQLHost
 
 
-if (!$Admin_Defaults.AzureRMProfile)
+if (!$Admin_Defaults.AzureRMVersion)
     {
-       Write-Warning "AzureRMProfile is not set in $defaultsfile. Please add entry and retry" 
+       Write-Warning "AzureRMVersion is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
-$Global:AzureRMProfile = $Admin_Defaults.AzureRMProfile
+$Global:AzureRMVersion = $Admin_Defaults.AzureRMVersion
 
 if (!$Admin_Defaults.AzureSTackModuleVersion)
     {

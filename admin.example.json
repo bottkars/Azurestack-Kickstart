@@ -11,7 +11,7 @@
 "serviceuser": "masadmin",
 "cloudadmin": "cloudadmin",
 "AZSTools_Location": "C:\\AzureStack-Tools",
-"AzureRMProfile": "2018-03-01-hybrid",
+"AzureRMVersion": "2.40",
 "AzureSTackModuleVersion": "1.7.0",
 "SQLRPadmin": "SQLRPadmin",
 "MySQLRPadmin": "MySQLRPadmin",
