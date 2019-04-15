@@ -54,9 +54,14 @@ Set-PSRepository `
 
 Set-ExecutionPolicy RemoteSigned `
   -force
+
+
+Get-Module -Name Azs.* -ListAvailable | Uninstall-Module -Force -Verbose
+Get-Module -Name Azure* -ListAvailable | Uninstall-Module -Force -Verbose  
+
 if (!(Get-Module -ListAvailable AzureRM.BootStrapper -ErrorAction SilentlyContinue))
   {
-    Write-Host "[==>]Cool, No Bootstrapper NOthing do do here" -ForegroundColor White
+    Write-Host "[==>]Cool, No Bootstrapper Nothing do do here" -ForegroundColor White
   }
   else {
     Get-Module -ListAvailable AzureRM.BootStrapper | Uninstall-Module
@@ -72,6 +77,7 @@ if ($AzureRMVersionInstalled = Get-AzureRMVersion)
     Uninstall-AzureRMVersion -Profile $AzureRMVersionInstalled.ProfileName -Force 
     Write-Host -ForegroundColor Green "[Done]"
   }   
+
 Write-Host "[==>]Checking for old Powershell Modules" -NoNewline
 $Azurestack_modules = Get-Module -ListAvailable AzureStack
 Write-Host -ForegroundColor Green "[Done]"
