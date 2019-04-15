@@ -66,7 +66,6 @@ $AZSregistration = Set-AzsRegistration `
     -RegistrationName $RegistrationName `
     -MarketplaceSyndicationEnabled `
     -UsageReportingEnabled `
-    -AzureContext $(Get-AzureRmContext)
 #    -AzureDirectoryTenantName $SubscriptionOwnerContext.Context.Tenant.TenantId `
 
     Write-Host -ForegroundColor Green [Done]
