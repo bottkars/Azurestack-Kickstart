@@ -22,7 +22,7 @@
                     "offer": "UbuntuServer",
                     "publisher": "Canonical",
                     "sku": "16.04-LTS",
-                    "version": "16.04.201808140"
+                    "version": "16.04.20180911"
             },
             "Ubuntu_18_04_LTS":{
               "offer": "UbuntuServer",
