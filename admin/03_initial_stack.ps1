@@ -53,7 +53,7 @@ Set-PSRepository `
   -InstallationPolicy Trusted
 
 Set-ExecutionPolicy RemoteSigned `
-  -force
+  -force -ErrorAction SilentlyContinue
 
 
 Get-Module -Name Azs.* -ListAvailable | Uninstall-Module -Force -Verbose
@@ -65,8 +65,8 @@ if (!(Get-Module -ListAvailable AzureRM.BootStrapper -ErrorAction SilentlyContin
   }
   else {
     Get-Module -ListAvailable AzureRM.BootStrapper | Uninstall-Module
-    Write-Host "[==>]Updating AzureRM Bootstrapper" -ForegroundColor White -NoNewline
-    Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue | Out-Null
+    # Write-Host "[==>]Updating AzureRM Bootstrapper" -ForegroundColor White -NoNewline
+    #  Update-Module AzureRM.BootStrapper -WarningAction SilentlyContinue | Out-Null
     Write-Host -ForegroundColor Green "[Done]"
   }  
 
