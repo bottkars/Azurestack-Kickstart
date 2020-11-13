@@ -34,13 +34,18 @@ if (!($ComputeQuota = Get-AzsComputeQuota -Name "$($name)_compute" -Location loc
 
 }
 Write-Host -ForegroundColor Green [Done]
+
+
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_Network"
-$NetworkQuota = New-AzsNetworkQuota -Name "$($name)_network" -Location local # -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
+if (!($NetworkQuota = Get-AzsNetworkQuota -Name "$($name)_network" -Location local)) {
+    $NetworkQuota = New-AzsNetworkQuota -Name "$($name)_network" -Location local
+} # -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
 Write-Host -ForegroundColor Green [Done]
 
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_Storage"
-$StorageQuota = New-AzsStorageQuota -Name "$($name)_storage" -Location local -NumberOfStorageAccounts 10 -CapacityInGB 500 
-# -SkipCertificateValidation
+if (!($StorageQuota = Get-AzsStorageQuota -Name "$($name)_storage" -Location local -NumberOfStorageAccounts 10 -CapacityInGB 500 )) {
+New-AzsStorageQuota -Name "$($name)_storage" -Location local -NumberOfStorageAccounts 10 -CapacityInGB 500 
+}# -SkipCertificateValidation
 Write-Host -ForegroundColor Green [Done]
 
 ## create a plan
