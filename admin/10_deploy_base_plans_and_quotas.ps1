@@ -41,12 +41,12 @@ Write-Host -ForegroundColor Green [Done]
 
 ## create a plan
 Write-Host -ForegroundColor White -NoNewline "Creating $($name)_Plan"
-$PLAN = New-AzsPlan -Name "$($name)_plan" -DisplayName "$name Plan" -ResourceGroupName $rg_name -QuotaIds $StorageQuota.Id, $NetworkQuota.Id, $ComputeQuota.Id -ArmLocation local
+$PLAN = New-AzsPlan -Name "$($name)_plan" -DisplayName "$name Plan" -ResourceGroupName $rg_name -QuotaIds $StorageQuota.Id, $NetworkQuota.Id, $ComputeQuota.Id -Location local
 Write-Host -ForegroundColor Green [Done]
 
 
 Write-Host -ForegroundColor White -NoNewline "Creating $($name)_Offer"
-$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -BasePlanIds $PLAN.Id -ArmLocation local -ResourceGroupName $rg_name
+$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -BasePlanIds $PLAN.Id -Location local -ResourceGroupName $rg_name
 # -State Public
 Write-Host -ForegroundColor Green [Done]
 
