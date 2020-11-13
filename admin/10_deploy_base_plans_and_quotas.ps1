@@ -17,12 +17,12 @@ $name = $plan_name
 $rg_name = "plans_and_offers"
 try {
     Write-Host -ForegroundColor White -NoNewline "Checking for RG $rg_name"
-    $RG=Get-AzureRmResourceGroup -Name $rg_name -Location local -ErrorAction Stop  
+    $RG=Get-AZResourceGroup -Name $rg_name -Location local -ErrorAction Stop  
 }
 catch {
     Write-Host -ForegroundColor Red [failed]
     Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"        
-    $RG = New-AzureRmResourceGroup -Name $rg_name -Location local
+    $RG = New-AZResourceGroup -Name $rg_name -Location local
 }
 Write-Host -ForegroundColor Green [Done]
 
