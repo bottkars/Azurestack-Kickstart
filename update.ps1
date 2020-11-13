@@ -5,6 +5,6 @@ git pull
 git submodule
 Set-Location ./pcf
 git submodule update --init
-git checkout master
+git checkout tanzu
 git pull
 Pop-Location
