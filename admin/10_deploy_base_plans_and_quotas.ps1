@@ -26,10 +26,14 @@ catch {
 }
 Write-Host -ForegroundColor Green [Done]
 
-Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_compute"
-$ComputeQuota = New-AzsComputeQuota -Name "$($name)_compute" -Location local # -VirtualMachineCount 5000
-Write-Host -ForegroundColor Green [Done]
+Write-Host -ForegroundColor White -NoNewline "Creating/Checking Quota $($name)_compute"
 
+if (!($ComputeQuota = Get-AzsComputeQuota -Name "$($name)_compute" -Location local)) {
+ 
+    $ComputeQuota = New-AzsComputeQuota -Name "$($name)_compute" -Location local # -VirtualMachineCount 5000
+
+}
+Write-Host -ForegroundColor Green [Done]
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_Network"
 $NetworkQuota = New-AzsNetworkQuota -Name "$($name)_network" -Location local # -PublicIpsPerSubscription 20 -VNetsPerSubscription 20 -GatewaysPerSubscription 10 -ConnectionsPerSubscription 1000 -NicsPerSubscription 10000
 Write-Host -ForegroundColor Green [Done]
