@@ -43,7 +43,7 @@ if (!($NetworkQuota = Get-AzsNetworkQuota -Name "$($name)_network" -Location loc
 Write-Host -ForegroundColor Green [Done]
 
 Write-Host -ForegroundColor White -NoNewline "Creating Quota $($name)_Storage"
-if (!($StorageQuota = Get-AzsStorageQuota -Name "$($name)_storage" -Location )) {
+if (!($StorageQuota = Get-AzsStorageQuota -Name "$($name)_storage" -Location local )) {
 New-AzsStorageQuota -Name "$($name)_storage" -Location local -NumberOfStorageAccounts 10 -CapacityInGB 500 
 }# -SkipCertificateValidation
 Write-Host -ForegroundColor Green [Done]
