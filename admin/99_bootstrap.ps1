@@ -173,12 +173,12 @@ if (!$Admin_Defaults.MySQLHost)
 $Global:MySQLHost = $Admin_Defaults.MySQLHost
 
 
-if (!$Admin_Defaults.AzureRMVersion)
+if (!$Admin_Defaults.azVersion)
     {
-       Write-Warning "AzureRMVersion is not set in $defaultsfile. Please add entry and retry" 
+       Write-Warning "azVersion is not set in $defaultsfile. Please add entry and retry" 
        Break 
     }
-$Global:AzureRMVersion = $Admin_Defaults.AzureRMVersion
+$Global:azVersion = $Admin_Defaults.azVersion
 
 if (!$Admin_Defaults.AzureSTackModuleVersion)
     {
@@ -233,9 +233,9 @@ foreach ($module in $Modules)
         Write-Host -ForegroundColor Green [Done]
     }
 
-# Register an AzureRM environment that targets your Azure Stack instance
-Write-Host -ForegroundColor White "[==>]Registering AzureRM Environment for $ArmEndpoint" -NoNewline
-$Global:AZS_RM_Environment = Add-AzureRMEnvironment `
+# Register an az environment that targets your Azure Stack instance
+Write-Host -ForegroundColor White "[==>]Registering az Environment for $ArmEndpoint" -NoNewline
+$Global:AZS_RM_Environment = Add-AzEnvironment `
     -Name "AzureStackAdmin" `
     -ArmEndpoint $ArmEndpoint
 Write-Host -ForegroundColor Green [Done]
@@ -248,18 +248,18 @@ Write-Host -ForegroundColor Green [Done]
 # Sign in to your environment
 
 #Write-Host "Please login now with serviceaccount once"
-#$test = Login-AzureRmAccount `
+#$test = Login-azAccount `
 #    -EnvironmentName "AzureStackAdmin" `
 #    -TenantId $Global:TenantID
 
 try {
  Write-Verbose "using Tenant ID $($Global:TenantID)"
- $Service_RM_Account = Login-AzureRmAccount `
+ $Service_RM_Account = Login-azAccount `
     -EnvironmentName "AzureStackAdmin" `
     -TenantId $Global:TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
 }
 catch  {
-    write-host "could not login AzureRMAccount $($Global:ServiceAdmin), maybe wrong pasword ? "
+    write-host "could not login azAccount $($Global:ServiceAdmin), maybe wrong pasword ? "
     Break	
 }
 $Global:ServiceAdminCreds = $ServiceAdminCreds
