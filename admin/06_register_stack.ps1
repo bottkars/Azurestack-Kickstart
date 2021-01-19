@@ -51,9 +51,9 @@ $SubscriptionOwnerContext = Login-AzAccount -Environment "AzureCloud" -Subscript
 Write-Host -ForegroundColor White -NoNewline "[==>]Selecting $($SubscriptionOwnerContext.Context.Subscription) "
 Select-AzSubscription -SubscriptionId $Global:SubscriptionID
 Write-Host -ForegroundColor Green [Done]
-Write-Host -ForegroundColor White -NoNewline "[==>]registering AzureRMProvider"
-# Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack  
-# Write-Host -ForegroundColor Green [Done]
+Write-Host -ForegroundColor White -NoNewline "[==>]registering AzProvider"
+Register-AzResourceProvider -ProviderNamespace Microsoft.AzureStack  
+Write-Host -ForegroundColor Green [Done]
 $Azcontext = Get-AzContext
 Write-Host -ForegroundColor White "Registering Azure Stack with $($SubscriptionOwnerContext.Context.Tenant.TenantId)" -NoNewline
 $AZSregistration = Set-AzsRegistration `
