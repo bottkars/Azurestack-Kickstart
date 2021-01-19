@@ -235,7 +235,7 @@ foreach ($module in $Modules)
 
 # Register an AzureRM environment that targets your Azure Stack instance
 Write-Host -ForegroundColor White "[==>]Registering AzureRM Environment for $ArmEndpoint" -NoNewline
-$Global:AZS_RM_Environment = Add-AzureRMEnvironment `
+$Global:AZS_RM_Environment = Add-AzEnvironment `
     -Name "AzureStackAdmin" `
     -ArmEndpoint $ArmEndpoint
 Write-Host -ForegroundColor Green [Done]
@@ -254,12 +254,12 @@ Write-Host -ForegroundColor Green [Done]
 
 try {
  Write-Verbose "using Tenant ID $($Global:TenantID)"
- $Service_RM_Account = Login-AzureRmAccount `
+ $Service_RM_Account = Login-AzAccount `
     -EnvironmentName "AzureStackAdmin" `
     -TenantId $Global:TenantID -Credential $ServiceAdminCreds -ErrorAction Stop
 }
 catch  {
-    write-host "could not login AzureRMAccount $($Global:ServiceAdmin), maybe wrong pasword ? "
+    write-host "could not login AzAccount $($Global:ServiceAdmin), maybe wrong pasword ? "
     Break	
 }
 $Global:ServiceAdminCreds = $ServiceAdminCreds
