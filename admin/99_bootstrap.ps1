@@ -244,8 +244,8 @@ Write-Host -ForegroundColor Green [Done]
 #  $Global:TenantID = Get-AzsDirectoryTenantId `
     # Set your tenant name
     $AuthEndpoint = (Get-AzEnvironment -Name "AzureStackAdmin").ActiveDirectoryAuthority.TrimEnd('/')
-    $AADTenantName = "<myDirectoryTenantName>.onmicrosoft.com"
-    $Global:TenantId = (invoke-restmethod "$($AuthEndpoint)/$($AADTenantName)/.well-known/openid-configuration").issuer.TrimEnd('/').Split('/')[-1]
+
+    $Global:TenantId = (invoke-restmethod "$($AuthEndpoint)/$($Global:TenantName)/.well-known/openid-configuration").issuer.TrimEnd('/').Split('/')[-1]
 
     # After signing in to your environment, Azure Stack Hub cmdlets
     # can be easily targeted at your Azure Stack Hub instance.
