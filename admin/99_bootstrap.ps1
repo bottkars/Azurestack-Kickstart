@@ -241,10 +241,15 @@ $Global:AZS_RM_Environment = Add-AzEnvironment `
 Write-Host -ForegroundColor Green [Done]
 
 # Get the Active Directory tenantId that is used to deploy Azure Stack
-  $Global:TenantID = Get-AzsDirectoryTenantId `
-    -AADTenantName $Global:TenantName `
-    -EnvironmentName "AzureStackAdmin"
+#  $Global:TenantID = Get-AzsDirectoryTenantId `
+    # Set your tenant name
+    $AuthEndpoint = (Get-AzEnvironment -Name "AzureStackAdmin").ActiveDirectoryAuthority.TrimEnd('/')
+    $AADTenantName = "<myDirectoryTenantName>.onmicrosoft.com"
+    $Global:TenantId = (invoke-restmethod "$($AuthEndpoint)/$($AADTenantName)/.well-known/openid-configuration").issuer.TrimEnd('/').Split('/')[-1]
 
+    # After signing in to your environment, Azure Stack Hub cmdlets
+    # can be easily targeted at your Azure Stack Hub instance.
+    Add-AzAccount -EnvironmentName "AzureStackUser" -TenantId $Global:TenantId
 # Sign in to your environment
 
 #Write-Host "Please login now with serviceaccount once"
