@@ -17,12 +17,12 @@ $name = $plan_name
 $rg_name = "plans_and_offers"
 try {
     Write-Host -ForegroundColor White -NoNewline "Checking for RG $rg_name"
-    $RG=Get-AzureRmResourceGroup -Name $rg_name -Location local -ErrorAction Stop  
+    $RG=Get-AzResourceGroup -Name $rg_name -Location local -ErrorAction Stop  
 }
 catch {
     Write-Host -ForegroundColor Red [failed]
     Write-Host -ForegroundColor White -NoNewline "Creating RG $rg_name"        
-    $RG = New-AzureRmResourceGroup -Name $rg_name -Location local
+    $RG = New-AzResourceGroup -Name $rg_name -Location local
 }
 Write-Host -ForegroundColor Green [Done]
 
@@ -41,12 +41,12 @@ Write-Host -ForegroundColor Green [Done]
 
 ## create a plan
 Write-Host -ForegroundColor White -NoNewline "Creating $($name)_Plan"
-$PLAN = New-AzsPlan -Name "$($name)_plan" -DisplayName "$name Plan" -ResourceGroupName $rg_name -QuotaIds $StorageQuota.Id, $NetworkQuota.Id, $ComputeQuota.Id -ArmLocation local
+$PLAN = New-AzsPlan -Name "$($name)_plan" -DisplayName "$name Plan" -ResourceGroupName $rg_name -QuotaIds $StorageQuota.Id, $NetworkQuota.Id, $ComputeQuota.Id -Location local
 Write-Host -ForegroundColor Green [Done]
 
 
 Write-Host -ForegroundColor White -NoNewline "Creating $($name)_Offer"
-$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -BasePlanIds $PLAN.Id -ArmLocation local -ResourceGroupName $rg_name
+$Offer = New-AzsOffer -Name "$($name)_offer" -DisplayName "$name Offer" -BasePlanIds $PLAN.Id -Location local -ResourceGroupName $rg_name
 # -State Public
 Write-Host -ForegroundColor Green [Done]
 
