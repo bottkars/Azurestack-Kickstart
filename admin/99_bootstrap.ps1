@@ -249,7 +249,7 @@ Write-Host -ForegroundColor Green [Done]
 
     # After signing in to your environment, Azure Stack Hub cmdlets
     # can be easily targeted at your Azure Stack Hub instance.
-    Add-AzAccount -EnvironmentName "AzureStackUser" -TenantId $Global:TenantId
+    Add-AzAccount -EnvironmentName "AzureStackAdmin" -TenantId $Global:TenantId
 # Sign in to your environment
 
 #Write-Host "Please login now with serviceaccount once"
